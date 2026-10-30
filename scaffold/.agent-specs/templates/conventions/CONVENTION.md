@@ -17,3 +17,5 @@
 ## Exceptions and evolution
 
 [Known exceptions, how to propose changes, and links to relevant ADRs or tooling.]
+
+Rules specific to one feature belong in that feature's plan or an ADR; link them here instead of restating them.
