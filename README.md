@@ -62,6 +62,8 @@ npx scaffold-agent-specs feature "Account dashboard" --approved --design --resea
 
 **Important:** The CLI copies and personalizes headings, IDs, titles, and dates. It **does not invent a feature spec**. Your coding agent must populate the remaining placeholders from the approved conversation, then **stop** until you separately authorize implementation. The `--approved` flag is an acknowledgment; the CLI cannot verify the conversation itself.
 
+The `feature` command is a convenience for people. Agents are told to create feature directories by copying the templates themselves, following the steps in `docs/WORKFLOW.md`, so they don't depend on the CLI being installed or reachable from a sandbox.
+
 ## `init` installs
 
 ```text

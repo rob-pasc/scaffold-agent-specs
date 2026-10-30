@@ -29,7 +29,17 @@ Ask the user to **accept, revise, or discard**.
 
 ## Phase 3: Specify (after accepted scope)
 
-Choose `feature-NNN-kebab-case`, using the next available ID above the current maximum (starting with `001`). Once the user approves, optionally run `npx scaffold-agent-specs feature "Title" --approved` to create the directory from templates; if the command is unavailable, copy the templates by hand. The flag acknowledges explicit approval; the CLI does not verify the conversation or write the actual scope. Create the directory and populate:
+Create the feature directory by hand:
+
+1. **Number:** find the highest `NNN` among the existing `docs/features/feature-NNN-*` directories and add one (start at `001`). Never reuse a number.
+2. **Name:** `docs/features/feature-NNN-kebab-case/`, where `kebab-case` is a short slug of the feature title (for example `feature-007-user-statistics-page`).
+3. **Copy:** `PLAN.md`, `ACCEPTANCE_MATRIX.md`, and `TASKS.md` from `.agent-specs/templates/feature/`, plus any optional templates needed (see the table below).
+4. **Fill identifiers:** in every copied file, replace `feature-NNN-kebab-case` with the directory name, the `NNN` in `Feature NNN:` with the number, `[Feature title]` with the title, and `[YYYY-MM-DD]` with today's date.
+5. **Fill content:** replace every remaining bracketed prompt, such as `[First actionable implementation step]`, with content from the approved discussion, and delete template guidance that doesn't apply. No prompts may remain.
+
+(The `scaffold-agent-specs feature` command performs steps 1–4 for people who prefer it; agents don't need it.)
+
+Required and optional documents:
 
 | File                   | Purpose                                                                        | Required?      |
 | ---------------------- | ------------------------------------------------------------------------------ | -------------- |
@@ -48,7 +58,7 @@ Write the approved scope into `PLAN.md`. Draft acceptance criteria and tasks tha
 
 - Re-read the active feature's plan, acceptance matrix, and tasks, plus any optional design/research documents; inspect relevant code and applicable `docs/conventions/` documentation.
 - Check readiness: requirements coherent, blockers identified, implementation direction sensible, verification approach practical. Record any blockers under "Dependencies and blockers" in `TASKS.md`, then set its status to `Ready`, and to `In progress` once work starts.
-- Seek human input before significant new dependencies, migrations, security-sensitive choices, or changes to approved behavior. Technical refinement that stays within scope usually needs no additional approval.
+- Seek human input before significant new dependencies, migrations that modify or delete existing data, security-sensitive choices, or changes to approved behavior. Purely additive migrations (for example, a new table or store that leaves existing data untouched) need no prior approval, but record them in the plan and report them. Technical refinement that stays within scope usually needs no additional approval.
 - Work through `TASKS.md`, updating checked items to reflect reality. Keep plan notes synchronized when implementation choices change.
 - Add or update tests and record concrete results in `ACCEPTANCE_MATRIX.md`.
 - If interrupted, add or refresh `HANDOFF.md` with the current task, blockers, commands run, and the next actionable step.

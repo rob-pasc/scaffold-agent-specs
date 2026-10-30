@@ -31,5 +31,13 @@
     "claude-code",
     "codex"
   ],
-  "author": "rob-pasc"
+  "author": "rob-pasc",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rob-pasc/scaffold-agent-specs.git"
+  },
+  "homepage": "https://github.com/rob-pasc/scaffold-agent-specs#readme",
+  "bugs": {
+    "url": "https://github.com/rob-pasc/scaffold-agent-specs/issues"
+  }
 }
