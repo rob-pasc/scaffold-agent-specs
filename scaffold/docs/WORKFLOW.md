@@ -5,6 +5,7 @@ This document expands the feature lifecycle required by [`AGENTS.md`](../AGENTS.
 ## Phase 1: Discover (conversation only)
 
 - Read existing code and documentation when relevant, then explore the user's idea collaboratively.
+- Check for overlap with existing features: list `docs/features/` and judge by folder names. Open a feature's `PLAN.md` only when its name suggests related scope, and read its summary and approved scope rather than the whole folder. If scope overlaps, say so in the proposal and settle with the user which feature owns it.
 - Ask focused clarifying questions, using the agent's interactive question interface where available or normal chat otherwise. Prefer small, purposeful batches over long questionnaires.
 - Establish the problem, target users, expected behaviors, important edge cases, constraints, dependencies, and exclusions.
 - Offer sensible defaults and surface tradeoffs; do not silently make consequential product decisions.
@@ -68,7 +69,7 @@ Write the approved scope into `PLAN.md`. Draft acceptance criteria and tasks tha
 - Review each acceptance criterion against observable evidence. Use `Pass`, `Fail`, `Blocked`, or `Not run`; never invent a result. If a criterion is waived or removed, record the user's approval and update scope accordingly.
 - Run applicable checks and document anything not run.
 - Update affected user/developer/project documentation in the same change. Maintain `docs/ARCHITECTURE.md`, `docs/GLOSSARY.md`, and `docs/conventions/` when they exist and are affected by the change.
-- Check whether a missing project document has become useful. If this feature relied on a rule that earlier features also relied on and that the code doesn't make obvious (one whose violation would be a silent bug), propose recording it in `docs/conventions/`. If domain terms are now used across several features, propose `docs/GLOSSARY.md`. Propose rather than create, and include the proposal in your report.
+- Check whether a missing project document has become useful. Consider `docs/conventions/` for a rule that earlier features also relied on and that the code doesn't make obvious (one whose violation would be a silent bug), and `docs/GLOSSARY.md` for domain terms used across several features or easily confused with each other. **Always include the outcome in your report**: name each candidate and say whether you recommend it and why, even if you recommend against it. The user decides; don't create the document until they agree.
 - Create ADRs for meaningful architectural decisions **actually adopted**. Normally do this after the implementation is known; for a consequential choice adopted earlier, record it at that point.
 - Report what shipped, what was validated, any limitations, and whether the feature is complete. A feature is not complete while required acceptance criteria remain failing, blocked, or unverified.
 - Set the `TASKS.md` status to `Complete` only when that holds; otherwise use `Implemented (verification pending)` and list what remains.
@@ -82,6 +83,6 @@ Write the approved scope into `PLAN.md`. Draft acceptance criteria and tasks tha
 - `RESEARCH.md`, if present, preserves meaningful investigation and uncertainty, not decisions.
 - `HANDOFF.md`, if present, is a snapshot for resumption and may be deleted once unnecessary.
 - ADRs document _adopted_, broadly relevant architecture decisions; feature plans retain proposals and feature-local tradeoffs.
-- `docs/ARCHITECTURE.md` describes the implemented system; `docs/GLOSSARY.md` defines shared domain terminology; `docs/conventions/` records reusable project practices. Create these documents only when they provide value. Templates are under `.agent-specs/templates/`.
+- `docs/ARCHITECTURE.md` describes the implemented system; `docs/GLOSSARY.md` defines shared domain terminology; `docs/conventions/` records reusable project practices, not decisions specific to one feature (those belong in an ADR or the feature's plan; link them instead of restating them). Create these documents only when they provide value. Templates are under `.agent-specs/templates/`.
 
 Approved scope changes must be brought back to the user before being incorporated as commitments. Keep artifacts understandable to someone resuming the project without the original chat history. **Progressive documentation:** do not create an optional document just because a template exists; prefer updating a single authoritative source over duplicating content.

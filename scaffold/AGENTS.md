@@ -50,7 +50,7 @@ Existing-feature work and ordinary fixes should follow the user's requested scop
 - Do not write speculative ADRs during feature discovery or initial specification. Capture proposed approaches and uncertainties in `PLAN.md` instead.
 - Keep docs concise and accurate; remove stale claims rather than merely appending new text.
 - Practice **progressive documentation**: create an optional document only to solve a concrete problem. Prefer updating an existing source of truth over producing redundant or empty files.
-- If maintained, keep `docs/ARCHITECTURE.md` aligned with the _implemented_ system, `docs/GLOSSARY.md` aligned with shared domain language, and `docs/conventions/` aligned with stable project-specific practices. Create them only when useful, from `.agent-specs/templates/project/` or `.agent-specs/templates/conventions/`. When closing a feature, check whether one has become useful and propose it to the user (see [`docs/WORKFLOW.md`](docs/WORKFLOW.md), Phase 5). An adopted architecture decision still belongs in an ADR.
+- If maintained, keep `docs/ARCHITECTURE.md` aligned with the _implemented_ system, `docs/GLOSSARY.md` aligned with shared domain language, and `docs/conventions/` aligned with stable project-specific practices. Create them only when useful, from `.agent-specs/templates/project/` or `.agent-specs/templates/conventions/`. When closing a feature, check whether one has become useful and report your recommendation to the user (see [`docs/WORKFLOW.md`](docs/WORKFLOW.md), Phase 5). An adopted architecture decision still belongs in an ADR.
 
 ## Verification and completion
 

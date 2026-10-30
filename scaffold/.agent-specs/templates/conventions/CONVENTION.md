@@ -1,6 +1,6 @@
 # [Topic] Conventions
 
-> **Optional project document.** When a stable convention applies across multiple features, copy this template to `docs/conventions/[topic].md`. Keep concrete rules here, not generic agent-process instructions. Prefer existing formatters, linters, and tooling as the source of truth for mechanically enforced rules.
+> **Optional project document.** When a stable convention applies across multiple features, copy this template to `docs/conventions/[topic].md`. Keep concrete rules here, not generic agent-process instructions or decisions specific to one feature (record those in an ADR and link it). Prefer existing formatters, linters, and tooling as the source of truth for mechanically enforced rules.
 
 ## Scope
 
