@@ -5,10 +5,10 @@
 
 Each row must specify **observable behavior**, a verification method, and actual evidence. Write criteria when specifying the feature; update result and evidence during implementation. Do not mark `Pass` based solely on code inspection or optimism.
 
-| ID | Requirement | Scenario / expected outcome | Verification method | Result | Evidence |
-| --- | --- | --- | --- | --- | --- |
-| AC-001 | FR-001 | [Given/when/then or clear expected result] | [Test name or manual procedure] | Not run | [Add evidence when verified] |
-| AC-002 | FR-002 | [Expected result, including important edge case] | [Test name or manual procedure] | Not run | [Add evidence when verified] |
+| ID     | Requirement | Scenario / expected outcome                      | Verification method             | Result  | Evidence                     |
+| ------ | ----------- | ------------------------------------------------ | ------------------------------- | ------- | ---------------------------- |
+| AC-001 | FR-001      | [Given/when/then or clear expected result]       | [Test name or manual procedure] | Not run | [Add evidence when verified] |
+| AC-002 | FR-002      | [Expected result, including important edge case] | [Test name or manual procedure] | Not run | [Add evidence when verified] |
 
 ## Result legend
 

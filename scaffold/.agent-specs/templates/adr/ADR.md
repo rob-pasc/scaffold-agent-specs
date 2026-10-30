@@ -13,14 +13,14 @@
 
 ## Decision
 
-[State the decision *actually adopted*, its boundaries, and the principal rationale.]
+[State the decision _actually adopted_, its boundaries, and the principal rationale.]
 
 ## Alternatives considered
 
-| Alternative | Benefits | Why not chosen |
-| --- | --- | --- |
-| [Option A] | [Benefits] | [Tradeoffs] |
-| [Option B] | [Benefits] | [Tradeoffs] |
+| Alternative | Benefits   | Why not chosen |
+| ----------- | ---------- | -------------- |
+| [Option A]  | [Benefits] | [Tradeoffs]    |
+| [Option B]  | [Benefits] | [Tradeoffs]    |
 
 ## Consequences
 

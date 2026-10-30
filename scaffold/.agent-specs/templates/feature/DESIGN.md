@@ -27,7 +27,7 @@
 
 ## Alternatives and tradeoffs
 
-[Material design options and reasons for preferring the proposed one. Significant project-wide *adopted* choices should be recorded later as ADRs.]
+[Material design options and reasons for preferring the proposed one. Significant project-wide _adopted_ choices should be recorded later as ADRs.]
 
 ## Open technical decisions
 

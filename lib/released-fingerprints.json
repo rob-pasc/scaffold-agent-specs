@@ -1,0 +1,52 @@
+{
+  ".agent-specs/templates/adr/ADR.md": [
+    "6bdd5aa7149e0e3a53ddf1ff3fc067c3797e0c9942844cbb00b34c228204183c"
+  ],
+  ".agent-specs/templates/conventions/CONVENTION.md": [
+    "462a9cbf6c502f6692c9813a2da02e796a3547d02fb58058e2153bf4e3dc91d3"
+  ],
+  ".agent-specs/templates/feature/ACCEPTANCE_MATRIX.md": [
+    "0efef77a6c06737d224289611ab9cd7640a987395bcb526fff4f4b5f86295753"
+  ],
+  ".agent-specs/templates/feature/DESIGN.md": [
+    "301b5b38817a3fa1f21d7ac1f9816f5edc294610322e82bbaf51898485a00934"
+  ],
+  ".agent-specs/templates/feature/HANDOFF.md": [
+    "5d089e10cd26341154f71262f1f7bbaf851ef42bdea73bf26a2c80cc647cc9dc"
+  ],
+  ".agent-specs/templates/feature/PLAN.md": [
+    "8502cc0a36a3868f8f255863db7abd58b9626ae0b9a9c76875aa77441a0cac2c",
+    "e23d02f2b21676dcc9493eee8b2ec617b922a912e118762d6afe191ac391f826"
+  ],
+  ".agent-specs/templates/feature/RESEARCH.md": [
+    "e68f104f0b35440da933573d7f04a861f62a8f8248a3156b975824d2cac40c53"
+  ],
+  ".agent-specs/templates/feature/TASKS.md": [
+    "0b6f660cb321bdbbeecd21af788e3954a01726bf111f079707fd927451ef49e7",
+    "a4c5de105bb6d474e2131994cb90fbcd4f3e436ba22b92a0f865755d00064d0d"
+  ],
+  ".agent-specs/templates/project/ARCHITECTURE.md": [
+    "3ed1a7ae1021f999fa7769f406f7de5e008d9f8c09e219214c817f580a1d9ae5"
+  ],
+  ".agent-specs/templates/project/GLOSSARY.md": [
+    "5f9109b0699879db0b6563e9df4889c3b0963893c43a1fd82a71f5f3d7327af9"
+  ],
+  "AGENTS.md": [
+    "70196e937a5782962f69c2c0735929059fac6c60b724977ebbfea9d0e4c84b20",
+    "c08f3412d558b6992b0a2e003d5be0de201502846453c2b2da70c2d682d5815a"
+  ],
+  "CLAUDE.md": [
+    "272bcb5a9f136af56c1c93203c21976e02a09ed0a59d2515fad23d24b6c34408"
+  ],
+  "docs/WORKFLOW.md": [
+    "0712abf011e6632fcdaee95c9b0c7bcad39808b5d28678c25aa0c05d281f795f",
+    "637e83ce425e97ee9751a8500f5928d1f1ed2536e8d1a02b85bf6e11bc937192"
+  ],
+  "docs/adr/README.md": [
+    "2f27a4a5ecfb92725875c0b859194588b0ed367ac87b7d321ba063062abf25d5"
+  ],
+  "docs/features/README.md": [
+    "a46ffb46dc49d5304db438179e6b090665d706d2f09c50c56bb2a0c09c92b5da",
+    "3fb7c6fa1177a5cb940e8066d18624ce0d32c76b945a9b1f183d8809f40a7275"
+  ]
+}

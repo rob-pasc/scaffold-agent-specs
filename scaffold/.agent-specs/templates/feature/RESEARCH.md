@@ -15,9 +15,9 @@
 
 ## Alternatives evaluated
 
-| Option | Evidence / strengths | Limitations / risks |
-| --- | --- | --- |
-| [Option A] | [Evidence] | [Risks] |
+| Option     | Evidence / strengths | Limitations / risks |
+| ---------- | -------------------- | ------------------- |
+| [Option A] | [Evidence]           | [Risks]             |
 
 ## Recommendation and confidence
 

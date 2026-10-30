@@ -2,7 +2,7 @@
 
 Create a directory here **only after the user explicitly accepts the feature scope**. Do not create speculative feature directories during discovery.
 
-After approval, an agent may use `scaffold-agent-specs feature "Feature title" --approved` (or its `npx` equivalent), then fill all required documents from the accepted discussion. The CLI only creates templated files and replaces identifiers, titles, and dates.
+After approval, an agent may run `npx scaffold-agent-specs feature "Feature title" --approved` (or copy the templates by hand), then fill all required documents from the accepted discussion. The CLI only creates templated files and replaces identifiers, titles, and dates.
 
 Each feature is named `feature-NNN-kebab-case`, for example `feature-007-user-statistics-page`. Start at `001` and choose the next number above the highest existing feature ID; do not reuse numbers.
 

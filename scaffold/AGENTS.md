@@ -18,7 +18,7 @@ For **new features**, follow this sequence:
 1. **Discover:** Discuss the idea with the user. Understand the problem, users, expected behavior, constraints, boundaries, and unresolved questions. Do not implement the feature or create its feature directory during discovery.
 2. **Propose:** Present a concise scope summary covering the goal, in-scope and out-of-scope behavior, important acceptance outcomes, assumptions, and consequential open questions. Explicitly offer **accept / revise / discard**.
 3. **Get approval:** Treat only a clear, affirmative user response as scope approval. If the user revises the proposal, summarize the revised scope and seek approval again. If discarded, do not create feature artifacts.
-4. **Specify:** After approval, create `docs/features/feature-NNN-kebab-case/` and populate `PLAN.md`, `ACCEPTANCE_MATRIX.md`, and `TASKS.md` from `.agent-specs/templates/feature/`. You may run `scaffold-agent-specs feature "Title" --approved` (or its `npx` equivalent) to create files; the CLI does not write the approved requirements for you. Add `DESIGN.md` for substantial UX/technical design and `RESEARCH.md` for findings worth preserving, only when needed. Create `HANDOFF.md` when a real session handoff is useful. Record the approved scope faithfully. Mark proposed technical choices as proposed, not approved.
+4. **Specify:** After approval, create `docs/features/feature-NNN-kebab-case/` and populate `PLAN.md`, `ACCEPTANCE_MATRIX.md`, and `TASKS.md` from `.agent-specs/templates/feature/`. You may run `npx scaffold-agent-specs feature "Title" --approved` to create the files (if the command is unavailable, copy the templates by hand); the CLI does not write the approved requirements for you. Add `DESIGN.md` for substantial UX/technical design and `RESEARCH.md` for findings worth preserving, only when needed. Create `HANDOFF.md` when a real session handoff is useful. Record the approved scope faithfully. Mark proposed technical choices as proposed, not approved.
 5. **Stop at the spec boundary:** After writing the feature documents, summarize what was created and stop. **Do not start implementation** until the user explicitly requests it, possibly in a later session.
 6. **Implement and verify:** On an explicit implementation request, review the feature documents and relevant code. Resolve blockers, surface consequential technical choices, then execute tasks, validate acceptance criteria, and keep the documents current.
 7. **Finish:** Update related documentation, capture architectural decisions actually adopted, report verification evidence and remaining limitations, and mark the feature complete only when acceptance criteria are satisfied or exceptions explicitly accepted by the user.
@@ -33,9 +33,9 @@ Existing-feature work and ordinary fixes should follow the user's requested scop
 
 ## Feature documentation contracts
 
-- **`PLAN.md`** explains *why and what*, including approved scope, requirements, constraints, risks, and the proposed technical direction.
+- **`PLAN.md`** explains _why and what_, including approved scope, requirements, constraints, risks, and the proposed technical direction.
 - **`ACCEPTANCE_MATRIX.md`** defines objectively verifiable outcomes and records methods, results, and evidence. Do not claim a pass without evidence.
-- **`TASKS.md`** is the authoritative checklist for implementation progress. Keep items small and link them to acceptance IDs where practical.
+- **`TASKS.md`** is the authoritative checklist for implementation progress and holds the feature's lifecycle status. Keep items small and link them to acceptance IDs where practical.
 - **`DESIGN.md`** is optional detailed technical/interaction design, not a second feature specification.
 - **`RESEARCH.md`** is optional durable investigative findings, not an approved decision.
 - **`HANDOFF.md`** is optional, temporary context for a session or agent transition. It must never supersede the plan, acceptance matrix, or task checklist.
@@ -50,16 +50,22 @@ Existing-feature work and ordinary fixes should follow the user's requested scop
 - Do not write speculative ADRs during feature discovery or initial specification. Capture proposed approaches and uncertainties in `PLAN.md` instead.
 - Keep docs concise and accurate; remove stale claims rather than merely appending new text.
 - Practice **progressive documentation**: create an optional document only to solve a concrete problem. Prefer updating an existing source of truth over producing redundant or empty files.
-- If maintained, keep `docs/ARCHITECTURE.md` aligned with the *implemented* system, `docs/GLOSSARY.md` aligned with shared domain language, and `docs/conventions/` aligned with stable project-specific practices. Create them only when useful, from `.agent-specs/templates/project/` or `.agent-specs/templates/conventions/`. An adopted architecture decision still belongs in an ADR.
+- If maintained, keep `docs/ARCHITECTURE.md` aligned with the _implemented_ system, `docs/GLOSSARY.md` aligned with shared domain language, and `docs/conventions/` aligned with stable project-specific practices. Create them only when useful, from `.agent-specs/templates/project/` or `.agent-specs/templates/conventions/`. An adopted architecture decision still belongs in an ADR.
 
 ## Verification and completion
 
 - Before claiming completion, run relevant tests, linters, type checks, and build checks supported by the repository, or explain precisely why they were not run.
 - Update acceptance results with concrete evidence (test name, command, output summary, or a reproducible manual check). Never infer a pass from implementation alone.
-- Keep `TASKS.md` synchronized with actual progress. Do not mark blocked or incomplete work as done.
+- Keep `TASKS.md` synchronized with actual progress, including its status, which is the single lifecycle status for the feature. Do not mark blocked or incomplete work as done.
 - Call out unresolved failures, missing coverage, migrations, and follow-up work explicitly.
 
-## Git commit conventions
+## Git commits
+
+Commit your work as you go, at points you judge sensible, without waiting to be asked. Good points include written feature specs, a completed task or coherent group of tasks, and a fix that resolves a verified problem.
+
+- Run the relevant checks before committing. If you commit while something is failing or incomplete, say so in the message.
+- Don't commit secrets, credentials, local environment files, or build output that the repository doesn't already track.
+- Don't push, rewrite or amend existing history, or change branches without the user's request.
 
 Use **Conventional Commit-style** subjects with a meaningful scope:
 
@@ -74,7 +80,6 @@ Use **Conventional Commit-style** subjects with a meaningful scope:
 - Use a lowercase type and a short, recognizable scope (app, package, or subsystem). Write an imperative, descriptive subject; aim to stay within 72 characters.
 - For nontrivial changes, write a **prose body** explaining the substance and rationale, not a dump of filenames or generic boilerplate. Separate the subject and body with a blank line, and wrap prose at roughly 72–80 columns.
 - Keep commits focused and truthful. Note breaking changes explicitly when applicable.
-- Do not create a commit unless the user requests it or has explicitly authorized committing as part of the current task.
 
 Example:
 

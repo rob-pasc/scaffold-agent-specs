@@ -1,9 +1,17 @@
 # Implementation Tasks: [Feature title]
 
 - **Feature ID:** `feature-NNN-kebab-case`
-- **Status:** Not started
+- **Status:** Specified
 
 This is the **authoritative progress checklist**. Draft ordered, independently verifiable tasks after scope approval. Map tasks to acceptance criteria where practical. Check a task only after its work is actually complete.
+
+`Status` above is the feature's only lifecycle status. Use one of:
+
+- `Specified`: specs written; readiness not yet checked.
+- `Ready`: readiness checked before implementation; remaining blockers are listed below.
+- `In progress`: implementation underway.
+- `Implemented (verification pending)`: tasks done, but some acceptance criteria are not yet `Pass`.
+- `Complete`: every acceptance criterion is `Pass`, or the user has explicitly accepted the exceptions.
 
 ## Tasks
 

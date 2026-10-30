@@ -18,7 +18,10 @@
   },
   "scripts": {
     "test": "node --test",
-    "pack:check": "npm pack --dry-run"
+    "pack:check": "npm pack --dry-run",
+    "format": "npx --yes prettier@3 --write \"scaffold/**/*.md\"",
+    "format:check": "npx --yes prettier@3 --check \"scaffold/**/*.md\"",
+    "fingerprints": "node scripts/record-fingerprints.js"
   },
   "keywords": [
     "agents",

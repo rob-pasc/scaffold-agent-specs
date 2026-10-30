@@ -1,6 +1,6 @@
 # Architecture Overview
 
-> **Optional project document.** Create under `docs/ARCHITECTURE.md` when the system is complex enough to benefit from a maintained overview. Describe the *current implemented system*, not hypothetical future architecture. Refer to ADRs for the reasons behind lasting choices.
+> **Optional project document.** Create under `docs/ARCHITECTURE.md` when the system is complex enough to benefit from a maintained overview. Describe the _current implemented system_, not hypothetical future architecture. Refer to ADRs for the reasons behind lasting choices.
 
 ## System at a glance
 
@@ -8,9 +8,9 @@
 
 ## Components and responsibilities
 
-| Component | Responsibility | Key dependencies |
-| --- | --- | --- |
-| [Component] | [Responsibility] | [Dependencies] |
+| Component   | Responsibility   | Key dependencies |
+| ----------- | ---------------- | ---------------- |
+| [Component] | [Responsibility] | [Dependencies]   |
 
 ## Important data and request flows
 

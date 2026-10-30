@@ -3,10 +3,8 @@
 - **Feature ID:** `feature-NNN-kebab-case`
 - **Scope status:** Approved by user
 - **Scope approval date:** [YYYY-MM-DD]
-- **Implementation status:** Not started
-- **Technical readiness:** To be assessed before implementation
 
-> Replace bracketed prompts with specifics from the approved discussion. This file records *scope and intent*, not a claim that a technical design has been accepted.
+> Replace bracketed prompts with specifics from the approved discussion. This file records _scope and intent_, not a claim that a technical design has been accepted. Track progress in `TASKS.md`, not here.
 
 ## Summary
 
@@ -35,7 +33,7 @@
 
 ## Non-functional requirements and constraints
 
-[Performance, accessibility, security, privacy, compatibility, operational or design constraints *actually relevant* to this feature. State 'None identified' if appropriate.]
+[Performance, accessibility, security, privacy, compatibility, operational or design constraints _actually relevant_ to this feature. State 'None identified' if appropriate.]
 
 ## User journeys and edge cases
 
@@ -55,8 +53,8 @@
 
 ## Scope change log
 
-| Date | Change | User approval |
-| --- | --- | --- |
+| Date         | Change                 | User approval                                |
+| ------------ | ---------------------- | -------------------------------------------- |
 | [YYYY-MM-DD] | Initial approved scope | [Explicit approval reference / conversation] |
 
 ## References

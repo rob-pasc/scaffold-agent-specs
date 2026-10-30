@@ -87,6 +87,9 @@ No speculative feature, ADR, architecture document, glossary, or convention docu
 | --- | --- |
 | `init` | Copy the initial scaffold into the current directory. Never overwrite existing files. |
 | `init --dry-run` | Preview which files would be created or skipped. |
+| `update` | Bring scaffold files up to this version. Replace only files that are unmodified; skip customized ones. |
+| `update --dry-run` | Preview which files would be updated, created, or skipped. |
+| `update --force` | Also overwrite customized scaffold files, discarding local changes. |
 | `feature "Title" --approved` | Create the next `feature-NNN-title/` and its three required docs. |
 | `feature "Title" --approved --design` | Include optional detailed design. |
 | `feature "Title" --approved --research` | Include optional research. |
@@ -95,7 +98,16 @@ No speculative feature, ADR, architecture document, glossary, or convention docu
 | `--dir PATH` | Work in a specified repository root instead of the current directory. |
 | `--help` / `--version` | Show help or the CLI version. |
 
-Feature IDs are allocated above the **largest existing** feature ID, starting at `001`. Running `init` again adds newly missing files but never replaces modified ones. Before updating the scaffold in a future release, review the changes and merge into customized files manually. `init` refuses to write through symlinked paths under the chosen root.
+Feature IDs are allocated above the **largest existing** feature ID, starting at `001`. Running `init` again adds newly missing files but never replaces existing ones. `init` refuses to write through symlinked paths under the chosen root.
+
+## Updating an existing repository
+
+```sh
+npx scaffold-agent-specs@latest update --dry-run   # preview
+npx scaffold-agent-specs@latest update
+```
+
+`update` compares each scaffold file in your repository with every released version of it. A file that still matches a released version is replaced with the current one, and a file that is missing is created. A file you have customized is skipped and reported, so you can merge the changes by hand or rerun with `--force`. Formatting-only differences (for example, Prettier padding tables) don't count as customizations. Feature documents in `docs/features/feature-*/` are never touched, so existing features keep the layout they were written with.
 
 There is intentionally no `implement` command: an agent should follow `AGENTS.md` and `docs/WORKFLOW.md` and wait for a separate implementation instruction. ADRs can be created from `.agent-specs/templates/adr/ADR.md` once architectural decisions are adopted.
 
@@ -103,6 +115,8 @@ There is intentionally no `implement` command: an agent should follow `AGENTS.md
 
 ```sh
 npm test                # Built-in Node.js test runner
+npm run format          # Format scaffold Markdown with Prettier
+npm run fingerprints    # Record scaffold fingerprints for `update` (before each release)
 npm run pack:check      # Preview npm-published file manifest
 npm pack                # Produce local npm tarball for testing
 ```

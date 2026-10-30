@@ -21,7 +21,7 @@ Do this before the first real publish: npm never allows republishing a version n
 3. Choose an open-source license (such as MIT or Apache-2.0), create a `LICENSE` file, and update the `license` field in `package.json` (currently `UNLICENSED`). No license has been selected for you.
 4. Remove `"private": true` from `package.json`; `npm publish` refuses to run while it is set. Add accurate `author`, `repository`, `bugs`, and `homepage` metadata if you have them.
 5. Update `README.md`: remove the "Pre-release" note about `private: true`, since the README becomes the npm package page.
-6. Run `npm test` and `npm pack --dry-run` to verify everything that ships, especially `bin/`, `lib/`, and `scaffold/` (including the dot-directory `scaffold/.agent-specs/`).
+6. If `scaffold/` changed, run `npm run fingerprints` and commit `lib/released-fingerprints.json`; otherwise `update` treats files from this release as customized. Then run `npm test`, `npm run format:check` and `npm pack --dry-run` to verify everything that ships, especially `bin/`, `lib/`, and `scaffold/` (including the dot-directory `scaffold/.agent-specs/`).
 7. Optionally test a real installation of the local `.tgz` package in a temporary directory before publishing (see above).
 8. Run `npm login` and `npm whoami` to confirm you are logged in.
 9. Publish an **unscoped** package with `npm publish`. For a public **scoped** package, use `npm publish --access public`. npm requires 2FA or an appropriately authorized publishing mechanism.

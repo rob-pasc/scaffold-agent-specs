@@ -7,6 +7,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const cli = fileURLToPath(new URL('../bin/scaffold-agent-specs.js', import.meta.url));
+const pkg = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 function tempDir() { return fs.mkdtempSync(path.join(os.tmpdir(), 'agent-specs-test-')); }
 function invoke(dir, ...args) {
   return spawnSync(process.execPath, [cli, ...args], { cwd: dir, encoding: 'utf8' });
@@ -25,7 +26,7 @@ test('help and version are available', (t) => {
   assert.match(help.stdout, /feature.*--approved/);
   const version = invoke(dir, '--version');
   assert.equal(version.status, 0);
-  assert.match(version.stdout, /0\.1\.0/);
+  assert.equal(version.stdout.trim(), pkg.version);
 });
 
 test('init creates all baseline files and no speculative feature or ADR', (t) => {
@@ -146,4 +147,72 @@ test('invalid arguments are rejected without modifying the directory', (t) => {
   const result = invoke(dir, 'init', '--force');
   assert.notEqual(result.status, 0);
   assert.deepEqual(fs.readdirSync(dir), []);
+});
+
+const bundled = fileURLToPath(new URL('../scaffold/', import.meta.url));
+const released = JSON.parse(fs.readFileSync(new URL('../lib/released-fingerprints.json', import.meta.url), 'utf8'));
+test('every bundled scaffold file is recorded in released-fingerprints.json', async () => {
+  const { getBundledFingerprints } = await import('../lib/scaffold.js');
+  for (const [rel, hash] of Object.entries(getBundledFingerprints())) {
+    assert.ok(released[rel]?.includes(hash), `${rel} changed; run node scripts/record-fingerprints.js`);
+  }
+});
+
+test('update replaces files from an older release and creates missing ones', (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init').status, 0);
+  fs.copyFileSync(new URL('./fixtures/v0.1.1/AGENTS.md', import.meta.url), path.join(dir, 'AGENTS.md'));
+  fs.rmSync(path.join(dir, 'docs/WORKFLOW.md'));
+
+  const result = invoke(dir, 'update');
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /update AGENTS.md/);
+  assert.match(result.stdout, /create docs\/WORKFLOW.md/);
+  assert.match(result.stdout, /1 updated, 1 created, 13 already current, 0 skipped/);
+  assert.equal(fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8'), fs.readFileSync(path.join(bundled, 'AGENTS.md'), 'utf8'));
+});
+
+test('update treats a reformatted released file as unmodified', async (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init').status, 0);
+  const rel = 'docs/WORKFLOW.md';
+  const reformatted = fs.readFileSync(path.join(bundled, rel), 'utf8')
+    .replaceAll('| --- |', '| ------ |').replaceAll('*', '_');
+  fs.writeFileSync(path.join(dir, rel), reformatted);
+  const result = invoke(dir, 'update');
+  assert.equal(result.status, 0, result.stderr);
+  // Same content apart from formatting: left alone, not counted as modified.
+  assert.match(result.stdout, /0 updated, 0 created, 15 already current, 0 skipped/);
+  assert.equal(fs.readFileSync(path.join(dir, rel), 'utf8'), reformatted);
+});
+
+test('update skips locally modified files unless --force', (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init').status, 0);
+  const dest = path.join(dir, 'AGENTS.md');
+  fs.appendFileSync(dest, '\n## Our team rules\n');
+  const customized = fs.readFileSync(dest, 'utf8');
+
+  const skipped = invoke(dir, 'update');
+  assert.equal(skipped.status, 0, skipped.stderr);
+  assert.match(skipped.stdout, /skip {3}AGENTS.md \(modified locally\)/);
+  assert.match(skipped.stdout, /--force/);
+  assert.equal(fs.readFileSync(dest, 'utf8'), customized);
+
+  const forced = invoke(dir, 'update', '--force');
+  assert.equal(forced.status, 0, forced.stderr);
+  assert.match(forced.stdout, /overwrite AGENTS.md \(local changes discarded\)/);
+  assert.equal(fs.readFileSync(dest, 'utf8'), fs.readFileSync(path.join(bundled, 'AGENTS.md'), 'utf8'));
+});
+
+test('update --dry-run writes nothing and leaves feature docs alone', (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init').status, 0);
+  assert.equal(invoke(dir, 'feature', 'Thing', '--approved').status, 0);
+  fs.rmSync(path.join(dir, 'CLAUDE.md'));
+  const result = invoke(dir, 'update', '--dry-run');
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /would create CLAUDE.md/);
+  assert.ok(!fs.existsSync(path.join(dir, 'CLAUDE.md')));
+  assert.doesNotMatch(result.stdout, /feature-001/);
 });
