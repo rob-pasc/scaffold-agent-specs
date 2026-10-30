@@ -16,7 +16,7 @@ These are the shared instructions for AI coding agents working in this repositor
 For **new features**, follow this sequence:
 
 1. **Discover:** Discuss the idea with the user. Understand the problem, users, expected behavior, constraints, boundaries, and unresolved questions. Do not implement the feature or create its feature directory during discovery.
-2. **Propose:** Present a concise scope summary covering the goal, in-scope and out-of-scope behavior, important acceptance outcomes, assumptions, and consequential open questions. Explicitly offer **accept / revise / discard**.
+2. **Propose:** Present a concise scope summary covering the goal, in-scope and out-of-scope behavior, important acceptance outcomes, assumptions, and consequential open questions. If the scope holds parts that can be built and verified on their own, propose splitting it into several features. Explicitly offer **accept / revise / discard**.
 3. **Get approval:** Treat only a clear, affirmative user response as scope approval. If the user revises the proposal, summarize the revised scope and seek approval again. If discarded, do not create feature artifacts.
 4. **Specify:** After approval, create `docs/features/feature-NNN-kebab-case/` and populate `PLAN.md`, `ACCEPTANCE_MATRIX.md`, and `TASKS.md` from `.agent-specs/templates/feature/`, following the steps in [`docs/WORKFLOW.md`](docs/WORKFLOW.md) (Phase 3). Add `DESIGN.md` for substantial UX/technical design and `RESEARCH.md` for findings worth preserving, only when needed. Create `HANDOFF.md` when a real session handoff is useful. Record the approved scope faithfully. Mark proposed technical choices as proposed, not approved.
 5. **Stop at the spec boundary:** After writing the feature documents, summarize what was created and stop. **Do not start implementation** until the user explicitly requests it, possibly in a later session.
@@ -27,7 +27,7 @@ Existing-feature work and ordinary fixes should follow the user's requested scop
 
 ### Scope changes and technical decisions
 
-- An approved feature scope is the baseline. Ask for renewed approval before materially changing promised behavior, exclusions, or acceptance criteria.
+- An approved feature scope is the baseline. Ask for renewed approval before materially changing promised behavior, exclusions, or acceptance criteria, and before adding user-visible behavior the scope doesn't include, however small.
 - Technical implementation details can evolve within that scope. Surface decisions that introduce major dependencies, migrations that modify or delete existing data, security implications, substantial complexity, or broad architectural consequences before committing to them.
 - Keep proposed decisions in the feature `PLAN.md`. Add a project-wide ADR **when a significant architectural decision has actually been adopted**, typically after implementation. For consequential decisions adopted earlier, record the ADR at adoption rather than losing the rationale. Never turn an unimplemented proposal into an accepted ADR.
 
