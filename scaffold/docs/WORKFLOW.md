@@ -68,6 +68,7 @@ Write the approved scope into `PLAN.md`. Draft acceptance criteria and tasks tha
 - Review each acceptance criterion against observable evidence. Use `Pass`, `Fail`, `Blocked`, or `Not run`; never invent a result. If a criterion is waived or removed, record the user's approval and update scope accordingly.
 - Run applicable checks and document anything not run.
 - Update affected user/developer/project documentation in the same change. Maintain `docs/ARCHITECTURE.md`, `docs/GLOSSARY.md`, and `docs/conventions/` when they exist and are affected by the change.
+- Check whether a missing project document has become useful. If this feature relied on a rule that earlier features also relied on and that the code doesn't make obvious (one whose violation would be a silent bug), propose recording it in `docs/conventions/`. If domain terms are now used across several features, propose `docs/GLOSSARY.md`. Propose rather than create, and include the proposal in your report.
 - Create ADRs for meaningful architectural decisions **actually adopted**. Normally do this after the implementation is known; for a consequential choice adopted earlier, record it at that point.
 - Report what shipped, what was validated, any limitations, and whether the feature is complete. A feature is not complete while required acceptance criteria remain failing, blocked, or unverified.
 - Set the `TASKS.md` status to `Complete` only when that holds; otherwise use `Implemented (verification pending)` and list what remains.
