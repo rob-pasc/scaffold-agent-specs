@@ -1,6 +1,6 @@
 {
   "name": "scaffold-agent-specs",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A tiny, spec-driven workflow scaffold for AI coding agents",
   "type": "module",
   "license": "MIT",
