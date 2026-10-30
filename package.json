@@ -1,0 +1,32 @@
+{
+  "name": "scaffold-agent-specs",
+  "version": "0.1.0",
+  "description": "A tiny, spec-driven workflow scaffold for AI coding agents",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "scaffold-agent-specs": "./bin/scaffold-agent-specs.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "scaffold/",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test",
+    "pack:check": "npm pack --dry-run"
+  },
+  "keywords": [
+    "agents",
+    "agentic-coding",
+    "spec-driven-development",
+    "scaffolding",
+    "claude-code",
+    "codex"
+  ],
+  "author": "rob-pasc"
+}
