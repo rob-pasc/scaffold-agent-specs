@@ -5,7 +5,7 @@
   "type": "module",
   "license": "MIT",
   "bin": {
-    "scaffold-agent-specs": "./bin/scaffold-agent-specs.js"
+    "scaffold-agent-specs": "bin/scaffold-agent-specs.js"
   },
   "files": [
     "bin/",
