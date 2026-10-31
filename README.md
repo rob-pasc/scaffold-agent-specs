@@ -6,33 +6,7 @@ A deliberately small, dependency-free CLI for **spec-driven agentic coding**. It
 
 Node.js 20 or newer and npm (for installation or `npx`). The scaffolded repository itself can use **any** programming language or framework.
 
-## Use locally before publishing
-
-Download and extract this project, then run:
-
-```sh
-cd scaffold-agent-specs
-npm test
-node bin/scaffold-agent-specs.js --help
-
-# Preview what will be created in any repo:
-node bin/scaffold-agent-specs.js init --dir /path/to/your/repo --dry-run
-
-# Actually initialize the repo:
-node bin/scaffold-agent-specs.js init --dir /path/to/your/repo
-```
-
-Or use `npm link` from this package directory to install the development command into your PATH:
-
-```sh
-npm link
-cd /path/to/your/repo
-scaffold-agent-specs init
-```
-
-Unlink later with `npm unlink -g scaffold-agent-specs`.
-
-## After publishing to npm
+## Usage
 
 From the root of any project:
 
@@ -46,7 +20,7 @@ When the user and agent have discussed a feature and the user **explicitly accep
 npx scaffold-agent-specs feature "User statistics page" --approved
 ```
 
-This would create `docs/features/feature-001-user-statistics-page/` with these files:
+This creates `docs/features/feature-001-user-statistics-page/` with these files:
 
 - `PLAN.md` for the approved scope, constraints, requirements and proposed approach.
 - `ACCEPTANCE_MATRIX.md` for objective acceptance criteria and verification evidence.
@@ -115,6 +89,16 @@ There is intentionally no `implement` command: an agent should follow `AGENTS.md
 
 ## Develop
 
+To run the CLI from a clone of this repository:
+
+```sh
+npm test
+node bin/scaffold-agent-specs.js --help
+node bin/scaffold-agent-specs.js init --dir /path/to/your/repo --dry-run
+```
+
+Or use `npm link` to put the development command on your PATH, and `npm unlink -g scaffold-agent-specs` to remove it later.
+
 ```sh
 npm test                # Built-in Node.js test runner
 npm run format          # Format scaffold Markdown with Prettier
@@ -123,7 +107,7 @@ npm run pack:check      # Preview npm-published file manifest
 npm pack                # Produce local npm tarball for testing
 ```
 
-For publication instructions, see [`PUBLISHING.md`](PUBLISHING.md).
+For the release steps, see [`PUBLISHING.md`](PUBLISHING.md).
 
 ## License
 

@@ -1,35 +1,58 @@
-# Publishing checklist (when you're ready)
+# Release checklist
 
-Publishing is not yet enabled. Nothing in this project publishes a package automatically.
+`scaffold-agent-specs` is published on the public npm registry as an unscoped package. Nothing in this project publishes automatically; each release is run by hand.
 
-## Try `npx` without publishing
+## Before releasing
 
-To try the `npx` workflow before publishing, pack the package and run the tarball directly. This runs exactly the files that would ship:
+1. If `scaffold/` changed, run `npm run fingerprints` and commit `lib/released-fingerprints.json` with the scaffold change. Otherwise `update` treats files from this release as customized in repositories that install it, and `npm test` fails.
+2. Run the checks:
 
-```sh
-npm pack                          # creates scaffold-agent-specs-<version>.tgz
-cd /path/to/some/test-repo
-npx --package /absolute/path/to/scaffold-agent-specs-<version>.tgz scaffold-agent-specs init
-```
+   ```sh
+   npm test
+   npm run format:check
+   npm run pack:check   # verify bin/, lib/ and scaffold/ (including scaffold/.agent-specs/) ship
+   ```
 
-Do this before the first real publish: npm never allows republishing a version number, even after unpublishing.
+3. Optionally try the exact files that would ship, without publishing:
 
-## Publish
+   ```sh
+   npm pack                          # creates scaffold-agent-specs-<version>.tgz
+   cd /path/to/some/test-repo
+   npx --package /absolute/path/to/scaffold-agent-specs-<version>.tgz scaffold-agent-specs init
+   ```
 
-1. Create an npm account and enable two-factor authentication. Install a current Node.js and npm release.
-2. Check whether `scaffold-agent-specs` is available on the public npm registry (`npm view scaffold-agent-specs`; a 404 means the name is free). npm can still reject a name that is too similar to an existing package. If it isn't available, use an unscoped alternative name or publish under your npm namespace, for example `@your-username/scaffold-agent-specs`, and update the `npx` commands in `README.md` to match.
-3. Choose an open-source license (such as MIT or Apache-2.0), create a `LICENSE` file, and update the `license` field in `package.json` (currently `UNLICENSED`). No license has been selected for you.
-4. Remove `"private": true` from `package.json`; `npm publish` refuses to run while it is set. Add accurate `author`, `repository`, `bugs`, and `homepage` metadata if you have them.
-5. Update `README.md`: remove the "Pre-release" note about `private: true`, since the README becomes the npm package page.
-6. If `scaffold/` changed, run `npm run fingerprints` and commit `lib/released-fingerprints.json`; otherwise `update` treats files from this release as customized. Then run `npm test`, `npm run format:check` and `npm pack --dry-run` to verify everything that ships, especially `bin/`, `lib/`, and `scaffold/` (including the dot-directory `scaffold/.agent-specs/`).
-7. Optionally test a real installation of the local `.tgz` package in a temporary directory before publishing (see above).
-8. Run `npm login` and `npm whoami` to confirm you are logged in.
-9. Publish an **unscoped** package with `npm publish`. For a public **scoped** package, use `npm publish --access public`. npm requires 2FA or an appropriately authorized publishing mechanism.
-10. From a clean directory, test `npx scaffold-agent-specs@latest init` and `npx scaffold-agent-specs feature "Test feature" --approved` (or the `@your-username/...` equivalent if scoped).
-11. Increase the package version before each subsequent publication, e.g. `npm version patch` followed by `npm publish`.
+## Release
+
+1. Bump the version. This creates a `Release <version>` commit and a `v<version>` tag:
+
+   ```sh
+   npm version patch -m "Release %s"
+   ```
+
+2. Confirm you are logged in (`npm whoami`; run `npm login` if not), then publish. npm requires 2FA or an authorized publishing mechanism.
+
+   ```sh
+   npm publish
+   ```
+
+3. Push the release commit and tag, so GitHub matches the registry:
+
+   ```sh
+   git push --follow-tags
+   ```
+
+4. From a clean directory, smoke-test the published package:
+
+   ```sh
+   npx scaffold-agent-specs@latest init
+   npx scaffold-agent-specs@latest feature "Test feature" --approved
+   ```
+
+npm never allows republishing a version number, even after unpublishing. If a publish fails after `npm version`, fix the problem and publish the same version; if the version was published but is broken, release a new patch and run `npm deprecate scaffold-agent-specs@<version> "<reason>"` on the bad one.
 
 Official npm references:
+
 - https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages/
-- https://docs.npmjs.com/creating-and-publishing-scoped-public-packages/
-- https://docs.npmjs.com/cli/commands/npm-exec/
-- https://docs.npmjs.com/trusted-publishers/ (for later CI publishing; consult current docs)
+- https://docs.npmjs.com/cli/commands/npm-version/
+- https://docs.npmjs.com/cli/commands/npm-deprecate/
+- https://docs.npmjs.com/trusted-publishers/ (for later CI publishing)
