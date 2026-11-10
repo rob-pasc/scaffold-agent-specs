@@ -73,8 +73,8 @@ Write the approved scope into `PLAN.md`. Draft acceptance criteria and tasks tha
 - Review each acceptance criterion against observable evidence. Use `Pass`, `Fail`, `Blocked`, or `Not run`; never invent a result. If a criterion is waived or removed, record the user's approval and update scope accordingly.
 - Run applicable checks and document anything not run.
 - Reconcile `PLAN.md` with what shipped: its technical approach, assumptions, and references (ADRs, related features) must describe the implementation, with no stale claims left, and any behavior added during implementation must appear in its requirements.
-- Update affected user/developer/project documentation in the same change. Maintain `docs/ARCHITECTURE.md`, `docs/GLOSSARY.md`, and `docs/conventions/` when they exist and are affected by the change.
-- Check whether a missing project document has become useful. Consider `docs/conventions/` for a rule that earlier features also relied on and that the code doesn't make obvious (one whose violation would be a silent bug), and `docs/GLOSSARY.md` for domain terms used across several features or easily confused with each other. **Always include the outcome in your report**: name each candidate and say whether you recommend it and why, even if you recommend against it. The user decides; don't create the document until they agree.
+- Update affected user/developer/project documentation in the same change. Maintain the shared visual design reference, `docs/ARCHITECTURE.md`, `docs/GLOSSARY.md`, and `docs/conventions/` when they exist and are affected by the change.
+- Check whether a missing project document has become useful. Consider `docs/conventions/` for a rule that earlier features also relied on and that the code doesn't make obvious (one whose violation would be a silent bug), and `docs/GLOSSARY.md` for domain terms used across several features or easily confused with each other. **Report useful recommendations** with a brief explanation; omit candidates that would not add value. The user decides; don't create the document until they agree.
 - Create ADRs for meaningful architectural decisions **actually adopted**. Normally do this after the implementation is known; for a consequential choice adopted earlier, record it at that point.
 - Report what shipped, what was validated, any limitations, and whether the feature is complete. A feature is not complete while required acceptance criteria remain failing, blocked, or unverified.
 - Set the `TASKS.md` status to `Complete` only when that holds; otherwise use `Implemented (verification pending)` and list what remains.
@@ -84,7 +84,8 @@ Write the approved scope into `PLAN.md`. Draft acceptance criteria and tasks tha
 - `PLAN.md` owns agreed scope, not task completion.
 - `ACCEPTANCE_MATRIX.md` owns acceptance and verification evidence, not general project notes.
 - `TASKS.md` owns implementation progress and the feature's lifecycle status, not architectural rationale.
-- `DESIGN.md`, if present, owns detailed technical and UX design, not user-approved scope.
+- `DESIGN.md`, if present, owns detailed technical and UX design, not user-approved scope. Link to the project visual design reference for shared conventions.
+- For visual interfaces, read the shared visual design reference before UI work. Reuse existing design-system documentation; otherwise create `docs/VISUAL_DESIGN.md` when defining or changing shared visual conventions. Keep it grounded in the existing interface and agreed direction, distinguish proposals from adopted conventions, and update it when conventions change.
 - `RESEARCH.md`, if present, preserves meaningful investigation and uncertainty, not decisions.
 - `HANDOFF.md`, if present, is a snapshot for resumption and may be deleted once unnecessary.
 - ADRs document _adopted_, broadly relevant architecture decisions; feature plans retain proposals and feature-local tradeoffs.

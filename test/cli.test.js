@@ -10,7 +10,7 @@ const cli = fileURLToPath(new URL('../bin/scaffold-agent-specs.js', import.meta.
 const pkg = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
 function tempDir() { return fs.mkdtempSync(path.join(os.tmpdir(), 'agent-specs-test-')); }
 function invoke(dir, ...args) {
-  return spawnSync(process.execPath, [cli, ...args], { cwd: dir, encoding: 'utf8' });
+  return spawnSync(process.execPath, [cli, ...args, ...(args[0] === 'init' && !args.some(arg => arg.startsWith('--profile')) ? ['--profile', 'opinionated'] : [])], { cwd: dir, encoding: 'utf8' });
 }
 function setup(t) {
   const dir = tempDir();
@@ -42,10 +42,12 @@ test('init creates all baseline files and no speculative feature or ADR', (t) =>
     '.agent-specs/templates/feature/RESEARCH.md',
     '.agent-specs/templates/project/ARCHITECTURE.md',
     '.agent-specs/templates/project/GLOSSARY.md',
+    '.agent-specs/templates/project/VISUAL_DESIGN.md',
   ]) assert.ok(fs.existsSync(path.join(dir, file)), file);
   assert.deepEqual(fs.readdirSync(path.join(dir, 'docs', 'features')), ['README.md']);
   assert.deepEqual(fs.readdirSync(path.join(dir, 'docs', 'adr')), ['README.md']);
   assert.ok(!fs.existsSync(path.join(dir, 'docs', 'conventions')));
+  assert.ok(!fs.existsSync(path.join(dir, 'docs', 'VISUAL_DESIGN.md')));
 });
 
 test('init is safe to rerun and preserves customized files', (t) => {
@@ -56,7 +58,7 @@ test('init is safe to rerun and preserves customized files', (t) => {
   const rerun = invoke(dir, 'init');
   assert.equal(rerun.status, 0);
   assert.equal(fs.readFileSync(dest, 'utf8'), '# My customized rules\n');
-  assert.match(rerun.stdout, /15 skipped/);
+  assert.match(rerun.stdout, /16 skipped/);
 });
 
 test('init --dry-run creates nothing', (t) => {
@@ -168,7 +170,7 @@ test('update replaces files from an older release and creates missing ones', (t)
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /update AGENTS.md/);
   assert.match(result.stdout, /create docs\/WORKFLOW.md/);
-  assert.match(result.stdout, /1 updated, 1 created, 13 already current, 0 skipped/);
+  assert.match(result.stdout, /1 updated, 1 created, 14 already current, 0 skipped/);
   assert.equal(fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8'), fs.readFileSync(path.join(bundled, 'AGENTS.md'), 'utf8'));
 });
 
@@ -182,7 +184,7 @@ test('update treats a reformatted released file as unmodified', async (t) => {
   const result = invoke(dir, 'update');
   assert.equal(result.status, 0, result.stderr);
   // Same content apart from formatting: left alone, not counted as modified.
-  assert.match(result.stdout, /0 updated, 0 created, 15 already current, 0 skipped/);
+  assert.match(result.stdout, /0 updated, 0 created, 16 already current, 0 skipped/);
   assert.equal(fs.readFileSync(path.join(dir, rel), 'utf8'), reformatted);
 });
 
@@ -216,3 +218,47 @@ test('update --dry-run writes nothing and leaves feature docs alone', (t) => {
   assert.ok(!fs.existsSync(path.join(dir, 'CLAUDE.md')));
   assert.doesNotMatch(result.stdout, /feature-001/);
 });
+
+ test('basic installs only instructions and remembers its profile', (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init', '--profile', 'basic').status, 0);
+  assert.ok(!fs.existsSync(path.join(dir, 'docs')));
+  assert.ok(!fs.existsSync(path.join(dir, '.agent-specs/templates')));
+  assert.equal(invoke(dir, 'update').status, 0);
+  assert.ok(!fs.existsSync(path.join(dir, 'docs')));
+  assert.equal(JSON.parse(fs.readFileSync(path.join(dir, '.agent-specs/profile.json'))).profile, 'basic');
+  const agent = path.join(dir, 'AGENTS.md');
+  fs.appendFileSync(agent, '\nCustom rule.\n');
+  const switched = invoke(dir, 'update', '--profile', 'opinionated');
+  assert.equal(switched.status, 0);
+  assert.match(fs.readFileSync(agent, 'utf8'), /Custom rule/);
+  assert.ok(fs.existsSync(path.join(dir, 'docs/WORKFLOW.md')));
+ });
+
+ test('profile switches update known instructions and dry runs preserve profile', (t) => {
+  const dir = setup(t);
+  invoke(dir, 'init', '--profile', 'basic');
+  invoke(dir, 'update', '--profile', 'opinionated', '--dry-run');
+  assert.equal(JSON.parse(fs.readFileSync(path.join(dir, '.agent-specs/profile.json'))).profile, 'basic');
+  assert.equal(invoke(dir, 'update', '--profile', 'opinionated').status, 0);
+  assert.match(fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8'), /Feature workflow and approval gates/);
+  assert.equal(invoke(dir, 'update', '--profile', 'basic').status, 0);
+  assert.doesNotMatch(fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8'), /Feature workflow and approval gates/);
+  assert.ok(fs.existsSync(path.join(dir, 'docs/WORKFLOW.md')));
+ });
+
+ test('noninteractive init defaults to basic and invalid profiles do not write', (t) => {
+  const dir = setup(t);
+  assert.notEqual(invoke(dir, 'init', '--profile', 'unknown').status, 0);
+  assert.deepEqual(fs.readdirSync(dir), []);
+  assert.equal(spawnSync(process.execPath, [cli, 'init'], { cwd: dir, encoding: 'utf8' }).status, 0);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(dir, '.agent-specs/profile.json'))).profile, 'basic');
+ });
+
+ test('legacy installations retain opinionated behavior', (t) => {
+  const dir = setup(t);
+  invoke(dir, 'init');
+  fs.unlinkSync(path.join(dir, '.agent-specs/profile.json'));
+  assert.equal(invoke(dir, 'update').status, 0);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(dir, '.agent-specs/profile.json'))).profile, 'opinionated');
+ });

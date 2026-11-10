@@ -3,7 +3,7 @@
 // so `update` recognizes this version as unmodified in repositories that installed it.
 // Run before every release that changes scaffold/ (`npm test` fails until you do).
 import fs from 'node:fs';
-import { getBundledFingerprints, releasedFingerprintsFile } from '../lib/scaffold.js';
+import { getBundledFingerprints, releasedFingerprintsFile, fingerprint } from '../lib/scaffold.js';
 
 const released = fs.existsSync(releasedFingerprintsFile)
   ? JSON.parse(fs.readFileSync(releasedFingerprintsFile, 'utf8'))
@@ -16,6 +16,8 @@ for (const [rel, hash] of Object.entries(getBundledFingerprints())) {
     added++;
   }
 }
+const basicHash = fingerprint(fs.readFileSync(new URL('../lib/basic-AGENTS.md', import.meta.url), 'utf8'));
+if (!released['AGENTS.md'].includes(basicHash)) { released['AGENTS.md'].push(basicHash); added++; }
 const sorted = Object.fromEntries(Object.keys(released).sort().map((rel) => [rel, released[rel]]));
 fs.writeFileSync(releasedFingerprintsFile, `${JSON.stringify(sorted, null, 2)}\n`);
 console.log(`Recorded ${added} new fingerprint${added === 1 ? '' : 's'}.`);

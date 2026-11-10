@@ -11,7 +11,7 @@ Node.js 20 or newer and npm (for installation or `npx`). The scaffolded reposito
 From the root of any project:
 
 ```sh
-npx scaffold-agent-specs init
+npx scaffold-agent-specs init --profile opinionated
 ```
 
 When the user and agent have discussed a feature and the user **explicitly accepts its scope**:
@@ -38,7 +38,17 @@ npx scaffold-agent-specs feature "Account dashboard" --approved --design --resea
 
 The `feature` command is a convenience for people. Agents are told to create feature directories by copying the templates themselves, following the steps in `docs/WORKFLOW.md`, so they don't depend on the CLI being installed or reachable from a sandbox.
 
-## `init` installs
+## Install profiles
+
+Run `npx scaffold-agent-specs init` to choose interactively between **basic** (quality safeguards and existing project conventions) and **opinionated** (formal feature specs, approval gates, acceptance tracking, and milestone commits). Noninteractive installs default to basic. Select explicitly with `--profile basic` or `--profile opinionated`.
+
+Basic installs `AGENTS.md` and the thin `CLAUDE.md` adapter. Opinionated installs the full scaffold below. Both record the selection in `.agent-specs/profile.json`; commit this file so updates preserve the profile. Older installations without this file retain opinionated behavior when their workflow or template directory exists.
+
+Use `update --profile opinionated` or `update --profile basic` to switch. Released instructions are replaced, customized files are skipped, and `--dry-run` previews without changing the profile. Switching to basic leaves existing templates and feature documents in place; its instructions no longer require the formal workflow. Review skipped instructions when switching, since they can still describe the previous profile. `init` never switches an existing profile; use `update` instead.
+
+The `feature` command requires the opinionated templates. Basic users can install them with `update --profile opinionated`.
+
+## Opinionated `init` installs
 
 ```text
 AGENTS.md
@@ -48,14 +58,14 @@ CLAUDE.md
     adr/ADR.md
     conventions/CONVENTION.md
     feature/{PLAN,ACCEPTANCE_MATRIX,TASKS,DESIGN,RESEARCH,HANDOFF}.md
-    project/{ARCHITECTURE,GLOSSARY}.md
+    project/{ARCHITECTURE,GLOSSARY,VISUAL_DESIGN}.md
 docs/
   WORKFLOW.md
   adr/README.md
   features/README.md
 ```
 
-No speculative feature, ADR, architecture document, glossary, or convention document is created. Those appear only when needed. The templates in `.agent-specs/` are yours to edit; **the `feature` command reads your repository's copy**, including your customizations, not the package's default templates.
+No speculative feature, ADR, architecture document, glossary, visual design reference, or convention document is created. Those appear only when needed. The templates in `.agent-specs/` are yours to edit; **the `feature` command reads your repository's copy**, including your customizations, not the package's default templates.
 
 ## Commands and safety
 
