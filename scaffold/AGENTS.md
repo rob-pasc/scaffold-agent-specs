@@ -34,7 +34,7 @@ Existing-feature work and ordinary fixes follow the user's requested scope; do n
 
 - Update affected documentation in the same change as behavior, architecture, configuration, setup, or public-interface changes.
 - Respect document ownership: `PLAN.md` owns scope and approach; `ACCEPTANCE_MATRIX.md` owns verification evidence; `TASKS.md` owns progress and the sole feature lifecycle status. Optional documents must not supersede them.
-- Create optional documents only when useful. Prefer an existing source of truth and remove stale claims. Follow the workflow's guidance for shared visual design, architecture, glossary, and conventions documents.
+- Create optional documents only when useful. Prefer an existing source of truth and remove stale claims. Follow the workflow's guidance for shared visual design, architecture, glossary, testing, product context, and conventions documents. Read existing product context before scope decisions and the testing guide before planning or running verification; reuse equivalent project documentation.
 - Record significant adopted architectural decisions in `docs/adr/`; keep unimplemented proposals in the plan. Use the ADR template and avoid ADRs for routine local details.
 - Run relevant tests, linters, type checks, and builds before claiming completion, or explain precisely why checks were not run. Record concrete evidence; implementation alone is not a pass.
 - Mark a feature complete only when acceptance criteria pass or the user explicitly accepts exceptions. Report unresolved failures, missing verification, migrations, and follow-up work.

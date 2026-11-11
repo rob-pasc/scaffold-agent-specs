@@ -60,14 +60,16 @@ CLAUDE.md
     adr/ADR.md
     conventions/CONVENTION.md
     feature/{PLAN,ACCEPTANCE_MATRIX,TASKS,DESIGN,RESEARCH,HANDOFF}.md
-    project/{ARCHITECTURE,GLOSSARY,VISUAL_DESIGN}.md
+    project/{ARCHITECTURE,GLOSSARY,VISUAL_DESIGN,TESTING,PRODUCT}.md
 docs/
   WORKFLOW.md
   adr/README.md
   features/README.md
 ```
 
-No speculative feature, ADR, architecture document, glossary, visual design reference, or convention document is created. Those appear only when needed. The templates in `.agent-specs/` are yours to edit; **the `feature` command reads your repository's copy**, including your customizations, not the package's default templates.
+No speculative feature, ADR, architecture document, glossary, visual design reference, testing guide, product context, or convention document is created. Those appear only when needed. The templates in `.agent-specs/` are yours to edit; **the `feature` command reads your repository's copy**, including your customizations, not the package's default templates.
+
+The optional `docs/TESTING.md` explains reusable verification setup, check selection, integration boundaries, and limitations; feature acceptance matrices retain the actual results. Optional `docs/PRODUCT.md` captures agreed users, purpose, core journeys, principles, and non-goals; it does not replace feature scope approval or serve as a roadmap. Agents recommend these documents when needed and reuse existing README, contributing, testing, or product documentation when it already serves the purpose. Neither document is generated during initialization.
 
 ## Commands and safety
 
