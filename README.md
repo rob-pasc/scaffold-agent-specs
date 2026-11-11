@@ -103,6 +103,12 @@ npx scaffold-agent-specs@latest update
 
 There is intentionally no `implement` command: an agent should follow `AGENTS.md` and `docs/WORKFLOW.md` and wait for a separate implementation instruction. ADRs can be created from `.agent-specs/templates/adr/ADR.md` once architectural decisions are adopted.
 
+## Workflow classification
+
+The opinionated workflow uses an ordered [classification procedure](scaffold/docs/WORKFLOW.md#classifying-a-change) for fixes, implementation details, amendments, new features, and behavioral replacements. Amendments preserve earlier completion events and verification evidence while tracking the expanded scope honestly. Direct requests and sentence length do not bypass new-feature gates.
+
+The [classification regression suite](examples/workflow-classification/README.md) defines controlled scenarios, approval boundaries, repeated cross-agent trials, and a completed-amendment walkthrough. It is an evaluation protocol; passing CLI tests does not establish cross-agent consistency.
+
 ## Develop
 
 To run the CLI from a clone of this repository:

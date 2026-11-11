@@ -22,14 +22,13 @@ For new features:
 4. **Stop after specification.** Summarize the documents and blockers. Start implementation only when the user explicitly requests it.
 5. Implement within approved scope, keep documents current, and verify acceptance outcomes before declaring completion.
 
-Existing-feature work and ordinary fixes follow the user's requested scope; do not force a new feature directory for every small change. To extend a completed feature, follow [Amending a completed feature](docs/WORKFLOW.md#amending-a-completed-feature).
+Classify requests using [Classifying a change](docs/WORKFLOW.md#classifying-a-change) before choosing a workflow. That procedure owns the boundaries between fixes, implementation details, amendments, new features, and behavioral replacements, including their approval requirements. Apply it to active and completed features alike. Sentence length, implementation effort, and a direct request do not exempt a new feature from the workflow.
 
 ### Scope and decision boundaries
 
-- Ask before changing promised behavior, exclusions, or acceptance criteria, or adding an independent user-facing capability, however small.
-- A new capability follows the feature workflow even when the user asks for it directly. The only exception is a small one whose whole behavior fits in one sentence, such as an extra option or a single-step command like undo: the request approves it. Before building it, ask about any consequential choice it leaves open, such as which item "most recent" means. If a feature is in progress, commit its current milestone first. Record it in the active or a completed feature when it fits that feature's purpose; otherwise describe it in the commit message. A new view, report, or multi-step workflow, or anything needing more than a quick question to settle, is a new feature.
-- Implementation choices necessary to fulfill agreed outcomes may proceed without renewed approval. This includes validation and error feedback needed to make an agreed form work coherently. Record meaningful choices in the plan. New capabilities such as undo, additional management actions, or a changed recovery policy need approval.
-- Surface major dependencies, migrations that modify or delete existing data, security-sensitive choices, substantial complexity, and broad architectural consequences before committing to them. Follow the workflow for technical refinements within scope.
+- Stay within the approved observable contract. Follow the classification procedure before adding capabilities or changing requirements, exclusions, or acceptance expectations.
+- Separate scope classification from decision approval. Routine implementation choices need no renewed approval; surface major dependencies, migrations that modify or delete existing data, security-sensitive choices, substantial complexity, and broad architectural consequences before committing to them.
+- Reuse explicit authorization already given for the classified scope. Clarifying a consequential choice does not replace the proposal and specification gates for a new feature.
 
 ## Documentation and completion
 

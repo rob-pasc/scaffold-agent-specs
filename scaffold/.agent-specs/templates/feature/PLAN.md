@@ -63,6 +63,8 @@
 | ------------ | ---------------------- | -------------------------------------------- |
 | [YYYY-MM-DD] | Initial approved scope | [Explicit approval reference / conversation] |
 
+For amendments, append the bounded scope and approval reference above before implementation; preserve existing requirements and exclusions and append new IDs. Lifecycle events belong in `TASKS.md`, and historical and current verification evidence in `ACCEPTANCE_MATRIX.md`.
+
 ## Related and superseded features
 
 [State 'None' if unrelated to earlier features. Otherwise link the relevant feature plans and identify the affected requirement and acceptance IDs, the behavior being replaced or extended, and what remains unchanged. Qualify IDs with their feature because IDs are local to each feature. Distinguish planned replacement from implemented supersession; approval alone does not replace existing behavior.]

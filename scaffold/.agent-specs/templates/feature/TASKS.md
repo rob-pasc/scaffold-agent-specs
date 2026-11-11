@@ -11,7 +11,7 @@ This is the **authoritative progress checklist**. Draft ordered, independently v
 - `Ready`: readiness checked before implementation; remaining blockers are listed below.
 - `In progress`: implementation underway.
 - `Implemented (verification pending)`: tasks done, but some acceptance criteria are not yet `Pass`.
-- `Complete`: every acceptance criterion is `Pass`, or the user has explicitly accepted the exceptions.
+- `Complete`: every required current-scope acceptance criterion has passing applicable evidence, or the user has explicitly accepted the exceptions. For amendments, consult appended verification runs; historical passes do not override current failures or missing verification.
 
 ## Tasks
 
@@ -26,3 +26,7 @@ This is the **authoritative progress checklist**. Draft ordered, independently v
 ## Progress notes
 
 [Only durable information needed to interpret task state. Put architecture rationale in `PLAN.md` or adopted ADRs, and test results in `ACCEPTANCE_MATRIX.md`.]
+
+## Lifecycle history
+
+[Append dated completion and reopening/scope-extension events as they occur. Include covered requirement/acceptance IDs and a reference to verification evidence for completion; link the scope change for amendments. Preserve prior events and task checkmarks. Do not invent dates for missing history. This is an event log, not another current status. Before any such events, state 'No lifecycle events recorded yet'.]
