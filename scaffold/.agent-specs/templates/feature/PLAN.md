@@ -57,6 +57,12 @@
 | ------------ | ---------------------- | -------------------------------------------- |
 | [YYYY-MM-DD] | Initial approved scope | [Explicit approval reference / conversation] |
 
+## Related and superseded features
+
+[State 'None' if unrelated to earlier features. Otherwise link the relevant feature plans and identify the affected requirement and acceptance IDs, the behavior being replaced or extended, and what remains unchanged. Qualify IDs with their feature because IDs are local to each feature. Distinguish planned replacement from implemented supersession; approval alone does not replace existing behavior.]
+
+[When replacement is implemented, record its date and implementation reference here and add a reciprocal note to the earlier plan. Preserve the earlier scope and verification history; follow the supersession rules in docs/WORKFLOW.md.]
+
 ## References
 
 - Acceptance criteria: [`ACCEPTANCE_MATRIX.md`](./ACCEPTANCE_MATRIX.md)

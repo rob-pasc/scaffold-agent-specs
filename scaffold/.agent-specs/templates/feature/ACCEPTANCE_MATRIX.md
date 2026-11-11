@@ -19,6 +19,8 @@ Each row must specify **observable behavior**, a verification method, and actual
 
 If the user approves changing or waiving a criterion, update the approved scope in `PLAN.md` and document that decision explicitly. Do not silently convert a failing criterion into a pass.
 
+If a later feature supersedes this behavior, preserve these criteria, results, and evidence as historical records. Add a dated note under verification notes identifying the affected IDs and linking to the replacement feature's plan and acceptance matrix. A historical `Pass` does not verify the replacement; its matrix must record fresh evidence. See the supersession rules in `docs/WORKFLOW.md`.
+
 ## Verification notes
 
 [Commands, test environment, observations, limitations, and links to test reports. Leave as 'Not yet verified' during initial specification.]

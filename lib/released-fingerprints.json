@@ -10,7 +10,8 @@
   ],
   ".agent-specs/templates/feature/ACCEPTANCE_MATRIX.md": [
     "2c4ced9eefb608d9dac68708a760b4425bafccb287dfd3701d16d4f416afa7a8",
-    "418ad2f5d8693d63d436e77b61d09a335919cbe7caad702c62e330cbfcc8bc2e"
+    "418ad2f5d8693d63d436e77b61d09a335919cbe7caad702c62e330cbfcc8bc2e",
+    "13465e7579dee1327232b4d2ca468b4c2dae7e988764a0149f9dfeb9febfa39f"
   ],
   ".agent-specs/templates/feature/DESIGN.md": [
     "67ab041fede40d545a8a1e39866648e0fbbea0dfcc754082e6484d90d4e9780d",
@@ -22,7 +23,8 @@
   ],
   ".agent-specs/templates/feature/PLAN.md": [
     "41f8adea2769c825a4e50b82ab1c7f20249923fd8fd0cdb2f91a3c45626cd723",
-    "66e60c4ac70c18ff549a57691b73113dc0f015fcfefcbad537a20fe1213f3702"
+    "66e60c4ac70c18ff549a57691b73113dc0f015fcfefcbad537a20fe1213f3702",
+    "08bfa77df5a28778ea6ab9d8c44858c3fe37f6beb2719f38f30cfc314f80f147"
   ],
   ".agent-specs/templates/feature/RESEARCH.md": [
     "667580dd935face184e8f8a8177a092bf8d146a9e60c9396fddbae2b64c9cb40",
@@ -66,7 +68,8 @@
     "e737237b908dc482b01f07d69cc9c885216f5268a199863ab56203347af17564",
     "ee6a539425172b2efc0477cbf2cf2b07fa0f5cc79d0b06a794e75922101b2961",
     "ee972b6193146aef80b85fbb76a5289d651173032daa14fc5fe3744c3d36a930",
-    "6ae499a00796e17367c1c25bd5f162b040622aa1bcc4f0d39ba5efc8817bfbd3"
+    "6ae499a00796e17367c1c25bd5f162b040622aa1bcc4f0d39ba5efc8817bfbd3",
+    "59708748d05e26859c71eb9beab4f27b1e9dcded7bc4648d04bb35033b853022"
   ],
   "docs/adr/README.md": [
     "1d2c05c11246d0d45592f930b3a339bf454363875b968f650165e91a906c95af"

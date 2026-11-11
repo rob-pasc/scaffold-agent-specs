@@ -5,7 +5,7 @@ This document expands the feature lifecycle required by [`AGENTS.md`](../AGENTS.
 ## Phase 1: Discover (conversation only)
 
 - Read existing code and documentation when relevant, then explore the user's idea collaboratively.
-- Check for overlap with existing features: list `docs/features/` and judge by folder names. Open a feature's `PLAN.md` only when its name suggests related scope, and read its summary and approved scope rather than the whole folder. If scope overlaps, say so in the proposal and settle with the user which feature owns it.
+- Check for overlap with existing features: list `docs/features/` and judge by folder names. Open a feature's `PLAN.md` only when its name suggests related scope, and read its summary, approved scope, and any supersession notes rather than the whole folder. Follow relevant replacement links to understand current behavior. If scope overlaps, say so in the proposal and settle with the user which feature owns it.
 - Ask focused clarifying questions, using the agent's interactive question interface where available or normal chat otherwise. Prefer small, purposeful batches over long questionnaires.
 - Establish the problem, target users, expected behaviors, important edge cases, constraints, dependencies, and exclusions.
 - Ask how the user wants the feature verified when that affects effort or tooling, for example browser end-to-end tests or checks on a device or service the agent can't reach. If the project already has a test approach, follow it instead of asking.
@@ -56,6 +56,8 @@ Required and optional documents:
 
 Write the approved scope into `PLAN.md`. Draft acceptance criteria and tasks that correspond to that scope. Use stable requirement (`FR-001`), acceptance (`AC-001`), and task (`T-001`) IDs and cross-reference them where practical. State each criterion's verification method as the observable check (for example "journey completes in a browser at 360 px width"), not a specific test tool, unless the user or the project has already chosen one; tooling is an implementation choice. Put unresolved technical questions in the plan, rather than inventing answers. Add `DESIGN.md` only for substantial design detail, and `RESEARCH.md` only when research findings are worth retaining. Do not write an ADR for an unimplemented option.
 
+If the approved scope changes behavior owned by an earlier feature, fill the plan's "Related and superseded features" section using the rules below. Treat the relationship as planned until the replacement is implemented.
+
 **Then stop.** Tell the user what was scaffolded, identify open decisions or blockers, and wait for an explicit implementation request. Feature approval is **not** implementation authorization.
 
 ## Phase 4: Implement (separate explicit request)
@@ -73,11 +75,23 @@ Write the approved scope into `PLAN.md`. Draft acceptance criteria and tasks tha
 - Review each acceptance criterion against observable evidence. Use `Pass`, `Fail`, `Blocked`, or `Not run`; never invent a result. If a criterion is waived or removed, record the user's approval and update scope accordingly.
 - Run applicable checks and document anything not run.
 - Reconcile `PLAN.md` with what shipped: its technical approach, assumptions, and references (ADRs, related features) must describe the implementation, with no stale claims left, and any behavior added during implementation must appear in its requirements.
+- For implemented replacements, reconcile supersession links and historical verification notes in the affected earlier features using the rules below. Apply this reconciliation to the active plan; preserve earlier specifications as historical records with explicit supersession notes.
 - Update affected user/developer/project documentation in the same change. Maintain the shared visual design reference, `docs/ARCHITECTURE.md`, `docs/GLOSSARY.md`, and `docs/conventions/` when they exist and are affected by the change.
 - Check whether a missing project document has become useful. Consider `docs/conventions/` for a rule that earlier features also relied on and that the code doesn't make obvious (one whose violation would be a silent bug), and `docs/GLOSSARY.md` for domain terms used across several features or easily confused with each other. **Report useful recommendations** with a brief explanation; omit candidates that would not add value. The user decides; don't create the document until they agree.
 - Create ADRs for meaningful architectural decisions **actually adopted**. Normally do this after the implementation is known; for a consequential choice adopted earlier, record it at that point.
 - Report what shipped, what was validated, any limitations, and whether the feature is complete. A feature is not complete while required acceptance criteria remain failing, blocked, or unverified.
 - Set the `TASKS.md` status to `Complete` only when that holds; otherwise use `Implemented (verification pending)` and list what remains.
+
+## Superseding earlier feature specifications
+
+A later feature may replace only part of an earlier feature. Related work or an extension does not automatically supersede the entire earlier specification.
+
+- **During specification:** In the new plan's "Related and superseded features" section, link the earlier plan and identify exactly which requirements and acceptance criteria will change, the replacement behavior, and what remains in force. Qualify references with the feature ID (for example, `feature-003-export / FR-002`), since IDs repeat across features. Label the replacement as planned; scope approval alone does not mean the current behavior has changed.
+- **When implemented:** Record the effective replacement date and a commit, PR, or other concrete implementation reference in the new plan. Add a reciprocal "Related and superseded features" note to the earlier plan identifying the affected IDs and linking to the replacement. For staged rollouts, state where the replacement is effective and where the earlier behavior still applies. Do not mark unimplemented portions as superseded.
+- **Preserve evidence:** Keep the earlier requirements, acceptance rows, results, and evidence intact. Add a dated supersession note to the earlier acceptance matrix's verification notes, naming affected criteria and linking to the new plan and matrix. An old `Pass` describes the earlier behavior at the recorded verification point; it is not evidence for the replacement. Verify replacement behavior in the new feature's matrix, leaving unverified criteria `Not run` or `Blocked` as appropriate.
+- **Preserve lifecycle history:** Do not reopen a completed feature or rewrite its task checklist merely because a later feature replaces its behavior. Supersession is a relationship recorded in the plans, not a new lifecycle status or acceptance result. Unaffected requirements remain in force. Correcting genuinely inaccurate records is separate from supersession and must be explained explicitly.
+
+For example, if feature 012 replaces feature 003's CSV delimiter, both plans identify the affected requirement and acceptance IDs. Feature 003 retains its original delimiter test result with a note pointing to feature 012; feature 012 records its own evidence for the new delimiter. Other export behavior remains governed by the unchanged requirements.
 
 ## Maintaining the source of truth
 
