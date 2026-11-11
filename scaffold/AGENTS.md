@@ -1,68 +1,47 @@
 # Repository Agent Instructions
 
-These are the shared instructions for AI coding agents working in this repository. Keep tool-specific instructions (for example, Claude Code instructions) in their own thin adapter files rather than duplicating this document.
+These shared instructions apply to all coding agents. Keep tool-specific adapter files thin and link here instead of duplicating rules.
 
 ## Working principles
 
-- Read this file before working, and read [`docs/WORKFLOW.md`](docs/WORKFLOW.md) when discussing, specifying, implementing, or completing a feature.
-- Inspect relevant code, tests, and existing documentation before asking questions or proposing an approach. Don't ask for information the repository already answers.
-- Prefer the smallest coherent change. Follow existing project conventions and avoid unrelated refactors. Consult relevant documents in `docs/conventions/` when that directory exists.
-- Be transparent about assumptions, uncertainty, incomplete work, and failed or unrun checks. Never present unverified behavior as tested.
-- Use interactive question tools when available; otherwise ask in chat. Ask focused questions that materially affect scope, behavior, UX, data, security, or architecture. Propose sensible defaults for minor details.
+- Inspect relevant code, tests, and documentation before asking questions or proposing an approach. Do not ask for information the repository already answers.
+- Prefer the smallest coherent change, follow project conventions, and avoid unrelated refactors. Consult relevant `docs/conventions/` documents when present.
+- State assumptions, uncertainty, incomplete work, and failed or unrun checks honestly. Never claim unverified success.
+- Use interactive question tools when available, otherwise chat. Ask focused questions about consequential choices and choose sensible defaults for minor details.
 - Keep the human in control of scope and significant architectural tradeoffs.
 
 ## Feature workflow and approval gates
 
-For **new features**, follow this sequence:
+Read [`docs/WORKFLOW.md`](docs/WORKFLOW.md) when discussing, specifying, implementing, or completing a feature. It owns the detailed procedure and document contracts.
 
-1. **Discover:** Discuss the idea with the user. Understand the problem, users, expected behavior, constraints, boundaries, and unresolved questions. Do not implement the feature or create its feature directory during discovery.
-2. **Propose:** Present a concise scope summary covering the goal, in-scope and out-of-scope behavior, important acceptance outcomes, assumptions, and consequential open questions. If the scope holds parts that can be built and verified on their own, propose splitting it into several features. Explicitly offer **accept / revise / discard**.
-3. **Get approval:** Treat only a clear, affirmative user response as scope approval. If the user revises the proposal, summarize the revised scope and seek approval again. If discarded, do not create feature artifacts.
-4. **Specify:** After approval, create `docs/features/feature-NNN-kebab-case/` and populate `PLAN.md`, `ACCEPTANCE_MATRIX.md`, and `TASKS.md` from `.agent-specs/templates/feature/`, following the steps in [`docs/WORKFLOW.md`](docs/WORKFLOW.md) (Phase 3). Add `DESIGN.md` for substantial UX/technical design and `RESEARCH.md` for findings worth preserving, only when needed. Create `HANDOFF.md` when a real session handoff is useful. Record the approved scope faithfully. Mark proposed technical choices as proposed, not approved.
-5. **Stop at the spec boundary:** After writing the feature documents, summarize what was created and stop. **Do not start implementation** until the user explicitly requests it, possibly in a later session.
-6. **Implement and verify:** On an explicit implementation request, review the feature documents and relevant code. Resolve blockers, surface consequential technical choices, then execute tasks, validate acceptance criteria, and keep the documents current.
-7. **Finish:** Update related documentation, capture architectural decisions actually adopted, report verification evidence and remaining limitations, and mark the feature complete only when acceptance criteria are satisfied or exceptions explicitly accepted by the user.
+For new features:
 
-Existing-feature work and ordinary fixes should follow the user's requested scope; do not force a new feature directory for every small change.
+1. Discuss the problem and inspect the repository before proposing scope. Do not implement or create feature artifacts during discovery.
+2. Present scope, acceptance expectations, exclusions, and consequential open questions. Offer **accept / revise / discard**; obtain clear affirmative approval, including renewed approval after revisions.
+3. After approval, populate `PLAN.md`, `ACCEPTANCE_MATRIX.md`, and `TASKS.md` from the feature templates. Record approved scope faithfully and distinguish proposed technical choices from adopted decisions.
+4. **Stop after specification.** Summarize the documents and blockers. Start implementation only when the user explicitly requests it.
+5. Implement within approved scope, keep documents current, and verify acceptance outcomes before declaring completion.
 
-### Scope changes and technical decisions
+Existing-feature work and ordinary fixes follow the user's requested scope; do not force a new feature directory for every small change.
 
-- An approved feature scope is the baseline. Ask for renewed approval before materially changing promised behavior, exclusions, or acceptance criteria, and before adding user-visible behavior the scope doesn't include, however small.
-- Technical implementation details can evolve within that scope. Surface decisions that introduce major dependencies, migrations that modify or delete existing data, security implications, substantial complexity, or broad architectural consequences before committing to them.
-- Keep proposed decisions in the feature `PLAN.md`. Add a project-wide ADR **when a significant architectural decision has actually been adopted**, typically after implementation. For consequential decisions adopted earlier, record the ADR at adoption rather than losing the rationale. Never turn an unimplemented proposal into an accepted ADR.
+### Scope and decision boundaries
 
-## Feature documentation contracts
+- Ask before changing promised behavior, exclusions, or acceptance criteria, or adding an independent user-facing capability, however small.
+- Implementation choices necessary to fulfill agreed outcomes may proceed without renewed approval. This includes validation and error feedback needed to make an agreed form work coherently. Record meaningful choices in the plan. New capabilities such as undo, additional management actions, or a changed recovery policy need approval.
+- Surface major dependencies, migrations that modify or delete existing data, security-sensitive choices, substantial complexity, and broad architectural consequences before committing to them. Follow the workflow for technical refinements within scope.
 
-- **`PLAN.md`** explains _why and what_, including approved scope, requirements, constraints, risks, and the proposed technical direction.
-- **`ACCEPTANCE_MATRIX.md`** defines objectively verifiable outcomes and records methods, results, and evidence. Do not claim a pass without evidence.
-- **`TASKS.md`** is the authoritative checklist for implementation progress and holds the feature's lifecycle status. Keep items small and link them to acceptance IDs where practical.
-- **`DESIGN.md`** is optional detailed technical/interaction design, not a second feature specification.
-- **`RESEARCH.md`** is optional durable investigative findings, not an approved decision.
-- **`HANDOFF.md`** is optional, temporary context for a session or agent transition. It must never supersede the plan, acceptance matrix, or task checklist.
-- Feature directories use `feature-NNN-kebab-case`, with three-digit IDs starting at `001`. Choose the next number above the highest existing feature ID; never reuse a retired ID.
-- Use stable IDs such as `FR-001` (requirement), `AC-001` (acceptance), and `T-001` (task) so documents can cross-reference each other.
+## Documentation and completion
 
-## Documentation and architecture decisions
-
-- Update relevant documentation **in the same change** when code changes behavior, architecture, configuration, developer setup, or public interfaces. Documentation is part of done, not an optional follow-up.
-- Record durable, cross-cutting architectural decisions in `docs/adr/`. Use `.agent-specs/templates/adr/ADR.md` for the format; real ADRs start at `adr-001-...`.
-- An ADR records context, the adopted decision, alternatives and tradeoffs, consequences, and references. Avoid ADRs for routine local implementation details.
-- Do not write speculative ADRs during feature discovery or initial specification. Capture proposed approaches and uncertainties in `PLAN.md` instead.
-- Keep docs concise and accurate; remove stale claims rather than merely appending new text.
-- For projects with a visual user interface, maintain a shared visual design reference. Reuse existing design-system documentation when available; otherwise create `docs/VISUAL_DESIGN.md` when defining or changing shared visual conventions. Read the reference before UI work and update it when those conventions change. Ground it in the existing interface and agreed direction; clearly distinguish proposals from adopted conventions. Keep feature-specific interactions in the feature `DESIGN.md`, linking to shared rules instead of duplicating them.
-- Practice **progressive documentation**: create an optional document only to solve a concrete problem. Prefer updating an existing source of truth over producing redundant or empty files.
-- If maintained, keep `docs/ARCHITECTURE.md` aligned with the _implemented_ system, `docs/GLOSSARY.md` aligned with shared domain language, and `docs/conventions/` aligned with stable project-specific practices. Create them only when useful, from `.agent-specs/templates/project/` or `.agent-specs/templates/conventions/`. When closing a feature, check whether one has become useful and report your recommendation to the user (see [`docs/WORKFLOW.md`](docs/WORKFLOW.md), Phase 5). An adopted architecture decision still belongs in an ADR.
-
-## Verification and completion
-
-- Before claiming completion, run relevant tests, linters, type checks, and build checks supported by the repository, or explain precisely why they were not run.
-- Update acceptance results with concrete evidence (test name, command, output summary, or a reproducible manual check). Never infer a pass from implementation alone.
-- Keep `TASKS.md` synchronized with actual progress, including its status, which is the single lifecycle status for the feature. Do not mark blocked or incomplete work as done.
-- Call out unresolved failures, missing coverage, migrations, and follow-up work explicitly.
+- Update affected documentation in the same change as behavior, architecture, configuration, setup, or public-interface changes.
+- Respect document ownership: `PLAN.md` owns scope and approach; `ACCEPTANCE_MATRIX.md` owns verification evidence; `TASKS.md` owns progress and the sole feature lifecycle status. Optional documents must not supersede them.
+- Create optional documents only when useful. Prefer an existing source of truth and remove stale claims. Follow the workflow's guidance for shared visual design, architecture, glossary, and conventions documents.
+- Record significant adopted architectural decisions in `docs/adr/`; keep unimplemented proposals in the plan. Use the ADR template and avoid ADRs for routine local details.
+- Run relevant tests, linters, type checks, and builds before claiming completion, or explain precisely why checks were not run. Record concrete evidence; implementation alone is not a pass.
+- Mark a feature complete only when acceptance criteria pass or the user explicitly accepts exceptions. Report unresolved failures, missing verification, migrations, and follow-up work.
 
 ## Git commits
 
-Commit your work as you go, without waiting to be asked. Commit approved feature specs on their own. During implementation, commit at **milestones**: points you would want to return to. A milestone passes the relevant checks and has one theme you can describe in a sentence, such as the domain logic for a feature with its tests, or the UI built on top of it. A feature typically takes a few commits; neither one per task nor one per feature. Also commit before risky steps (large refactors, migrations, dependency changes) and before ending a session. Split a commit that would mix unrelated concerns.
+Follow the user's explicit commit preference first, including requests to review diffs before commits or to leave work uncommitted. Otherwise, commit your work as you go, without waiting to be asked. Commit approved feature specs on their own. During implementation, commit at **milestones**: points you would want to return to. A milestone passes the relevant checks and has one theme you can describe in a sentence, such as the domain logic for a feature with its tests, or the UI built on top of it. A feature typically takes a few commits; neither one per task nor one per feature. Also commit before risky steps (large refactors, migrations, dependency changes) and before ending a session. Split a commit that would mix unrelated concerns.
 
 - Run the relevant checks before committing. If you commit while something is failing or incomplete, say so in the message.
 - Don't commit secrets, credentials, local environment files, or build output that the repository doesn't already track.

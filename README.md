@@ -38,6 +38,8 @@ npx scaffold-agent-specs feature "Account dashboard" --approved --design --resea
 
 The `feature` command is a convenience for people. Agents are told to create feature directories by copying the templates themselves, following the steps in `docs/WORKFLOW.md`, so they don't depend on the CLI being installed or reachable from a sandbox.
 
+For a complete request-to-verification walkthrough with runnable code, see the [worked example](examples/feature-workflow/README.md).
+
 ## Install profiles
 
 Run `npx scaffold-agent-specs init` to choose interactively between **basic** (quality safeguards and existing project conventions) and **opinionated** (formal feature specs, approval gates, acceptance tracking, and milestone commits). Noninteractive installs default to basic. Select explicitly with `--profile basic` or `--profile opinionated`.
@@ -84,7 +86,7 @@ No speculative feature, ADR, architecture document, glossary, visual design refe
 | `--dir PATH` | Work in a specified repository root instead of the current directory. |
 | `--help` / `--version` | Show help or the CLI version. |
 
-Feature IDs are allocated above the **largest existing** feature ID, starting at `001`. Running `init` again adds newly missing files but never replaces existing ones. `init` refuses to write through symlinked paths under the chosen root.
+Feature IDs are allocated above the **largest existing** feature ID, starting at `001`. Feature creation uses a shared lock so concurrent commands cannot allocate the same ID. If another command holds the lock, retry after it finishes. After a crash, remove `docs/features/.agent-specs-feature.lock/` only after confirming no feature command is running. Dry runs do not reserve IDs. Running `init` again adds newly missing files but never replaces existing ones. `init` refuses to write through symlinked paths under the chosen root.
 
 ## Updating an existing repository
 
@@ -93,7 +95,7 @@ npx scaffold-agent-specs@latest update --dry-run   # preview
 npx scaffold-agent-specs@latest update
 ```
 
-`update` compares each scaffold file in your repository with every released version of it. A file that still matches a released version is replaced with the current one, and a file that is missing is created. A file you have customized is skipped and reported, so you can merge the changes by hand or rerun with `--force`. Formatting-only differences (for example, Prettier padding tables) don't count as customizations. Feature documents in `docs/features/feature-*/` are never touched, so existing features keep the layout they were written with.
+`update` compares each scaffold file in your repository with every released version of it. A file that still matches a released version is replaced with the current one, and a file that is missing is created. A file you have customized is skipped and reported, so you can merge the changes by hand or rerun with `--force`. Matching is exact: formatting changes also count as customizations, because whitespace and punctuation can affect meaning. Historical releases are recognized using hashes of their original contents; previously reformatted copies may need a manual merge. Feature documents in `docs/features/feature-*/` are never touched, so existing features keep the layout they were written with.
 
 There is intentionally no `implement` command: an agent should follow `AGENTS.md` and `docs/WORKFLOW.md` and wait for a separate implementation instruction. ADRs can be created from `.agent-specs/templates/adr/ADR.md` once architectural decisions are adopted.
 
@@ -118,6 +120,8 @@ npm pack                # Produce local npm tarball for testing
 ```
 
 For the release steps, see [`PUBLISHING.md`](PUBLISHING.md).
+
+Pull requests run tests (including an actual npm tarball smoke test) and scaffold formatting checks on Node.js 20, 22, and 24. Publishing remains manual.
 
 ## License
 

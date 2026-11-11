@@ -3,7 +3,7 @@ import { test } from 'node:test';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const cli = fileURLToPath(new URL('../bin/scaffold-agent-specs.js', import.meta.url));
@@ -154,7 +154,8 @@ test('invalid arguments are rejected without modifying the directory', (t) => {
 const bundled = fileURLToPath(new URL('../scaffold/', import.meta.url));
 const released = JSON.parse(fs.readFileSync(new URL('../lib/released-fingerprints.json', import.meta.url), 'utf8'));
 test('every bundled scaffold file is recorded in released-fingerprints.json', async () => {
-  const { getBundledFingerprints } = await import('../lib/scaffold.js');
+  const { getBundledFingerprints, fingerprint } = await import('../lib/scaffold.js');
+  assert.ok(released['AGENTS.md'].includes(fingerprint(fs.readFileSync(new URL('../lib/basic-AGENTS.md', import.meta.url), 'utf8'))), 'Basic profile changed; run npm run fingerprints');
   for (const [rel, hash] of Object.entries(getBundledFingerprints())) {
     assert.ok(released[rel]?.includes(hash), `${rel} changed; run node scripts/record-fingerprints.js`);
   }
@@ -174,7 +175,7 @@ test('update replaces files from an older release and creates missing ones', (t)
   assert.equal(fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8'), fs.readFileSync(path.join(bundled, 'AGENTS.md'), 'utf8'));
 });
 
-test('update treats a reformatted released file as unmodified', async (t) => {
+test('update preserves and reports reformatted files as customized', async (t) => {
   const dir = setup(t);
   assert.equal(invoke(dir, 'init').status, 0);
   const rel = 'docs/WORKFLOW.md';
@@ -183,8 +184,8 @@ test('update treats a reformatted released file as unmodified', async (t) => {
   fs.writeFileSync(path.join(dir, rel), reformatted);
   const result = invoke(dir, 'update');
   assert.equal(result.status, 0, result.stderr);
-  // Same content apart from formatting: left alone, not counted as modified.
-  assert.match(result.stdout, /0 updated, 0 created, 16 already current, 0 skipped/);
+  // Even formatting changes require a manual merge with exact fingerprints.
+  assert.match(result.stdout, /0 updated, 0 created, 15 already current, 1 skipped/);
   assert.equal(fs.readFileSync(path.join(dir, rel), 'utf8'), reformatted);
 });
 
@@ -262,3 +263,98 @@ test('update --dry-run writes nothing and leaves feature docs alone', (t) => {
   assert.equal(invoke(dir, 'update').status, 0);
   assert.equal(JSON.parse(fs.readFileSync(path.join(dir, '.agent-specs/profile.json'))).profile, 'opinionated');
  });
+
+
+test('fingerprints preserve meaningful punctuation and whitespace', async () => {
+  const { fingerprint } = await import('../lib/scaffold.js');
+  for (const [a, b] of [
+    ['Use --force to overwrite.', 'Use force to overwrite.'],
+    ['Read docs/feature-001/PLAN.md', 'Read docs/feature001/PLAN.md'],
+    ['Read PLAN.md', 'Read P LAN.md'],
+    ['Use user_id', 'Use userid'],
+    ['Match *.md', 'Match .md'],
+  ]) assert.notEqual(fingerprint(a), fingerprint(b));
+});
+
+test('update preserves meaningful edits to an old release, including dry runs', (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init').status, 0);
+  const dest = path.join(dir, 'AGENTS.md');
+  const old = fs.readFileSync(new URL('./fixtures/v0.1.1/AGENTS.md', import.meta.url), 'utf8');
+  const customized = old.replaceAll('PLAN.md', 'P LAN.md');
+  assert.notEqual(customized, old);
+  fs.writeFileSync(dest, customized);
+  for (const options of [['--dry-run'], []]) {
+    const result = invoke(dir, 'update', ...options);
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /AGENTS.md \(modified locally\)/);
+    assert.equal(fs.readFileSync(dest, 'utf8'), customized);
+  }
+});
+
+test('feature lock prevents allocation and is released after success', (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init').status, 0);
+  const features = path.join(dir, 'docs/features');
+  const lock = path.join(features, '.agent-specs-feature.lock');
+  fs.mkdirSync(lock);
+  const blocked = invoke(dir, 'feature', 'Different title', '--approved');
+  assert.notEqual(blocked.status, 0);
+  assert.match(blocked.stderr, /Feature creation is locked/);
+  assert.deepEqual(fs.readdirSync(features).sort(), ['.agent-specs-feature.lock', 'README.md']);
+  assert.equal(invoke(dir, 'feature', 'Preview', '--dry-run').status, 0);
+  assert.ok(fs.existsSync(lock), 'dry run must not remove another process lock');
+  fs.rmdirSync(lock);
+  assert.equal(invoke(dir, 'feature', 'Different title', '--approved').status, 0);
+  assert.ok(!fs.existsSync(lock));
+});
+
+test('concurrent feature commands never allocate duplicate IDs', async (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init').status, 0);
+  const results = await Promise.all(Array.from({ length: 8 }, (_, i) => new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, [cli, 'feature', `Concurrent ${i}`, '--approved'], { cwd: dir, stdio: 'ignore' });
+    child.on('error', reject);
+    child.on('close', resolve);
+  })));
+  const folders = fs.readdirSync(path.join(dir, 'docs/features')).filter(name => name.startsWith('feature-'));
+  assert.ok(folders.length > 0);
+  assert.equal(folders.length, results.filter(code => code === 0).length);
+  assert.equal(new Set(folders.map(name => name.split('-')[1])).size, folders.length);
+  for (const folder of folders) {
+    assert.deepEqual(fs.readdirSync(path.join(dir, 'docs/features', folder)).sort(), ['ACCEPTANCE_MATRIX.md', 'PLAN.md', 'TASKS.md']);
+  }
+  assert.ok(!fs.existsSync(path.join(dir, 'docs/features/.agent-specs-feature.lock')));
+});
+
+test('update rejects a directory where a file belongs before changing other files', (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init').status, 0);
+  fs.unlinkSync(path.join(dir, 'AGENTS.md'));
+  fs.unlinkSync(path.join(dir, 'docs/WORKFLOW.md'));
+  fs.mkdirSync(path.join(dir, 'docs/WORKFLOW.md'));
+  const result = invoke(dir, 'update');
+  assert.notEqual(result.status, 0);
+  assert.ok(!fs.existsSync(path.join(dir, 'AGENTS.md')), 'preflight must prevent partial updates');
+});
+
+test('failed feature writes remove partial files and release the allocation lock', async (t) => {
+  const dir = setup(t);
+  const { initProject, createFeature } = await import('../lib/scaffold.js');
+  initProject(dir, { profile: 'opinionated', log: () => {} });
+  const original = fs.writeFileSync;
+  try {
+    fs.writeFileSync = (file, ...args) => {
+      if (String(file).endsWith('feature-001-failure/TASKS.md')) {
+        throw new Error('Simulated disk write failure');
+      }
+      return original(file, ...args);
+    };
+    assert.throws(() => createFeature(dir, 'Failure', { approved: true, log: () => {} }), /Simulated disk write failure/);
+  } finally {
+    fs.writeFileSync = original;
+  }
+  assert.deepEqual(fs.readdirSync(path.join(dir, 'docs/features')), ['README.md']);
+  createFeature(dir, 'Recovery', { approved: true, log: () => {} });
+  assert.ok(fs.existsSync(path.join(dir, 'docs/features/feature-001-recovery/TASKS.md')));
+});

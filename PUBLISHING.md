@@ -4,7 +4,7 @@
 
 ## Before releasing
 
-1. If `scaffold/` changed, run `npm run fingerprints` and commit `lib/released-fingerprints.json` with the scaffold change. Otherwise `update` treats files from this release as customized in repositories that install it, and `npm test` fails.
+1. If `scaffold/` or `lib/basic-AGENTS.md` changed, run `npm run fingerprints` and commit `lib/released-fingerprints.json` with the scaffold change. Otherwise `update` treats files from this release as customized in repositories that install it, and `npm test` fails.
 2. Run the checks:
 
    ```sh
@@ -56,3 +56,9 @@ Official npm references:
 - https://docs.npmjs.com/cli/commands/npm-version/
 - https://docs.npmjs.com/cli/commands/npm-deprecate/
 - https://docs.npmjs.com/trusted-publishers/ (for later CI publishing)
+
+## Fingerprint compatibility
+
+Fingerprints use SHA-256 of exact file contents. Do not restore the former whitespace/punctuation normalization as a fallback: it can identify meaningful local edits as released content and overwrite them. Formatting changes now require a manual merge.
+
+The migration to exact hashes rebuilt historical entries from the original `scaffold/` files in local tags `v0.1.0` through `v0.1.8`, plus the pre-migration HEAD's scaffold and basic profile. `npm run fingerprints` appends current contents without removing those historical entries. When recovering another historical version, hash its original files; if the contents cannot be established, leave it unrecognized so update conservatively skips it.
