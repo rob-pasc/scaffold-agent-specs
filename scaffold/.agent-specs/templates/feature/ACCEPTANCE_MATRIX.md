@@ -5,6 +5,8 @@
 
 Each row must specify **observable behavior**, a verification method, and actual evidence. Write criteria when specifying the feature; update result and evidence during implementation. Do not mark `Pass` based solely on code inspection or optimism.
 
+When release or recovery checks are part of the approved scope, include rows for the relevant rollout, migration, post-release behavior, and recovery outcomes. Record the version, environment, command or observation, and evidence link. Passing local tests does not establish production success or recoverability. Required checks awaiting release stay `Not run` or `Blocked`; checks explicitly outside this feature's scope belong in the plan's release handoff, not in invented passing rows.
+
 | ID     | Requirement | Scenario / expected outcome                      | Verification method             | Result  | Evidence                     |
 | ------ | ----------- | ------------------------------------------------ | ------------------------------- | ------- | ---------------------------- |
 | AC-001 | FR-001      | [Given/when/then or clear expected result]       | [Test name or manual procedure] | Not run | [Add evidence when verified] |

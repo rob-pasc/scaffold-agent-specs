@@ -60,16 +60,18 @@ CLAUDE.md
     adr/ADR.md
     conventions/CONVENTION.md
     feature/{PLAN,ACCEPTANCE_MATRIX,TASKS,DESIGN,RESEARCH,HANDOFF}.md
-    project/{ARCHITECTURE,GLOSSARY,VISUAL_DESIGN,TESTING,PRODUCT}.md
+    project/{ARCHITECTURE,GLOSSARY,VISUAL_DESIGN,TESTING,PRODUCT,DEPLOYMENT}.md
 docs/
   WORKFLOW.md
   adr/README.md
   features/README.md
 ```
 
-No speculative feature, ADR, architecture document, glossary, visual design reference, testing guide, product context, or convention document is created. Those appear only when needed. The templates in `.agent-specs/` are yours to edit; **the `feature` command reads your repository's copy**, including your customizations, not the package's default templates.
+No speculative feature, ADR, architecture document, glossary, visual design reference, testing guide, product context, deployment guide, or convention document is created. Those appear only when needed. The templates in `.agent-specs/` are yours to edit; **the `feature` command reads your repository's copy**, including your customizations, not the package's default templates.
 
-The optional `docs/TESTING.md` explains reusable verification setup, check selection, integration boundaries, and limitations; feature acceptance matrices retain the actual results. Optional `docs/PRODUCT.md` captures agreed users, purpose, core journeys, principles, and non-goals; it does not replace feature scope approval or serve as a roadmap. Agents recommend these documents when needed and reuse existing README, contributing, testing, or product documentation when it already serves the purpose. Neither document is generated during initialization.
+The workflow's [optional project document catalog](scaffold/docs/WORKFLOW.md#optional-project-document-catalog) lists creation triggers and ownership for architecture, glossary, visual design, testing, product context, deployment, conventions, and ADRs. Agents reuse adequate existing documentation and recommend missing shared references only when useful. `AGENTS.md` links to this catalog instead of maintaining a separate list.
+
+For applicable features, release and recovery considerations live in `PLAN.md`, required checks and evidence in `ACCEPTANCE_MATRIX.md`, and release tasks in `TASKS.md`. Optional `docs/DEPLOYMENT.md` holds reusable rollout, migration, post-release verification, and recovery procedures when an existing publishing guide or runbook does not suffice. Implementation completion does not imply publication or deployment; required live checks must have evidence before the feature is marked complete.
 
 ## Commands and safety
 

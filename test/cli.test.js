@@ -45,6 +45,7 @@ test('init creates all baseline files and no speculative feature or ADR', (t) =>
     '.agent-specs/templates/project/VISUAL_DESIGN.md',
     '.agent-specs/templates/project/TESTING.md',
     '.agent-specs/templates/project/PRODUCT.md',
+    '.agent-specs/templates/project/DEPLOYMENT.md',
   ]) assert.ok(fs.existsSync(path.join(dir, file)), file);
   assert.deepEqual(fs.readdirSync(path.join(dir, 'docs', 'features')), ['README.md']);
   assert.deepEqual(fs.readdirSync(path.join(dir, 'docs', 'adr')), ['README.md']);
@@ -52,6 +53,7 @@ test('init creates all baseline files and no speculative feature or ADR', (t) =>
   assert.ok(!fs.existsSync(path.join(dir, 'docs', 'VISUAL_DESIGN.md')));
   assert.ok(!fs.existsSync(path.join(dir, 'docs', 'TESTING.md')));
   assert.ok(!fs.existsSync(path.join(dir, 'docs', 'PRODUCT.md')));
+  assert.ok(!fs.existsSync(path.join(dir, 'docs', 'DEPLOYMENT.md')));
 });
 
 test('init is safe to rerun and preserves customized files', (t) => {
@@ -62,7 +64,7 @@ test('init is safe to rerun and preserves customized files', (t) => {
   const rerun = invoke(dir, 'init');
   assert.equal(rerun.status, 0);
   assert.equal(fs.readFileSync(dest, 'utf8'), '# My customized rules\n');
-  assert.match(rerun.stdout, /18 skipped/);
+  assert.match(rerun.stdout, /19 skipped/);
 });
 
 test('init --dry-run creates nothing', (t) => {
@@ -175,7 +177,7 @@ test('update replaces files from an older release and creates missing ones', (t)
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /update AGENTS.md/);
   assert.match(result.stdout, /create docs\/WORKFLOW.md/);
-  assert.match(result.stdout, /1 updated, 1 created, 16 already current, 0 skipped/);
+  assert.match(result.stdout, /1 updated, 1 created, 17 already current, 0 skipped/);
   assert.equal(fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8'), fs.readFileSync(path.join(bundled, 'AGENTS.md'), 'utf8'));
 });
 
@@ -189,7 +191,7 @@ test('update preserves and reports reformatted files as customized', async (t) =
   const result = invoke(dir, 'update');
   assert.equal(result.status, 0, result.stderr);
   // Even formatting changes require a manual merge with exact fingerprints.
-  assert.match(result.stdout, /0 updated, 0 created, 17 already current, 1 skipped/);
+  assert.match(result.stdout, /0 updated, 0 created, 18 already current, 1 skipped/);
   assert.equal(fs.readFileSync(path.join(dir, rel), 'utf8'), reformatted);
 });
 

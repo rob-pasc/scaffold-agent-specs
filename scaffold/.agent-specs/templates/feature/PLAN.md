@@ -47,6 +47,12 @@
 
 - [Dependency, prerequisite, migration risk, or 'None identified']
 
+## Release and recovery (when applicable)
+
+[Omit this section when there are no feature-specific release considerations. Otherwise link to the existing deployment/publishing guide and record only this feature's rollout order, compatibility constraints, data migrations, and recovery considerations. Identify irreversible steps, rollback limits, and the supported recovery or forward-fix approach; do not assume reverting code restores data.]
+
+[Define observable post-release checks and stop/recovery conditions. State whether release execution and live verification are in the approved scope or a later handoff. Map required checks to acceptance IDs and release work to tasks. Record prerequisites, authorization needed, and who owns deferred work; do not invent approvals or claim untested recovery works.]
+
 ## Assumptions and open questions
 
 - [Question or assumption; mark **Blocking** when implementation cannot responsibly proceed without an answer]
