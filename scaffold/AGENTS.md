@@ -22,7 +22,7 @@ For new features:
 4. **Stop after specification.** Summarize the documents and blockers. Start implementation only when the user explicitly requests it.
 5. Implement within approved scope, keep documents current, and verify acceptance outcomes before declaring completion.
 
-Existing-feature work and ordinary fixes follow the user's requested scope; do not force a new feature directory for every small change.
+Existing-feature work and ordinary fixes follow the user's requested scope; do not force a new feature directory for every small change. To extend a completed feature, follow [Amending a completed feature](docs/WORKFLOW.md#amending-a-completed-feature).
 
 ### Scope and decision boundaries
 
@@ -36,6 +36,7 @@ Existing-feature work and ordinary fixes follow the user's requested scope; do n
 - Respect document ownership: `PLAN.md` owns scope and approach; `ACCEPTANCE_MATRIX.md` owns verification evidence; `TASKS.md` owns progress and the sole feature lifecycle status. Optional documents must not supersede them.
 - Use the [optional project document catalog](docs/WORKFLOW.md#optional-project-document-catalog) for creation triggers, ownership, and when to consult shared references. Reuse existing sources, create documents only when useful and authorized, and remove stale claims. Feature-level optional documents are covered by the workflow's Phase 3 table.
 - Record significant adopted architectural decisions in `docs/adr/`; keep unimplemented proposals in the plan. Use the ADR template and avoid ADRs for routine local details.
+- Add or update automated tests for every behavior change, inside or outside a feature, whenever the project has a test suite. If a behavior cannot reasonably be tested automatically, say why and verify it another way; manual verification alone is not a substitute for an achievable test.
 - Run relevant tests, linters, type checks, and builds before claiming completion, or explain precisely why checks were not run. Record concrete evidence; implementation alone is not a pass.
 - For applicable changes, document rollout, migrations, recovery limits, and post-release checks in the existing feature documents, linking to shared deployment/publishing guidance. Distinguish implemented and verified work from released behavior. Follow existing authorization for release execution; documentation alone does not grant it.
 - Mark a feature complete only when acceptance criteria pass or the user explicitly accepts exceptions. Report unresolved failures, missing verification, migrations, and follow-up work.

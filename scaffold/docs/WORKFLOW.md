@@ -87,6 +87,14 @@ If the approved scope changes behavior owned by an earlier feature, fill the pla
 - Report what was implemented and, if applicable, released, what was validated, any limitations, and whether the feature is complete. A feature is not complete while required acceptance criteria remain failing, blocked, or unverified.
 - Set the `TASKS.md` status to `Complete` only when that holds; otherwise use `Implemented (verification pending)` and list what remains.
 
+## Amending a completed feature
+
+When the user asks to extend a completed feature with a small addition that fits its purpose (for example, a new output option for an existing command), amend that feature instead of creating a new one. A specific, explicit request approves the addition; if it leaves consequential choices open, propose them first as in Phase 2.
+
+- **Record before building:** add new requirement, acceptance, and task IDs after the existing ones, and log the change, its date, and the user's request in the plan's scope change log. Never renumber, rewrite, or delete existing rows or their evidence.
+- **Reopen honestly:** set the `TASKS.md` status to `In progress` while working. Implement and verify through Phases 4 and 5, including automated tests, and set it back to `Complete` only when the new criteria pass.
+- **Know the limits:** use a new feature instead when the addition is independently useful, needs more than a few acceptance criteria, or changes behavior that existing requirements define. Changing defined behavior follows the superseding rules below. Ordinary bug fixes that restore specified behavior need no feature documents.
+
 ## Superseding earlier feature specifications
 
 A later feature may replace only part of an earlier feature. Related work or an extension does not automatically supersede the entire earlier specification.
