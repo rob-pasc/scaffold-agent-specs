@@ -27,6 +27,7 @@ Existing-feature work and ordinary fixes follow the user's requested scope; do n
 ### Scope and decision boundaries
 
 - Ask before changing promised behavior, exclusions, or acceptance criteria, or adding an independent user-facing capability, however small.
+- When the user directly requests a small, independent capability, the request approves it. Before building, ask about consequential choices it leaves open, such as which item "most recent" means; build directly if there are none. If a feature is in progress, commit its current milestone first. Record the capability in the active or a completed feature when it fits that feature's purpose; otherwise describe it in the commit message. Capabilities too large for one focused change follow the feature workflow.
 - Implementation choices necessary to fulfill agreed outcomes may proceed without renewed approval. This includes validation and error feedback needed to make an agreed form work coherently. Record meaningful choices in the plan. New capabilities such as undo, additional management actions, or a changed recovery policy need approval.
 - Surface major dependencies, migrations that modify or delete existing data, security-sensitive choices, substantial complexity, and broad architectural consequences before committing to them. Follow the workflow for technical refinements within scope.
 
@@ -43,7 +44,7 @@ Existing-feature work and ordinary fixes follow the user's requested scope; do n
 
 ## Git commits
 
-Follow the user's explicit commit preference first, including requests to review diffs before commits or to leave work uncommitted. Otherwise, commit your work as you go, without waiting to be asked. Commit approved feature specs on their own. During implementation, commit at **milestones**: points you would want to return to. A milestone passes the relevant checks and has one theme you can describe in a sentence, such as the domain logic for a feature with its tests, or the UI built on top of it. A feature typically takes a few commits; neither one per task nor one per feature. Also commit before risky steps (large refactors, migrations, dependency changes) and before ending a session. Split a commit that would mix unrelated concerns.
+Follow the user's explicit commit preference first, including requests to review diffs before commits or to leave work uncommitted. Otherwise, commit your work as you go, without waiting to be asked. Commit approved feature specs on their own. During implementation, commit at **milestones**: points you would want to return to. A milestone passes the relevant checks and has one theme you can describe in a sentence, such as the domain logic for a feature with its tests, or the UI built on top of it. A feature typically takes a few commits; neither one per task nor one per feature. When a feature has both substantial domain logic and an interface layer (UI, CLI, or API), commit the domain logic with its tests before building on it. Also commit before risky steps (large refactors, migrations, dependency changes) and before ending a session. Split a commit that would mix unrelated concerns.
 
 - Run the relevant checks before committing. If you commit while something is failing or incomplete, say so in the message.
 - Don't commit secrets, credentials, local environment files, or build output that the repository doesn't already track.
