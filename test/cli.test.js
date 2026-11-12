@@ -99,6 +99,20 @@ test('feature creates numbered docs, substitutes titles/IDs/dates, and leaves op
   assert.match(result.stdout, /stop before implementation/);
 });
 
+test('feature titles preserve replacement tokens and template-like text literally', async (t) => {
+  const dir = setup(t);
+  const { initProject, createFeature } = await import('../lib/scaffold.js');
+  initProject(dir, { profile: 'opinionated', log: () => {} });
+  const title = "Support $$ $& $` $' [YYYY-MM-DD] Feature NNN:";
+  const { featureDir } = createFeature(dir, title, {
+    approved: true, design: true, research: true, handoff: true, log: () => {},
+  });
+  for (const file of fs.readdirSync(featureDir)) {
+    const heading = fs.readFileSync(path.join(featureDir, file), 'utf8').split('\n')[0];
+    assert.ok(heading.endsWith(title), `${file}: ${heading}`);
+  }
+});
+
 test('feature numbering chooses highest existing number and supports optional templates', (t) => {
   const dir = setup(t);
   assert.equal(invoke(dir, 'init').status, 0);
@@ -331,6 +345,25 @@ test('concurrent feature commands never allocate duplicate IDs', async (t) => {
     assert.deepEqual(fs.readdirSync(path.join(dir, 'docs/features', folder)).sort(), ['ACCEPTANCE_MATRIX.md', 'PLAN.md', 'TASKS.md']);
   }
   assert.ok(!fs.existsSync(path.join(dir, 'docs/features/.agent-specs-feature.lock')));
+});
+
+test('init rejects invalid destination types without partial writes, including previews', async (t) => {
+  const { initProject } = await import('../lib/scaffold.js');
+  for (const profile of ['basic', 'opinionated']) {
+    for (const dryRun of [false, true]) {
+      const dir = setup(t);
+      fs.mkdirSync(path.join(dir, 'CLAUDE.md'));
+      assert.throws(() => initProject(dir, { profile, dryRun, log: () => {} }), /Not a file/);
+      assert.deepEqual(fs.readdirSync(dir), ['CLAUDE.md']);
+    }
+  }
+  for (const dryRun of [false, true]) {
+    const dir = setup(t);
+    fs.writeFileSync(path.join(dir, 'docs'), 'Existing content');
+    assert.throws(() => initProject(dir, { profile: 'opinionated', dryRun, log: () => {} }), /Not a directory/);
+    assert.deepEqual(fs.readdirSync(dir), ['docs']);
+    assert.equal(fs.readFileSync(path.join(dir, 'docs'), 'utf8'), 'Existing content');
+  }
 });
 
 test('update rejects a directory where a file belongs before changing other files', (t) => {

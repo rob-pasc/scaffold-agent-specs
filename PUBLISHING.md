@@ -44,9 +44,19 @@
 4. From a clean directory, smoke-test the published package:
 
    ```sh
-   npx scaffold-agent-specs@latest init
+   npx scaffold-agent-specs@latest init --profile opinionated
    npx scaffold-agent-specs@latest feature "Test feature" --approved
    ```
+
+   In a separate clean directory, smoke-test the basic profile:
+
+   ```sh
+   npx scaffold-agent-specs@latest init --profile basic
+   npx scaffold-agent-specs@latest update
+   ```
+
+   Confirm basic installs `AGENTS.md`, `CLAUDE.md`, and `.agent-specs/profile.json`
+   without creating `docs/` or templates, and that update retains the basic profile.
 
 npm never allows republishing a version number, even after unpublishing. If a publish fails after `npm version`, fix the problem and publish the same version; if the version was published but is broken, release a new patch and run `npm deprecate scaffold-agent-specs@<version> "<reason>"` on the bad one.
 
