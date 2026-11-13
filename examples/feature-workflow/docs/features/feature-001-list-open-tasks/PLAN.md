@@ -42,5 +42,5 @@ Implementation was separately authorized: “Implement the approved feature now.
 
 ## References
 
-- [Acceptance matrix](ACCEPTANCE_MATRIX.md)
+- [Acceptance criteria](ACCEPTANCE_CRITERIA.md)
 - [Tasks](TASKS.md)

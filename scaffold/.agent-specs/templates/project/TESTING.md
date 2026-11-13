@@ -20,7 +20,7 @@
 
 ## Manual verification
 
-[Reproducible checks that automation does not cover, prerequisites such as devices or service access, and what evidence to record. Keep feature-specific expected outcomes in the feature's acceptance matrix.]
+[Reproducible checks that automation does not cover, prerequisites such as devices or service access, and what evidence to record. Keep feature-specific expected outcomes in the feature's acceptance criteria document.]
 
 ## Known limitations and troubleshooting
 
@@ -28,4 +28,4 @@
 
 ## Evidence and maintenance
 
-Record commands, results, and limitations for each feature in its `ACCEPTANCE_MATRIX.md`; this guide owns reusable verification procedures, not execution history. Update it when test setup, commands, or verification boundaries change.
+Record commands, results, and limitations for each feature in its `ACCEPTANCE_CRITERIA.md`; this guide owns reusable verification procedures, not execution history. Update it when test setup, commands, or verification boundaries change.

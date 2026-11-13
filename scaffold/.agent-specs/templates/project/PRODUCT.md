@@ -24,4 +24,4 @@
 
 ## Maintenance
 
-Update this reference when approved product direction or implemented core journeys change. Distinguish approved future direction from available behavior. Feature scope and approval remain in each feature's `PLAN.md`, progress in `TASKS.md`, and verification evidence in `ACCEPTANCE_MATRIX.md`.
+Update this reference when approved product direction or implemented core journeys change. Distinguish approved future direction from available behavior. Feature scope and approval remain in each feature's `PLAN.md`, progress in `TASKS.md`, and verification evidence in `ACCEPTANCE_CRITERIA.md`.

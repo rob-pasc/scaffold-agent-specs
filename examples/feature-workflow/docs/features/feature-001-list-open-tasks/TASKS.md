@@ -11,7 +11,7 @@
 
 ## Dependencies and blockers
 
-None. All acceptance criteria passed; see the acceptance matrix.
+None. All acceptance criteria passed; see the acceptance criteria document.
 
 ## Progress notes
 

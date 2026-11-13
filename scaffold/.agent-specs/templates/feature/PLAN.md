@@ -63,7 +63,7 @@
 | ------------ | ---------------------- | -------------------------------------------- |
 | [YYYY-MM-DD] | Initial approved scope | [Explicit approval reference / conversation] |
 
-For amendments, append the bounded scope and approval reference above before implementation; preserve existing requirements and exclusions and append new IDs. Lifecycle events belong in `TASKS.md`, and historical and current verification evidence in `ACCEPTANCE_MATRIX.md`.
+For amendments, append the bounded scope and approval reference above before implementation; preserve existing requirements and exclusions and append new IDs. Lifecycle events belong in `TASKS.md`, and historical and current verification evidence in `ACCEPTANCE_CRITERIA.md`.
 
 ## Related and superseded features
 
@@ -73,7 +73,7 @@ For amendments, append the bounded scope and approval reference above before imp
 
 ## References
 
-- Acceptance criteria: [`ACCEPTANCE_MATRIX.md`](./ACCEPTANCE_MATRIX.md)
+- Acceptance criteria: [`ACCEPTANCE_CRITERIA.md`](./ACCEPTANCE_CRITERIA.md)
 - Implementation tasks: [`TASKS.md`](./TASKS.md)
 - Related ADRs: [Links added only after decisions are adopted]
 - Optional detailed design/research: [Link to `DESIGN.md` and/or `RESEARCH.md` only when created]

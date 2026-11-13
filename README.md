@@ -23,7 +23,7 @@ npx scaffold-agent-specs feature "User statistics page" --approved
 This creates `docs/features/feature-001-user-statistics-page/` with these files:
 
 - `PLAN.md` for the approved scope, constraints, requirements and proposed approach.
-- `ACCEPTANCE_MATRIX.md` for objective acceptance criteria and verification evidence.
+- `ACCEPTANCE_CRITERIA.md` for objective acceptance criteria and verification evidence.
 - `TASKS.md` for the implementation checklist.
 
 Optional files can be requested explicitly:
@@ -59,7 +59,7 @@ CLAUDE.md
   templates/
     adr/ADR.md
     conventions/CONVENTION.md
-    feature/{PLAN,ACCEPTANCE_MATRIX,TASKS,DESIGN,RESEARCH,HANDOFF}.md
+    feature/{PLAN,ACCEPTANCE_CRITERIA,TASKS,DESIGN,RESEARCH,HANDOFF}.md
     project/{ARCHITECTURE,GLOSSARY,VISUAL_DESIGN,TESTING,PRODUCT,DEPLOYMENT}.md
 docs/
   WORKFLOW.md
@@ -71,7 +71,7 @@ No speculative feature, ADR, architecture document, glossary, visual design refe
 
 The workflow's [optional project document catalog](scaffold/docs/WORKFLOW.md#optional-project-document-catalog) lists creation triggers and ownership for architecture, glossary, visual design, testing, product context, deployment, conventions, and ADRs. Agents reuse adequate existing documentation and recommend missing shared references only when useful. `AGENTS.md` links to this catalog instead of maintaining a separate list.
 
-For applicable features, release and recovery considerations live in `PLAN.md`, required checks and evidence in `ACCEPTANCE_MATRIX.md`, and release tasks in `TASKS.md`. Optional `docs/DEPLOYMENT.md` holds reusable rollout, migration, post-release verification, and recovery procedures when an existing publishing guide or runbook does not suffice. Implementation completion does not imply publication or deployment; required live checks must have evidence before the feature is marked complete.
+For applicable features, release and recovery considerations live in `PLAN.md`, required checks and evidence in `ACCEPTANCE_CRITERIA.md`, and release tasks in `TASKS.md`. Optional `docs/DEPLOYMENT.md` holds reusable rollout, migration, post-release verification, and recovery procedures when an existing publishing guide or runbook does not suffice. Implementation completion does not imply publication or deployment; required live checks must have evidence before the feature is marked complete.
 
 ## Commands and safety
 
@@ -100,6 +100,8 @@ npx scaffold-agent-specs@latest update
 ```
 
 `update` compares each scaffold file in your repository with every released version of it. A file that still matches a released version is replaced with the current one, and a file that is missing is created. A file you have customized is skipped and reported, so you can merge the changes by hand or rerun with `--force`. Matching is exact: formatting changes also count as customizations, because whitespace and punctuation can affect meaning. Historical releases are recognized using hashes of their original contents; previously reformatted copies may need a manual merge. Feature documents in `docs/features/feature-*/` are never touched, so existing features keep the layout they were written with.
+
+New installations use `ACCEPTANCE_CRITERIA.md`. Existing feature folders using `ACCEPTANCE_MATRIX.md` remain valid and are never renamed by the CLI. If only the legacy acceptance template exists, `feature` continues using that filename and content. If both templates exist, the new filename takes precedence. `update` adds the new template and leaves the legacy template intact; merge any customizations from the legacy template into the new one before creating further features. Review links in customized templates as well.
 
 There is intentionally no `implement` command: an agent should follow `AGENTS.md` and `docs/WORKFLOW.md` and wait for a separate implementation instruction. ADRs can be created from `.agent-specs/templates/adr/ADR.md` once architectural decisions are adopted.
 

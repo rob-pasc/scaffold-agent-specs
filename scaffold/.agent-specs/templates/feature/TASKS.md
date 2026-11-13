@@ -25,7 +25,7 @@ This is the **authoritative progress checklist**. Draft ordered, independently v
 
 ## Progress notes
 
-[Only durable information needed to interpret task state. Put architecture rationale in `PLAN.md` or adopted ADRs, and test results in `ACCEPTANCE_MATRIX.md`.]
+[Only durable information needed to interpret task state. Put architecture rationale in `PLAN.md` or adopted ADRs, and test results in `ACCEPTANCE_CRITERIA.md`.]
 
 ## Lifecycle history
 

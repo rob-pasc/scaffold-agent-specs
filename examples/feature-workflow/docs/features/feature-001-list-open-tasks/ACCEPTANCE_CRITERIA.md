@@ -1,4 +1,4 @@
-# Acceptance Matrix: List open tasks
+# Acceptance Criteria: List open tasks
 
 - **Feature ID:** `feature-001-list-open-tasks`
 - **Verification status:** Verified

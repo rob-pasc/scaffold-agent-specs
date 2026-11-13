@@ -4,7 +4,7 @@
 - **Updated:** [YYYY-MM-DD HH:MM and time zone, if useful]
 - **Current state:** [In progress / Blocked / Ready for verification / Other]
 
-> **Optional, short-lived file.** Create when an agent or session needs a resumption snapshot. `TASKS.md` remains authoritative for progress; the plan and acceptance matrix remain authoritative for scope and verification.
+> **Optional, short-lived file.** Create when an agent or session needs a resumption snapshot. `TASKS.md` remains authoritative for progress; the plan and acceptance criteria document remain authoritative for scope and verification.
 
 ## Where work stands
 

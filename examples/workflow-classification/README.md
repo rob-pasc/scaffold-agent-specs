@@ -51,7 +51,7 @@ This is an illustrative record format, not fabricated execution evidence. Start 
 
 1. On approval of A1, append FR-004 (optional JSON), AC-004 (JSON output), and T-004–005 (implementation and verification), plus a dated scope-change entry. Existing IDs, checkmarks, and evidence stay intact.
 2. Append an amendment event linked to that scope entry. Set current status to In progress when authorized implementation starts, or Specified if implementation is deferred.
-3. Append the new verification run in ACCEPTANCE_MATRIX.md, recording AC-004 and regression results for AC-001–003 with actual commands/environment/evidence. Do not replace the original run. If ordering regresses, append Fail for AC-002 and retain the original historical Pass.
+3. Append the new verification run in ACCEPTANCE_CRITERIA.md, recording AC-004 and regression results for AC-001–003 with actual commands/environment/evidence. Do not replace the original run. If ordering regresses, append Fail for AC-002 and retain the original historical Pass.
 4. Only after current required checks pass (or explicit accepted exceptions are recorded), set Complete and append a completion event covering FR-001–004 / AC-001–004 with the new evidence link.
 
 The final TASKS.md has one current status and at least three historical events: original completion, amendment/reopening, amended completion. A failed verification branch has no amended completion event. A later superseding feature does not reopen this feature; it records reciprocal supersession links instead.

@@ -36,6 +36,6 @@
 ## References
 
 - Approved scope: [`PLAN.md`](./PLAN.md)
-- Requirements and checks: [`ACCEPTANCE_MATRIX.md`](./ACCEPTANCE_MATRIX.md)
+- Requirements and checks: [`ACCEPTANCE_CRITERIA.md`](./ACCEPTANCE_CRITERIA.md)
 - [Shared visual design reference, if relevant; link to existing design-system documentation or `docs/VISUAL_DESIGN.md` rather than repeating shared rules]
 - [Any relevant convention, architecture documentation, or adopted ADR]

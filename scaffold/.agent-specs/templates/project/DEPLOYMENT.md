@@ -1,6 +1,6 @@
 # Release and Recovery Guide
 
-> **Optional project document.** Create under `docs/DEPLOYMENT.md` when recurring release, deployment, or recovery procedures need explanation beyond existing scripts, CI, publishing instructions, or runbooks. Reuse an adequate existing guide. Describe actual supported procedures and link to authoritative automation; do not invent infrastructure or claim untested recovery works. Omit irrelevant sections. Feature-specific rollout choices belong in the feature plan, and execution evidence belongs in its acceptance matrix or an existing release record.
+> **Optional project document.** Create under `docs/DEPLOYMENT.md` when recurring release, deployment, or recovery procedures need explanation beyond existing scripts, CI, publishing instructions, or runbooks. Reuse an adequate existing guide. Describe actual supported procedures and link to authoritative automation; do not invent infrastructure or claim untested recovery works. Omit irrelevant sections. Feature-specific rollout choices belong in the feature plan, and execution evidence belongs in its acceptance criteria document or an existing release record.
 
 ## Release targets and prerequisites
 
@@ -24,4 +24,4 @@
 
 ## Evidence and maintenance
 
-[Link to existing release/deployment records and recovery evidence. Record the version, environment, time, check results, and unresolved issues when executing a release. Keep reusable procedures here and feature-specific evidence in its acceptance matrix or linked release record. Update this guide when release automation, compatibility assumptions, or recovery procedures change.]
+[Link to existing release/deployment records and recovery evidence. Record the version, environment, time, check results, and unresolved issues when executing a release. Keep reusable procedures here and feature-specific evidence in its acceptance criteria document or linked release record. Update this guide when release automation, compatibility assumptions, or recovery procedures change.]
