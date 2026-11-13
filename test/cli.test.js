@@ -398,45 +398,18 @@ test('failed feature writes remove partial files and release the allocation lock
   assert.ok(fs.existsSync(path.join(dir, 'docs/features/feature-001-recovery/TASKS.md')));
 });
 
-test('legacy acceptance templates remain usable and existing evidence survives updates', async (t) => {
-  const { initProject, createFeature, updateProject } = await import('../lib/scaffold.js');
-  const dir = setup(t);
-  const log = () => {};
-  initProject(dir, { profile: 'opinionated', log });
-  const templates = path.join(dir, '.agent-specs/templates/feature');
-  const current = path.join(templates, 'ACCEPTANCE_CRITERIA.md');
-  const legacy = path.join(templates, 'ACCEPTANCE_MATRIX.md');
-  fs.renameSync(current, legacy);
-  fs.appendFileSync(legacy, '\nCustom acceptance requirement.\n');
-  const legacyContent = fs.readFileSync(legacy, 'utf8');
-  const preview = createFeature(dir, 'Legacy feature', { dryRun: true, log });
-  assert.ok(preview.created.some(file => file.endsWith('ACCEPTANCE_MATRIX.md')));
-  assert.ok(!fs.existsSync(preview.featureDir));
-  const oldFeature = createFeature(dir, 'Legacy feature', { approved: true, log });
-  const evidence = path.join(oldFeature.featureDir, 'ACCEPTANCE_MATRIX.md');
-  assert.match(fs.readFileSync(evidence, 'utf8'), /Custom acceptance requirement/);
-  fs.appendFileSync(evidence, '\nHistorical verification evidence.\n');
-  const recorded = fs.readFileSync(evidence, 'utf8');
-  updateProject(dir, { dryRun: true, log });
-  assert.ok(!fs.existsSync(current));
-  updateProject(dir, { log });
-  assert.equal(fs.readFileSync(legacy, 'utf8'), legacyContent);
-  assert.equal(fs.readFileSync(evidence, 'utf8'), recorded);
-  assert.ok(!fs.existsSync(path.join(oldFeature.featureDir, 'ACCEPTANCE_CRITERIA.md')));
-  const newFeature = createFeature(dir, 'New feature', { approved: true, log });
-  assert.ok(fs.existsSync(path.join(newFeature.featureDir, 'ACCEPTANCE_CRITERIA.md')));
-  assert.ok(!fs.existsSync(path.join(newFeature.featureDir, 'ACCEPTANCE_MATRIX.md')));
-});
-
-test('missing acceptance templates and unsafe legacy templates fail before feature creation', async (t) => {
+test('old acceptance filenames are unsupported and unsafe templates fail before creation', async (t) => {
   const { initProject, createFeature } = await import('../lib/scaffold.js');
   const dir = setup(t);
   const log = () => {};
   initProject(dir, { profile: 'opinionated', log });
   const templates = path.join(dir, '.agent-specs/templates/feature');
-  fs.unlinkSync(path.join(templates, 'ACCEPTANCE_CRITERIA.md'));
-  assert.throws(() => createFeature(dir, 'Missing', { approved: true, log }), /Feature template missing/);
-  fs.symlinkSync(path.join(templates, 'PLAN.md'), path.join(templates, 'ACCEPTANCE_MATRIX.md'));
+  const current = path.join(templates, 'ACCEPTANCE_CRITERIA.md');
+  fs.renameSync(current, path.join(templates, 'ACCEPTANCE_MATRIX.md'));
+  for (const dryRun of [false, true]) {
+    assert.throws(() => createFeature(dir, 'Old template', { approved: true, dryRun, log }), /Feature template missing: .*ACCEPTANCE_CRITERIA\.md/);
+  }
+  fs.symlinkSync(path.join(templates, 'PLAN.md'), current);
   assert.throws(() => createFeature(dir, 'Unsafe', { approved: true, log }), /symlink/);
   assert.deepEqual(fs.readdirSync(path.join(dir, 'docs/features')), ['README.md']);
 });

@@ -23,6 +23,8 @@
 
 ## Release
 
+The acceptance-document rename is a breaking change for existing installations. Use a minor version bump for this pre-1.0 release (`npm version minor` instead of the patch command below), and include the manual migration instructions from `README.md` in the release notes. After publishing and smoke-testing the replacement, deprecate the older versions that use `ACCEPTANCE_MATRIX.md` with an npm notice pointing to those instructions. Deprecation does not migrate installed repositories.
+
 1. Bump the version. This creates a `Release <version>` commit and a `v<version>` tag:
 
    ```sh

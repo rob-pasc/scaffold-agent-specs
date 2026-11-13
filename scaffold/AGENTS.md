@@ -35,7 +35,7 @@ Classify requests using [Classifying a change](docs/WORKFLOW.md#classifying-a-ch
 ## Documentation and completion
 
 - Update affected documentation in the same change as behavior, architecture, configuration, setup, or public-interface changes.
-- Respect document ownership: `PLAN.md` owns scope and approach; `ACCEPTANCE_CRITERIA.md` owns verification evidence; `TASKS.md` owns progress and the sole feature lifecycle status. Existing features may use `ACCEPTANCE_MATRIX.md` for the same role; preserve that file and its evidence. Optional documents must not supersede them.
+- Respect document ownership: `PLAN.md` owns scope and approach; `ACCEPTANCE_CRITERIA.md` owns verification evidence; `TASKS.md` owns progress and the sole feature lifecycle status. Optional documents must not supersede them.
 - Use the [optional project document catalog](docs/WORKFLOW.md#optional-project-document-catalog) for creation triggers, ownership, and when to consult shared references. Reuse existing sources, create documents only when useful and authorized, and remove stale claims. Feature-level optional documents are covered by the workflow's Phase 3 table.
 - Record significant adopted architectural decisions in `docs/adr/`; keep unimplemented proposals in the plan. Use the ADR template and avoid ADRs for routine local details.
 - Add or update automated tests for every behavior change, inside or outside a feature, whenever the project has a test suite. If a behavior cannot reasonably be tested automatically, say why and verify it another way; manual verification alone is not a substitute for an achievable test.
