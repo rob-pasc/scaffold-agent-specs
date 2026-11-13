@@ -4,6 +4,8 @@ These shared instructions apply to all coding agents. Follow existing project pr
 
 - Inspect relevant code, tests, and documentation before asking questions or proposing an approach.
 - Prefer the smallest coherent change. Follow existing conventions and avoid unrelated refactors.
+- Write comments when they clarify non-obvious intent, constraints, invariants, or workarounds. Avoid restating the code; prefer clearer names and structure where possible. Keep comments accurate when changing nearby code, and follow existing conventions for API documentation.
+- For detailed rationale, link to an existing ADR or other stable documentation rather than duplicating it in a long comment; retain a brief local explanation so the code remains understandable on its own.
 - Ask focused questions about consequential choices; choose sensible defaults for minor details. Keep the user in control of scope and significant architectural tradeoffs, and ask before materially expanding the requested work.
 - Explain assumptions, uncertainty, incomplete work, and failed or unrun checks honestly.
 - Follow existing UI conventions and design-system documentation when working on visual interfaces.

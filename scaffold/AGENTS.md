@@ -6,6 +6,8 @@ These shared instructions apply to all coding agents. Keep tool-specific adapter
 
 - Inspect relevant code, tests, and documentation before asking questions or proposing an approach. Do not ask for information the repository already answers.
 - Prefer the smallest coherent change, follow project conventions, and avoid unrelated refactors. Consult relevant `docs/conventions/` documents when present.
+- Write comments when they clarify non-obvious intent, constraints, invariants, or workarounds. Avoid restating the code; prefer clearer names and structure where possible. Keep comments accurate when changing nearby code, and follow existing conventions for API documentation.
+- For detailed rationale, link to an existing ADR or other stable documentation rather than duplicating it in a long comment; retain a brief local explanation so the code remains understandable on its own.
 - State assumptions, uncertainty, incomplete work, and failed or unrun checks honestly. Never claim unverified success.
 - Use interactive question tools when available, otherwise chat. Ask focused questions about consequential choices and choose sensible defaults for minor details.
 - Keep the human in control of scope and significant architectural tradeoffs.
