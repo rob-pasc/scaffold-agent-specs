@@ -4,7 +4,7 @@ A deliberately small, dependency-free CLI for **spec-driven agentic coding**. It
 
 ## Requirements
 
-Node.js 20 or newer and npm (for installation or `npx`). The scaffolded repository itself can use **any** programming language or framework.
+Node.js 22 or newer and npm (for installation or `npx`). The scaffolded repository itself can use **any** programming language or framework.
 
 ## Usage
 
@@ -44,7 +44,7 @@ For a complete request-to-verification walkthrough with runnable code, see the [
 
 Run `npx scaffold-agent-specs init` to choose interactively between **basic** (quality safeguards and existing project conventions) and **opinionated** (formal feature specs, approval gates, acceptance tracking, and milestone commits). Noninteractive installs default to basic. Select explicitly with `--profile basic` or `--profile opinionated`.
 
-Basic installs `AGENTS.md` and the thin `CLAUDE.md` adapter. Opinionated installs the full scaffold below. Both record the selection in `.agent-specs/profile.json`; commit this file so updates preserve the profile. Older installations without this file retain opinionated behavior when their workflow or template directory exists.
+Basic installs `AGENTS.md` and the thin `CLAUDE.md` adapter, which imports `AGENTS.md` with Claude Code's `@AGENTS.md` syntax so the shared instructions load automatically. Opinionated installs the full scaffold below. Both record the selection in `.agent-specs/profile.json`; commit this file so updates preserve the profile. Older installations without this file retain opinionated behavior when their `.agent-specs/templates/` directory or the scaffold's own `docs/WORKFLOW.md` exists; an unrelated `docs/WORKFLOW.md` is not treated as an installation.
 
 Use `update --profile opinionated` or `update --profile basic` to switch. Released instructions are replaced, customized files are skipped, and `--dry-run` previews without changing the profile. Switching to basic leaves existing templates and feature documents in place; its instructions no longer require the formal workflow. Review skipped instructions when switching, since they can still describe the previous profile. `init` never switches an existing profile; use `update` instead.
 
@@ -79,7 +79,7 @@ For applicable features, release and recovery considerations live in `PLAN.md`, 
 | --- | --- |
 | `init` | Copy the initial scaffold into the current directory. Never overwrite existing files. |
 | `init --dry-run` | Preview which files would be created or skipped. |
-| `update` | Bring scaffold files up to this version. Replace only files that are unmodified; skip customized ones. |
+| `update` | Bring scaffold files up to this version. Replace only files that are unmodified; skip customized ones. Requires an existing installation, or an explicit `--profile`. |
 | `update --dry-run` | Preview which files would be updated, created, or skipped. |
 | `update --force` | Also overwrite customized scaffold files, discarding local changes. |
 | `feature "Title" --approved` | Create the next `feature-NNN-title/` and its three required docs. |
@@ -90,7 +90,7 @@ For applicable features, release and recovery considerations live in `PLAN.md`, 
 | `--dir PATH` | Work in a specified repository root instead of the current directory. |
 | `--help` / `--version` | Show help or the CLI version. |
 
-Feature IDs are allocated above the **largest existing** feature ID, starting at `001`. Feature creation uses a shared lock so concurrent commands cannot allocate the same ID. If another command holds the lock, retry after it finishes. After a crash, remove `docs/features/.agent-specs-feature.lock/` only after confirming no feature command is running. Dry runs do not reserve IDs. Running `init` again adds newly missing files but never replaces existing ones. `init` refuses to write through symlinked paths under the chosen root.
+Feature directory slugs keep letters and digits from any script (`Статистика` becomes `статистика`); accents are removed from Latin letters only, and whitespace in a title, including line breaks, collapses to single spaces. Feature IDs are allocated above the **largest existing** feature ID, starting at `001`. Feature creation uses a shared lock so concurrent commands cannot allocate the same ID. If another command holds the lock, retry after it finishes. After a crash, remove `docs/features/.agent-specs-feature.lock/` only after confirming no feature command is running. Dry runs do not reserve IDs. Running `init` again adds newly missing files but never replaces existing ones. `init` refuses to write through symlinked paths under the chosen root.
 
 ## Updating an existing repository
 
@@ -99,9 +99,9 @@ npx scaffold-agent-specs@latest update --dry-run   # preview
 npx scaffold-agent-specs@latest update
 ```
 
-`update` compares each scaffold file in your repository with every released version of it. A file that still matches a released version is replaced with the current one, and a file that is missing is created. A file you have customized is skipped and reported, so you can merge the changes by hand or rerun with `--force`. Matching is exact: formatting changes also count as customizations, because whitespace and punctuation can affect meaning. Historical releases are recognized using hashes of their original contents; previously reformatted copies may need a manual merge. Feature documents in `docs/features/feature-*/` are never touched, so existing features keep the layout they were written with.
+`update` compares each scaffold file in your repository with every released version of it. A file that still matches a released version is replaced with the current one, and a file that is missing is created. A file you have customized is skipped and reported, so you can merge the changes by hand or rerun with `--force`. Matching is exact: formatting changes also count as customizations, because whitespace and punctuation can affect meaning. Line endings are the one exception: a CRLF checkout (common with Git on Windows) still matches, and updated files keep the line endings they had. Historical releases are recognized using hashes of their original contents; previously reformatted copies may need a manual merge. Feature documents in `docs/features/feature-*/` are never touched, so existing features keep the layout they were written with.
 
-**Breaking change:** `ACCEPTANCE_CRITERIA.md` replaces `ACCEPTANCE_MATRIX.md`; the old filename is no longer supported. `update` does not migrate renamed files or links. For existing installations, manually rename the acceptance template and feature documents, update their references, and merge the current scaffold instructions while preserving customizations and verification evidence. Running `update` alone is not a complete upgrade across this change.
+**Breaking change:** `ACCEPTANCE_CRITERIA.md` replaces `ACCEPTANCE_MATRIX.md`; the old filename is no longer supported. `update` does not migrate renamed files or links. For existing installations, manually rename the acceptance template and feature documents, update their references, and merge the current scaffold instructions while preserving customizations and verification evidence. Running `update` alone is not a complete upgrade across this change. It does report files that earlier releases installed and this one no longer ships, such as the old acceptance template, as `stale`, and says whether each is unmodified (safe to delete) or carries local changes to merge first; it never deletes them.
 
 There is intentionally no `implement` command: an agent should follow `AGENTS.md` and `docs/WORKFLOW.md` and wait for a separate implementation instruction. ADRs can be created from `.agent-specs/templates/adr/ADR.md` once architectural decisions are adopted.
 
@@ -131,9 +131,9 @@ npm run pack:check      # Preview npm-published file manifest
 npm pack                # Produce local npm tarball for testing
 ```
 
-For the release steps, see [`PUBLISHING.md`](PUBLISHING.md).
+For the release steps, see [`PUBLISHING.md`](PUBLISHING.md). Changes in each version, including migration steps for breaking ones, are listed in [`CHANGELOG.md`](CHANGELOG.md).
 
-Pull requests run tests (including an actual npm tarball smoke test) and scaffold formatting checks on Node.js 20, 22, and 24. Publishing remains manual.
+Pull requests run tests (including an actual npm tarball smoke test) and scaffold formatting checks on Node.js 22, 24, and 26 across Linux, Windows, and macOS. Publishing remains manual.
 
 ## License
 

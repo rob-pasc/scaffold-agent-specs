@@ -157,7 +157,8 @@ test('missing template prevents partial feature creation', (t) => {
 test('init refuses to write through symlinked docs directory', (t) => {
   const dir = setup(t);
   const outside = setup(t);
-  fs.symlinkSync(outside, path.join(dir, 'docs'), 'dir');
+  // A junction needs no extra privileges on Windows; elsewhere the type is ignored.
+  fs.symlinkSync(outside, path.join(dir, 'docs'), 'junction');
   const result = invoke(dir, 'init');
   assert.notEqual(result.status, 0);
   assert.match(result.stderr, /symlink/);
@@ -384,7 +385,7 @@ test('failed feature writes remove partial files and release the allocation lock
   const original = fs.writeFileSync;
   try {
     fs.writeFileSync = (file, ...args) => {
-      if (String(file).endsWith('feature-001-failure/TASKS.md')) {
+      if (String(file).endsWith(path.join('feature-001-failure', 'TASKS.md'))) {
         throw new Error('Simulated disk write failure');
       }
       return original(file, ...args);
@@ -409,7 +410,121 @@ test('old acceptance filenames are unsupported and unsafe templates fail before 
   for (const dryRun of [false, true]) {
     assert.throws(() => createFeature(dir, 'Old template', { approved: true, dryRun, log }), /Feature template missing: .*ACCEPTANCE_CRITERIA\.md/);
   }
-  fs.symlinkSync(path.join(templates, 'PLAN.md'), current);
+  try {
+    fs.symlinkSync(path.join(templates, 'PLAN.md'), current);
+  } catch (error) {
+    // Windows only allows file symlinks with Developer Mode or elevation.
+    if (process.platform === 'win32' && error.code === 'EPERM') return t.diagnostic('file symlinks unavailable; skipped');
+    throw error;
+  }
   assert.throws(() => createFeature(dir, 'Unsafe', { approved: true, log }), /symlink/);
   assert.deepEqual(fs.readdirSync(path.join(dir, 'docs/features')), ['README.md']);
+});
+
+test('update treats CRLF checkouts as unmodified and keeps their line endings', (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init').status, 0);
+  const crlf = (content) => content.replaceAll('\r\n', '\n').replaceAll('\n', '\r\n');
+  fs.copyFileSync(new URL('./fixtures/v0.1.1/AGENTS.md', import.meta.url), path.join(dir, 'AGENTS.md'));
+  for (const rel of fs.readdirSync(dir, { recursive: true })) {
+    const file = path.join(dir, rel);
+    if (file.endsWith('.md')) fs.writeFileSync(file, crlf(fs.readFileSync(file, 'utf8')));
+  }
+  const result = invoke(dir, 'update');
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /1 updated, 0 created, 18 already current, 0 skipped/);
+  assert.equal(fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8'), crlf(fs.readFileSync(path.join(bundled, 'AGENTS.md'), 'utf8')));
+});
+
+test('update reports stale files from earlier releases without touching them', (t) => {
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init').status, 0);
+  const stale = path.join(dir, '.agent-specs/templates/feature/ACCEPTANCE_MATRIX.md');
+  fs.copyFileSync(new URL('./fixtures/v0.2.3/ACCEPTANCE_MATRIX.md', import.meta.url), stale);
+  const unmodified = invoke(dir, 'update');
+  assert.equal(unmodified.status, 0, unmodified.stderr);
+  assert.match(unmodified.stdout, /stale {2}\.agent-specs\/templates\/feature\/ACCEPTANCE_MATRIX\.md \(unmodified; safe to delete\)/);
+  fs.appendFileSync(stale, '\nOur extra column.\n');
+  const customized = fs.readFileSync(stale, 'utf8');
+  for (const options of [[], ['--force']]) {
+    assert.match(invoke(dir, 'update', ...options).stdout, /ACCEPTANCE_MATRIX\.md \(modified locally; merge/);
+    assert.equal(fs.readFileSync(stale, 'utf8'), customized);
+  }
+  fs.rmSync(stale);
+  assert.doesNotMatch(invoke(dir, 'update').stdout, /stale/i);
+});
+
+test('update refuses a directory that was never initialized unless a profile is given', (t) => {
+  const dir = setup(t);
+  const refused = invoke(dir, 'update');
+  assert.notEqual(refused.status, 0);
+  assert.match(refused.stderr, /Run init first/);
+  assert.deepEqual(fs.readdirSync(dir), []);
+  assert.equal(invoke(dir, 'update', '--profile', 'basic').status, 0);
+  assert.deepEqual(fs.readdirSync(dir).sort(), ['.agent-specs', 'AGENTS.md', 'CLAUDE.md']);
+});
+
+test('an unrelated docs/WORKFLOW.md is not mistaken for an installation', (t) => {
+  const dir = setup(t);
+  fs.mkdirSync(path.join(dir, 'docs'));
+  fs.writeFileSync(path.join(dir, 'docs/WORKFLOW.md'), '# Our release workflow\n');
+  assert.notEqual(invoke(dir, 'update').status, 0);
+  const result = invoke(dir, 'init', '--profile', 'basic');
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(fs.readFileSync(path.join(dir, 'docs/WORKFLOW.md'), 'utf8'), '# Our release workflow\n');
+  assert.deepEqual(fs.readdirSync(path.join(dir, 'docs')), ['WORKFLOW.md']);
+
+  // The scaffold's own workflow still identifies an install that predates profile.json.
+  const legacy = setup(t);
+  fs.mkdirSync(path.join(legacy, 'docs'));
+  fs.copyFileSync(path.join(bundled, 'docs/WORKFLOW.md'), path.join(legacy, 'docs/WORKFLOW.md'));
+  assert.equal(invoke(legacy, 'update').status, 0);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(legacy, '.agent-specs/profile.json'))).profile, 'opinionated');
+});
+
+test('slugs keep letters of any script and titles become a single heading line', async (t) => {
+  const { slugify, initProject, createFeature } = await import('../lib/scaffold.js');
+  for (const [title, slug] of [
+    ['User statistics page', 'user-statistics-page'],
+    ['Crème brûlée über alles', 'creme-brulee-uber-alles'],
+    ['Straße über Ørsted', 'straße-uber-ørsted'],
+    ['Статистика: Йога', 'статистика-йога'],
+    ['한글 기능', '한글-기능'],
+    ['用户统计页面', '用户统计页面'],
+  ]) assert.equal(slugify(title), slug);
+  assert.throws(() => slugify('!!! ---'), /letters or numbers/);
+  assert.throws(() => slugify('a'.repeat(81)), /too long/);
+  assert.throws(() => slugify('统'.repeat(70)), /too long/);
+
+  const dir = setup(t);
+  initProject(dir, { profile: 'opinionated', log: () => {} });
+  const { featureDir } = createFeature(dir, ' Статистика\n  за неделю\t', { approved: true, log: () => {} });
+  assert.equal(path.basename(featureDir), 'feature-001-статистика-за-неделю');
+  assert.equal(fs.readFileSync(path.join(featureDir, 'PLAN.md'), 'utf8').split('\n')[0], '# Feature 001: Статистика за неделю');
+});
+
+test('a malformed profile file and a file in place of a directory fail with clear errors', (t) => {
+  for (const contents of ['null', '{bad', '{"profile": "other"}']) {
+    const dir = setup(t);
+    fs.mkdirSync(path.join(dir, '.agent-specs'));
+    fs.writeFileSync(path.join(dir, '.agent-specs/profile.json'), contents);
+    for (const command of ['init', 'update']) {
+      const result = invoke(dir, command);
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, /^Error: Invalid \.agent-specs\/profile\.json: expected/);
+    }
+    assert.deepEqual(fs.readdirSync(dir), ['.agent-specs']);
+  }
+
+  const dir = setup(t);
+  assert.equal(invoke(dir, 'init', '--profile', 'basic').status, 0);
+  const before = fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8');
+  fs.writeFileSync(path.join(dir, 'docs'), 'Existing content');
+  for (const options of [[], ['--dry-run'], ['--force']]) {
+    const result = invoke(dir, 'update', '--profile', 'opinionated', ...options);
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /^Error: Not a directory: .*docs/);
+  }
+  assert.equal(fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8'), before);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(dir, '.agent-specs/profile.json'))).profile, 'basic');
 });
