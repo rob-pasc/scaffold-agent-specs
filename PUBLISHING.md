@@ -4,8 +4,9 @@
 
 ## Before releasing
 
-1. If `scaffold/` or `lib/basic-AGENTS.md` changed, run `npm run fingerprints` and commit `lib/released-fingerprints.json` with the scaffold change. Otherwise `update` treats files from this release as customized in repositories that install it, and `npm test` fails.
-2. Run the checks:
+1. Move the entries under "Unreleased" in `CHANGELOG.md` to a heading for the new version and date, and commit that. Every user-visible change belongs there; breaking changes also need their migration steps.
+2. If `scaffold/` or `lib/basic-AGENTS.md` changed, run `npm run fingerprints` and commit `lib/released-fingerprints.json` with the scaffold change. Otherwise `update` treats files from this release as customized in repositories that install it, and `npm test` fails.
+3. Run the checks:
 
    ```sh
    npm test
@@ -13,7 +14,7 @@
    npm run pack:check   # verify bin/, lib/ and scaffold/ (including scaffold/.agent-specs/) ship
    ```
 
-3. Optionally try the exact files that would ship, without publishing:
+4. Optionally try the exact files that would ship, without publishing:
 
    ```sh
    npm pack                          # creates scaffold-agent-specs-<version>.tgz
@@ -23,7 +24,7 @@
 
 ## Release
 
-The acceptance-document rename is a breaking change for existing installations. Use a minor version bump for this pre-1.0 release (`npm version minor` instead of the patch command below), and include the manual migration instructions from `README.md` in the release notes. After publishing and smoke-testing the replacement, deprecate the older versions that use `ACCEPTANCE_MATRIX.md` with an npm notice pointing to those instructions. Deprecation does not migrate installed repositories.
+Before 1.0, a breaking change for existing installations takes a minor version bump (`npm version minor` instead of the patch command below); everything else is a patch. For a breaking release, put the manual migration steps in `CHANGELOG.md` and the README. After publishing and smoke-testing it, run `npm deprecate` on the older versions with a notice pointing to those steps, as was done for the 0.3.0 acceptance-document rename. Deprecation does not migrate installed repositories.
 
 1. Bump the version. This creates a `Release <version>` commit and a `v<version>` tag:
 
@@ -71,6 +72,6 @@ Official npm references:
 
 ## Fingerprint compatibility
 
-Fingerprints use SHA-256 of exact file contents. Do not restore the former whitespace/punctuation normalization as a fallback: it can identify meaningful local edits as released content and overwrite them. Formatting changes now require a manual merge.
+Fingerprints use SHA-256 of exact file contents. Do not restore the former whitespace/punctuation normalization as a fallback: it can identify meaningful local edits as released content and overwrite them. Formatting changes now require a manual merge. The only normalization is CRLF to LF before hashing, so Windows checkouts are not reported as customized; `.gitattributes` keeps this repository's own files LF so the recorded hashes are stable.
 
 The migration to exact hashes rebuilt historical entries from the original `scaffold/` files in local tags `v0.1.0` through `v0.1.8`, plus the pre-migration HEAD's scaffold and basic profile. `npm run fingerprints` appends current contents without removing those historical entries. When recovering another historical version, hash its original files; if the contents cannot be established, leave it unrecognized so update conservatively skips it.
