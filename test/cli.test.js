@@ -123,6 +123,8 @@ test('integration review includes preserved workflow documents and does not trus
   assert.equal(result.status, 0, result.stderr);
   assert.match(result.stdout, /review required for preserved instructions: AGENTS.md, docs\/WORKFLOW.md/);
   assert.match(result.stdout, /Compare docs\/WORKFLOW.md/);
+  // A first basic install is not a profile switch.
+  assert.doesNotMatch(result.stdout, /Remove or reconcile/);
   assert.equal(fs.readFileSync(path.join(dir, 'docs/WORKFLOW.md'), 'utf8'), '# Unrelated workflow\n');
 });
 
@@ -137,7 +139,7 @@ test('profile switches report preserved instructions in both directions and forc
       const result = invoke(dir, 'update', '--profile', to, ...flags);
       assert.equal(result.status, 0, result.stderr);
       assert.match(result.stdout, /review required for preserved instructions: AGENTS.md/);
-      assert.match(result.stdout, to === 'basic' ? /Remove or reconcile prior mandatory feature gates/ : /read and follow docs\/WORKFLOW.md/);
+      assert.match(result.stdout, to === 'basic' ? /Remove or reconcile the opinionated profile's mandatory feature gates/ : /read and follow docs\/WORKFLOW.md/);
       assert.equal(fs.readFileSync(file, 'utf8'), original);
       assert.equal(JSON.parse(fs.readFileSync(path.join(dir, '.agent-specs/profile.json'))).profile, flags.length ? from : to);
     }
