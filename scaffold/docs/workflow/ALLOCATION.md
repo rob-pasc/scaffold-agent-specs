@@ -1,25 +1,28 @@
 # Feature allocation
 
-Read and follow this procedure before creating feature directories or reconciling duplicate feature IDs. Scope must already be approved under the [feature workflow](../WORKFLOW.md#phase-3-specify-after-accepted-scope). Paths in code spans are relative to the repository root.
+Read this procedure before creating a feature directory or resolving a duplicate feature number. Scope must already be approved under the [feature workflow](../WORKFLOW.md#phase-3-specify-after-accepted-scope). Paths in code spans are relative to the repository root.
 
-Use `scaffold-agent-specs feature "Title" --approved` (or the equivalent `scaffold-agent-workflow` command) when available. The command acquires the shared allocation lock, selects the number, and copies local templates with identifiers filled. It does not fill the specification or verify conversational approval. Do not require a network install just to create documents; use the manual protocol below when the CLI is unavailable.
+## Creating a feature directory
 
-## Shared allocation protocol
+Use `scaffold-agent-specs feature "Title" --approved` (or the equivalent `scaffold-agent-workflow` command) when it is available. It chooses the number, creates the directory, and copies the local templates with identifiers filled in. It does not write the specification or verify approval. Do not require a network install just to create documents; copy the templates by hand instead:
 
-All creators in the same checkout, including agents copying templates manually, must use `docs/features/.agent-specs-feature.lock/`:
+1. **Number:** list the `docs/features/feature-NNN-*` directories and choose the next number above the highest (start at `001`). Never reuse an existing number.
+2. **Create:** run `mkdir docs/features/feature-NNN-kebab-case` without `-p`, so that it fails rather than reusing an existing directory. If it fails, list the directories again and choose another number.
+3. **Copy:** copy `PLAN.md`, `ACCEPTANCE_CRITERIA.md`, and `TASKS.md` from `.agent-specs/templates/feature/`, plus any optional templates needed. In every copied file, replace `feature-NNN-kebab-case`, the `NNN` in `Feature NNN:`, `[Feature title]`, and `[YYYY-MM-DD]` with the directory name, number, title, and current date.
+4. **Populate:** replace the remaining bracketed prompts from the approved discussion and delete template guidance that does not apply. No prompts may remain in the finished specification.
 
-1. **Acquire:** create the lock directory with one exclusive directory-creation operation (for example `mkdir docs/features/.agent-specs-feature.lock`, without `-p`). Do not check for absence and then assume ownership. If creation fails, do not allocate or remove the lock; retry after its owner finishes. A dry-run number is not a reservation.
-2. **Number under the lock:** re-read the existing `docs/features/feature-NNN-*` directories and choose one above the highest number (start at `001`). Never reuse an existing number or rely on a scan made before acquiring the lock.
-3. **Create exclusively:** create `docs/features/feature-NNN-kebab-case/` without overwriting an existing directory. Copy `PLAN.md`, `ACCEPTANCE_CRITERIA.md`, and `TASKS.md` from `.agent-specs/templates/feature/`, plus needed optional templates. In every copied file, replace `feature-NNN-kebab-case`, the `NNN` in `Feature NNN:`, `[Feature title]`, and `[YYYY-MM-DD]` with the directory name, number, title, and current date.
-4. **Release:** after the copied files and identifiers are complete, remove only the lock acquired by this operation, using cleanup that runs on success or failure. On copying failure, remove only the partial feature directory created by this operation before releasing the lock. Never remove another creator's files. Do not hold the lock during discussion, specification writing, implementation, or commits. Do not commit the temporary lock.
-5. **Populate:** the allocating agent owns the new feature documents until it explicitly hands them off. Replace remaining bracketed prompts from the approved discussion and delete irrelevant template guidance. Other agents must not edit the same feature without coordinating ownership. No prompts may remain in the finished specification.
+Before committing a new feature, list the feature directories again. If another directory now uses the same number, resolve it as described in the next section.
 
-Both CLI and manual creators respect the same lock. After a crash, remove a leftover lock only after confirming no CLI or manual creator still owns it; elapsed time alone does not establish that. If ownership is uncertain, report the blocker instead of deleting it. Inspect any partial feature directory before recovery; preserve work whose ownership is unclear.
+The CLI serializes its own runs with a short-lived `docs/features/.agent-specs-feature.lock/` directory. Manual creators do not use it. If the CLI reports this lock after a crash, remove it only after confirming that no `feature` command is still running.
 
-## Separate branches and worktrees
+## Duplicate numbers
 
-The lock protects one filesystem checkout only. Before parallel feature specification in separate clones, branches, or worktrees, designate one allocation owner in a shared integration checkout. Allocate approved feature folders there serially, then distribute the reservation/specification commits to workers through the repository's authorized Git process before they allocate more IDs. Do not push, change branches, or merge without authorization. If coordination is unavailable, defer new number allocation; implementation of already assigned features can continue.
+Separate branches, clones, and worktrees choose numbers independently, so two features can end up with the same number. No coordination is needed in advance. Before committing a new feature, and before merging or rebasing a branch that adds features, check the combined `docs/features/` for duplicate numbers, even when the slugs differ. If you find one:
 
-Before integration, check the combined feature directories for duplicate numeric IDs, even when slugs differ. If independent branches already allocated the same number, coordinate with their owners: retain the established target-branch ID, assign the incoming feature a fresh ID under the shared lock, update its directory, embedded feature IDs, and all incoming references (including feature index entries), and record the old-to-new mapping in its plan. Preserve requirements, acceptance/task IDs, approval and verification history. Do not silently renumber an established target-branch feature or rewrite published history; escalate ambiguous ownership before integrating.
+- Keep the number of the feature that is already committed on the target branch. Give the other feature the next free number: rename its directory and update its embedded feature ID and every reference to it, including feature index rows and supersession links. Record the old and new IDs in its plan's scope change log.
+- Preserve its requirement, acceptance, and task IDs, and its approval and verification history.
+- Never renumber a feature already on the target branch or rewrite published history. If it is unclear which feature is established, ask before integrating.
 
-If the user re-scopes or splits a feature before any of it is implemented, restructure its documents in a new commit; it may keep its number and take a new slug. Allocate any additional features through the same protocol.
+Pushing, switching branches, and merging still need authorization; if you cannot perform the check yourself, report the possible duplicate instead.
+
+If the user re-scopes or splits a feature before any of it is implemented, restructure its documents in a new commit; it may keep its number and take a new slug. Create any additional features with the same procedure.

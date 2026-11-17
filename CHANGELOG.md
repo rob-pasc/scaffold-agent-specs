@@ -11,6 +11,8 @@ Changes to the installed Markdown reach an existing repository only when you run
 - The feature index's last column is now "Last checked (date @ revision)", with an example such as `2026-11-17 @ 263c0e8`. Lifecycle and verification states don't belong there. Existing `INDEX.md` files are project-owned and are not changed by `update`; rename the column by hand if you want.
 - Agents must write the complete proposal in the conversation before asking to accept, revise or discard. A question dialog can collect open choices, but it can't stand in for the proposal.
 - When a review accepts a deviation from a written requirement, the agent either fixes the code or updates the requirement and its acceptance criterion. If the change alters approved behavior, the user must approve it and it gets a scope change log entry.
+- Agents copying templates by hand no longer take the allocation lock. They create the feature directory with a plain `mkdir` (which fails if it already exists) and check for duplicate numbers before committing and before integrating. In the 0.4.2 trial, improvised lock commands left a stale lock once, and under contention two of the four would have broken the protocol. The `feature` CLI still serializes its own runs with the lock.
+- Separate branches and worktrees no longer need a designated allocation owner. They choose numbers independently, and before integration the incoming feature takes the next free number if there is a clash, with its old and new IDs recorded. `docs/workflow/ALLOCATION.md` is shorter and has no lock protocol. `WORKFLOW.md` no longer has the "Shared allocation protocol" and "Separate branches and worktrees" forwarding sections; link to `docs/workflow/ALLOCATION.md` instead.
 
 ## 0.4.2 - 2026-11-17
 

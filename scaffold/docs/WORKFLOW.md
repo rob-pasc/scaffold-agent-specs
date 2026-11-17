@@ -60,7 +60,7 @@ Ask the user to **accept, revise, or discard**.
 
 ## Phase 3: Specify (after accepted scope)
 
-Before creating a feature directory, read and follow [Feature allocation](workflow/ALLOCATION.md). Prefer the CLI when available; manual creators must acquire the same exclusive lock before scanning IDs and copying templates. Coordinate allocations across separate worktrees; the lock protects only one checkout. Populate all copied prompts from approved scope before continuing.
+Before creating a feature directory, read and follow [Feature allocation](workflow/ALLOCATION.md). Prefer the CLI when available; otherwise copy the templates by hand. Check for duplicate feature numbers before committing and before integrating branches. Populate all copied prompts from approved scope before continuing.
 
 Required and optional documents:
 
@@ -125,14 +125,6 @@ Create or update the affected navigation entries using [Maintaining the feature 
 - Shared project references and ADRs follow the ownership and maintenance rules in the [project document catalog](workflow/PROJECT_DOCS.md). Feature-specific release plans and exceptions stay in `PLAN.md`; verification evidence stays in `ACCEPTANCE_CRITERIA.md` or its linked release records.
 
 Approved scope changes must be brought back to the user before being incorporated as commitments. Keep artifacts understandable to someone resuming the project without the original chat history. **Progressive documentation:** do not create an optional document just because a template exists; prefer updating a single authoritative source over duplicating content.
-
-## Shared allocation protocol
-
-Before allocating a feature, read and follow [Feature allocation](workflow/ALLOCATION.md#shared-allocation-protocol). This section preserves the former link target.
-
-## Separate branches and worktrees
-
-Before allocating across worktrees or reconciling duplicate IDs, read and follow [cross-worktree coordination](workflow/ALLOCATION.md#separate-branches-and-worktrees).
 
 ## Amending an existing feature
 

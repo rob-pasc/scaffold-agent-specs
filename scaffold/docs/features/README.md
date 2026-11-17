@@ -2,9 +2,9 @@
 
 Create a directory here **only after the user explicitly accepts the feature scope**. Do not create speculative feature directories during discovery.
 
-After approval, use `scaffold-agent-specs feature "Feature title" --approved` when available, then fill all required documents from the accepted discussion. If the CLI is unavailable, copy the templates using the same exclusive allocation lock as described in [Feature allocation](../workflow/ALLOCATION.md#shared-allocation-protocol). The CLI only creates templated files and fills identifiers, titles, and dates.
+After approval, use `scaffold-agent-specs feature "Feature title" --approved` when available, then fill all required documents from the accepted discussion. If the CLI is unavailable, copy the templates by hand as described in [Feature allocation](../workflow/ALLOCATION.md#creating-a-feature-directory). The CLI only creates templated files and fills identifiers, titles, and dates.
 
-Each feature is named `feature-NNN-kebab-case`, for example `feature-007-user-statistics-page`. Start at `001` and choose the next number above the highest existing feature ID while holding the allocation lock; do not reuse numbers. The lock covers only this checkout. Separate branches/worktrees must coordinate allocations and check for duplicate IDs before integration, following the workflow.
+Each feature is named `feature-NNN-kebab-case`, for example `feature-007-user-statistics-page`. Start at `001` and choose the next number above the highest existing feature ID; do not reuse numbers. Separate branches and worktrees choose numbers independently, so check for [duplicate numbers](../workflow/ALLOCATION.md#duplicate-numbers) before committing and before integration.
 
 Required documents (copied from `.agent-specs/templates/feature/`):
 
@@ -49,4 +49,4 @@ The index owns navigation only. Plans own scope and replacement relationships, a
 
 Update affected rows in the same change as specification, amendment, implemented replacement, rename/ID reconciliation, or a change to rollout applicability. On completion, check links and source references for the touched outcomes; preserve earlier plans and evidence. When backfilling an existing repository incrementally, label index coverage as partial and name what was inspected; never imply uninspected features are absent.
 
-For concurrent work, feature owners propose their row updates and the integration owner reconciles them before merge, preserving unrelated rows and checking duplicate ownership and links. The allocation lock does not protect index edits. Avoid competing writes in a shared checkout; serialize edits or use separate changes and reconcile them through the authorized Git process.
+For concurrent work, feature owners propose their row updates and the integration owner reconciles them before merge, preserving unrelated rows and checking duplicate ownership and links. Avoid competing writes in a shared checkout; serialize edits or use separate changes and reconcile them through the authorized Git process.

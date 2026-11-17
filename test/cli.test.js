@@ -426,30 +426,19 @@ test('concurrent feature commands never allocate duplicate IDs', async (t) => {
   assert.ok(!fs.existsSync(path.join(dir, 'docs/features/.agent-specs-feature.lock')));
 });
 
-test('manual allocation and CLI creation share the lock and number sequence', (t) => {
+test('CLI numbering continues after manually copied features', (t) => {
   const dir = setup(t);
   assert.equal(invoke(dir, 'init').status, 0);
   const features = path.join(dir, 'docs/features');
-  const lock = path.join(features, '.agent-specs-feature.lock');
-  // Simulate a manual creator holding the documented exclusive lock.
-  fs.mkdirSync(lock);
-  try {
-    const blocked = invoke(dir, 'feature', 'CLI feature', '--approved');
-    assert.notEqual(blocked.status, 0);
-    assert.match(blocked.stderr, /no CLI or manual creator still owns it/);
-    assert.ok(fs.existsSync(lock), 'CLI must not remove the manual creator lock');
-    const manual = path.join(features, 'feature-001-manual-feature');
-    fs.mkdirSync(manual);
-    for (const file of ['PLAN.md', 'ACCEPTANCE_CRITERIA.md', 'TASKS.md']) {
-      const template = fs.readFileSync(path.join(dir, '.agent-specs/templates/feature', file), 'utf8');
-      fs.writeFileSync(path.join(manual, file), template
-        .replaceAll('feature-NNN-kebab-case', 'feature-001-manual-feature')
-        .replaceAll('Feature NNN:', 'Feature 001:')
-        .replaceAll('[Feature title]', 'Manual feature')
-        .replaceAll('[YYYY-MM-DD]', '2026-11-17'), { flag: 'wx' });
-    }
-  } finally {
-    fs.rmdirSync(lock);
+  const manual = path.join(features, 'feature-001-manual-feature');
+  fs.mkdirSync(manual);
+  for (const file of ['PLAN.md', 'ACCEPTANCE_CRITERIA.md', 'TASKS.md']) {
+    const template = fs.readFileSync(path.join(dir, '.agent-specs/templates/feature', file), 'utf8');
+    fs.writeFileSync(path.join(manual, file), template
+      .replaceAll('feature-NNN-kebab-case', 'feature-001-manual-feature')
+      .replaceAll('Feature NNN:', 'Feature 001:')
+      .replaceAll('[Feature title]', 'Manual feature')
+      .replaceAll('[YYYY-MM-DD]', '2026-11-17'), { flag: 'wx' });
   }
   const result = invoke(dir, 'feature', 'CLI feature', '--approved');
   assert.equal(result.status, 0, result.stderr);
