@@ -35,6 +35,7 @@ Classify requests using [Classifying a change](docs/WORKFLOW.md#classifying-a-ch
 ## Documentation and completion
 
 - Update affected documentation in the same change as behavior, architecture, configuration, setup, or public-interface changes.
+- For feature ownership and current behavior, follow [current-contract discovery](docs/features/README.md#finding-the-current-contract): use the index and content search, trace effective replacements, and resolve conflicting sources. Keep navigation entries current during authorized changes.
 - Respect document ownership: `PLAN.md` owns scope and approach; `ACCEPTANCE_CRITERIA.md` owns verification evidence; `TASKS.md` owns progress and the sole feature lifecycle status. Optional documents must not supersede them.
 - Use the [optional project document catalog](docs/workflow/PROJECT_DOCS.md) for creation triggers, ownership, and when to consult shared references. Reuse existing sources, create documents only when useful and authorized, and remove stale claims. Feature-level optional documents are covered by the workflow's Phase 3 table.
 - Record significant adopted architectural decisions in `docs/adr/`; keep unimplemented proposals in the plan. Use the ADR template and avoid ADRs for routine local details.

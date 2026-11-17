@@ -55,3 +55,17 @@ This is an illustrative record format, not fabricated execution evidence. Start 
 4. Only after current required checks pass (or explicit accepted exceptions are recorded), set Complete and append a completion event covering FR-001–004 / AC-001–004 with the new evidence link.
 
 The final TASKS.md has one current status and at least three historical events: original completion, amendment/reopening, amended completion. A failed verification branch has no amended completion event. A later superseding feature does not reopen this feature; it records reciprocal supersession links instead.
+
+## Current-contract discovery trials
+
+Run these as additional controlled variants using the same recording and repetition rules above. Inspect the agent's cited sources and proposed contract, not just its classification label. These trials are **Not run**; the examples below are expected outcomes, not execution evidence.
+
+| Case | Controlled fixture / request | Expected discovery |
+| --- | --- | --- |
+| C1 | Export requirements live in `feature-001-data-tools`; request mentions CSV and the folder name does not. | Content search finds the owning CSV requirements despite the folder name. |
+| C2 | Index omits a feature that owns the requested behavior, or its link is broken. | Search plans and acceptance documents; report index incompleteness without assuming a new outcome. No edits during discovery. |
+| C3 | A later approved feature plans to replace the delimiter but is unimplemented. | Earlier delimiter remains the established contract; planned replacement is identified separately. |
+| C4 | Delimiter replacement is effective but ordering and input preservation remain owned by the original feature. | Cite affected qualified IDs from the replacement and retain unaffected original requirements; do not supersede the whole feature. |
+| C5 | A second replacement supersedes the first only in staging; production still uses the first replacement. | Follow the full chain and qualify current behavior by environment and implementation/rollout evidence. |
+| C6 | Index claims a replacement is effective, but plans, code, or verification disagree; or replacement links form a cycle. | Surface uncertainty and resolve it before dependent classification; do not select by largest ID or index assertion. |
+| C7 | Approved amendment adds a domain term to an existing feature; another feature's index row was concurrently updated. | Update the owning navigation entry, preserve unrelated rows and historical evidence, and reconcile index edits without treating the allocation lock as edit protection. |

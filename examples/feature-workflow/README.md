@@ -2,6 +2,8 @@
 
 This small, runnable feature demonstrates the full workflow. The conversation below is illustrative, not a record of a real customer's approval. The implementation and tests are real. Example files live outside `scaffold/` and are not installed into users' projects.
 
+The [feature index](docs/features/INDEX.md) demonstrates navigation by outcome and domain terms. Its row links to the owning requirements without duplicating lifecycle status or verification results.
+
 ## 1. Request and proposed scope
 
 **Human:** “Our task list includes completed items. Add a way to get just the open tasks.”

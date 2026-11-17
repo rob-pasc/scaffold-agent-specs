@@ -8,6 +8,8 @@ Changes to the installed Markdown reach an existing repository only when you run
 
 ### Changed
 
+- Feature discovery searches document contents and traces effective requirement ownership instead of filtering only by folder names. Agents maintain a project-owned navigation index during authorized feature work, with explicit handling for stale entries, partial replacements, and staged rollouts.
+
 - Split allocation, feature change history, and the project document catalog into linked `docs/workflow/` references. The main workflow retains classification, lifecycle gates, ownership, and forwarding sections for older links. Customized workflows need their reading triggers merged after update.
 
 ### Added

@@ -136,6 +136,12 @@ There is intentionally no `implement` command: an agent should follow `AGENTS.md
 
 `update` installs the supporting documents and updates unmodified instructions. If your workflow is customized, merge its reading triggers and links manually; existing feature documents need no rewrite.
 
+## Finding current feature behavior
+
+Agents consult a compact, project-owned `docs/features/INDEX.md` (or an adequate existing registry) and search feature contents, code, and tests. They trace amendments and partial replacements to the owning requirement IDs, distinguishing planned changes from effective behavior and local completion from deployment. Missing or stale index entries never replace content search.
+
+The agent creates the index during approved specification work and updates affected entries with scope and replacement changes. It stores search terms, source links, qualified requirement IDs, and planned/effective relationships—not a second lifecycle status or verification record. Initialization and CLI feature creation do not invent index entries; updates leave the index untouched. The [feature discovery guide](scaffold/docs/features/README.md#finding-the-current-contract) defines search, conflict handling, incremental backfilling, and maintenance.
+
 ## Workflow classification
 
 The opinionated workflow uses an ordered [classification procedure](scaffold/docs/WORKFLOW.md#classifying-a-change) for fixes, implementation details, amendments, new features, and behavioral replacements. Amendments preserve earlier completion events and verification evidence while tracking the expanded scope honestly. Direct requests and sentence length do not bypass new-feature gates.

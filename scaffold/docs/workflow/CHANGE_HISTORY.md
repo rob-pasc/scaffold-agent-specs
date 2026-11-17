@@ -2,6 +2,8 @@
 
 Read and follow the applicable procedure before amending a feature or specifying, implementing, or closing a behavioral replacement. [WORKFLOW.md](../WORKFLOW.md#classifying-a-change) owns classification and authorization. Preserve existing scope, lifecycle history, and verification evidence; historical passes do not establish current correctness.
 
+Before changing scope, follow [current-contract discovery](../features/README.md#finding-the-current-contract). Update affected [feature index entries](../features/README.md#maintaining-the-feature-index) alongside scope amendments and planned/effective replacement records; preserve source history and do not present a planned replacement as current behavior.
+
 ## Amending an existing feature
 
 Use this procedure only for changes classified as amendments in the [workflow](../WORKFLOW.md#classifying-a-change). It applies equally to active and completed features. A specific implementation request authorizes a qualifying amendment; settle consequential open choices first. An independent capability or changed approved behavior must take its classified path instead.

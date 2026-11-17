@@ -51,3 +51,16 @@ test('update installs extracted procedures while preserving customized workflow 
   assert.ok(result.integrationReview.includes('docs/workflow/ALLOCATION.md'));
   assert.match(fs.readFileSync(allocation, 'utf8'), /Custom allocation policy/);
 });
+
+test('feature indexes remain project-owned across initialization and forced updates', (t) => {
+  const root = project(t);
+  const index = path.join(root, 'docs/features/INDEX.md');
+  assert.ok(!fs.existsSync(index), 'initialization must not invent a feature index');
+  const content = '# Feature index\n\nExisting ownership and replacement references.\n';
+  fs.writeFileSync(index, content);
+  initProject(root, { log: () => {} });
+  for (const dryRun of [true, false]) {
+    updateProject(root, { force: true, dryRun, log: () => {} });
+    assert.equal(fs.readFileSync(index, 'utf8'), content);
+  }
+});
