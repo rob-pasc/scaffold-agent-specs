@@ -12,7 +12,7 @@ Required documents (copied from `.agent-specs/templates/feature/`):
 - `ACCEPTANCE_CRITERIA.md`: testable outcomes and verification evidence.
 - `TASKS.md`: implementation checklist.
 
-`DESIGN.md` is optional for substantial technical or interaction design. `RESEARCH.md` is optional for reusable investigation findings. `HANDOFF.md` is optional and should be created when an agent or session needs to transfer working context. Do not create empty optional documents just to satisfy a checklist.
+`DESIGN.md` is useful when technical or interaction choices benefit from a separate explanation for implementation or review. `RESEARCH.md` is useful when recorded findings would avoid repeated investigation. Short, focused documents are welcome. `HANDOFF.md` is optional and should be created when an agent or session needs to transfer working context. Do not create empty optional documents just to satisfy a checklist.
 
 After creating and populating the specs, **stop** and await a separate implementation request. See [`docs/WORKFLOW.md`](../WORKFLOW.md) for the full lifecycle.
 

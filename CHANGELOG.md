@@ -4,6 +4,12 @@ Notable changes to `scaffold-agent-specs`. Versions follow semantic versioning; 
 
 Changes to the installed Markdown reach an existing repository only when you run `npx scaffold-agent-specs@latest update` there.
 
+## 0.4.4 - 2026-11-17
+
+### Changed
+
+- Encourage concise optional feature and shared project documents when they help authorized work, without separate approval for routine supporting documentation. Reuse existing references and seek input for unresolved product decisions or material scope expansion. Lower the threshold for design and research documents; individual project-document triggers and ADR adoption rules are unchanged.
+
 ## 0.4.3 - 2026-11-17
 
 0.4.2 was tagged but never published to npm. Its changes, listed under 0.4.2 below, first ship in this release.

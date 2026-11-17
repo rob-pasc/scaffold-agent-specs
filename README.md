@@ -88,7 +88,7 @@ docs/
 
 No speculative feature, ADR, architecture document, glossary, visual design reference, testing guide, product context, deployment guide, or convention document is created. Those appear only when needed. The templates in `.agent-specs/` are yours to edit; **the `feature` command reads your repository's copy**, including your customizations, not the package's default templates.
 
-The workflow's [optional project document catalog](scaffold/docs/workflow/PROJECT_DOCS.md) lists creation triggers and ownership for architecture, glossary, visual design, testing, product context, deployment, conventions, and ADRs. Agents reuse adequate existing documentation and recommend missing shared references only when useful. `AGENTS.md` links to this catalog instead of maintaining a separate list.
+The workflow's [optional project document catalog](scaffold/docs/workflow/PROJECT_DOCS.md) lists creation triggers and ownership for architecture, glossary, visual design, testing, product context, deployment, conventions, and ADRs. Agents reuse adequate existing documentation and proactively create concise missing references when the catalog triggers fit authorized work. `AGENTS.md` links to this catalog instead of maintaining a separate list.
 
 For applicable features, release and recovery considerations live in `PLAN.md`, required checks and evidence in `ACCEPTANCE_CRITERIA.md`, and release tasks in `TASKS.md`. Optional `docs/DEPLOYMENT.md` holds reusable rollout, migration, post-release verification, and recovery procedures when an existing publishing guide or runbook does not suffice. Implementation completion does not imply publication or deployment; required live checks must have evidence before the feature is marked complete.
 
