@@ -6,6 +6,10 @@ Changes to the installed Markdown reach an existing repository only when you run
 
 ## Unreleased
 
+### Changed
+
+- Split allocation, feature change history, and the project document catalog into linked `docs/workflow/` references. The main workflow retains classification, lifecycle gates, ownership, and forwarding sections for older links. Customized workflows need their reading triggers merged after update.
+
 ### Added
 
 - Agents use the CLI feature allocator when available or follow its exclusive lock protocol when copying templates manually. The workflow defines allocation ownership across worktrees and duplicate-ID reconciliation before integration.

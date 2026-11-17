@@ -26,9 +26,9 @@ for (const name of ['scaffold-agent-specs', 'scaffold-agent-workflow']) {
     const tar = windows ? path.join(process.env.SystemRoot, 'System32', 'tar.exe') : 'tar';
     run(tar, ['-xzf', path.join(dir, archives[0]), '-C', dir]);
     const packaged = path.join(dir, 'package');
-    const templates = fs.readdirSync(path.join(root, 'scaffold/.agent-specs/templates'), { recursive: true });
+    const templates = fs.readdirSync(path.join(root, 'scaffold'), { recursive: true });
     for (const template of templates) {
-      const rel = path.join('scaffold/.agent-specs/templates', template);
+      const rel = path.join('scaffold', template);
       if (fs.statSync(path.join(root, rel)).isFile()) {
         assert.deepEqual(fs.readFileSync(path.join(packaged, rel)), fs.readFileSync(path.join(root, rel)), rel);
       }

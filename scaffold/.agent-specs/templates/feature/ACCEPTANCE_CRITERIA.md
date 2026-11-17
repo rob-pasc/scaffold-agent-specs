@@ -23,9 +23,9 @@ When release or recovery checks are part of the approved scope, include rows for
 
 If the user approves changing or waiving a criterion, update the approved scope in `PLAN.md` and document that decision explicitly. Do not silently convert a failing criterion into a pass.
 
-If a later feature supersedes this behavior, preserve these criteria, results, and evidence as historical records. Add a dated note under verification notes identifying the affected IDs and linking to the replacement feature's plan and acceptance criteria document. A historical `Pass` does not verify the replacement; its acceptance criteria document must record fresh evidence. See the supersession rules in `docs/WORKFLOW.md`.
+If a later feature supersedes this behavior, preserve these criteria, results, and evidence as historical records. Add a dated note under verification notes identifying the affected IDs and linking to the replacement feature's plan and acceptance criteria document. A historical `Pass` does not verify the replacement; its acceptance criteria document must record fresh evidence. See the supersession rules in `docs/workflow/CHANGE_HISTORY.md`.
 
-For amendments, preserve existing rows and evidence and append dated verification runs below with criterion IDs, results, and evidence. Record new criteria in new rows. Recheck relevant existing behavior and explain any reliance on earlier evidence. Historical passes do not override later failures or missing required verification. See the amendment procedure in `docs/WORKFLOW.md`.
+For amendments, preserve existing rows and evidence and append dated verification runs below with criterion IDs, results, and evidence. Record new criteria in new rows. Recheck relevant existing behavior and explain any reliance on earlier evidence. Historical passes do not override later failures or missing required verification. See the amendment procedure in `docs/workflow/CHANGE_HISTORY.md`.
 
 ## Review and integration evidence
 

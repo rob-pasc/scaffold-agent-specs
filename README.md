@@ -62,7 +62,7 @@ The `feature` command requires the opinionated templates. Basic users can instal
 
 ### Integrating existing instructions
 
-`init` and `update` report instruction integration separately from file installation. If preserved `AGENTS.md`, `CLAUDE.md`, or (for opinionated installs) `docs/WORKFLOW.md` differs from the selected profile's bundled instructions, the command reports **review required** and gives file-specific merge guidance. This includes existing instruction files skipped by `init` and customized instructions retained during profile switches. The profile marker records installation intent; it does not establish which rules an agent actually follows.
+`init` and `update` report instruction integration separately from file installation. If preserved `AGENTS.md`, `CLAUDE.md`, or (for opinionated installs) `docs/WORKFLOW.md` or its `docs/workflow/` procedures differs from the selected profile's bundled instructions, the command reports **review required** and gives file-specific merge guidance. This includes existing instruction files skipped by `init` and customized instructions retained during profile switches. The profile marker records installation intent; it does not establish which rules an agent actually follows.
 
 Preserve project-specific rules while merging the selected profile's instructions from the source paths printed by the CLI. For opinionated installs, ensure `AGENTS.md` directs agents to read and follow `docs/WORKFLOW.md`, and reconcile conflicting approval and commit rules. In `CLAUDE.md`, retain or add the shared `@AGENTS.md` import. When switching to basic, remove or reconcile old mandatory feature gates if you no longer want them. Review any preserved workflow document against the bundled procedure as well.
 
@@ -81,13 +81,14 @@ CLAUDE.md
     project/{ARCHITECTURE,GLOSSARY,VISUAL_DESIGN,TESTING,PRODUCT,DEPLOYMENT}.md
 docs/
   WORKFLOW.md
+  workflow/{ALLOCATION,CHANGE_HISTORY,PROJECT_DOCS}.md
   adr/README.md
   features/README.md
 ```
 
 No speculative feature, ADR, architecture document, glossary, visual design reference, testing guide, product context, deployment guide, or convention document is created. Those appear only when needed. The templates in `.agent-specs/` are yours to edit; **the `feature` command reads your repository's copy**, including your customizations, not the package's default templates.
 
-The workflow's [optional project document catalog](scaffold/docs/WORKFLOW.md#optional-project-document-catalog) lists creation triggers and ownership for architecture, glossary, visual design, testing, product context, deployment, conventions, and ADRs. Agents reuse adequate existing documentation and recommend missing shared references only when useful. `AGENTS.md` links to this catalog instead of maintaining a separate list.
+The workflow's [optional project document catalog](scaffold/docs/workflow/PROJECT_DOCS.md) lists creation triggers and ownership for architecture, glossary, visual design, testing, product context, deployment, conventions, and ADRs. Agents reuse adequate existing documentation and recommend missing shared references only when useful. `AGENTS.md` links to this catalog instead of maintaining a separate list.
 
 For applicable features, release and recovery considerations live in `PLAN.md`, required checks and evidence in `ACCEPTANCE_CRITERIA.md`, and release tasks in `TASKS.md`. Optional `docs/DEPLOYMENT.md` holds reusable rollout, migration, post-release verification, and recovery procedures when an existing publishing guide or runbook does not suffice. Implementation completion does not imply publication or deployment; required live checks must have evidence before the feature is marked complete.
 
@@ -128,6 +129,12 @@ npx scaffold-agent-specs@latest update
 **Breaking change:** `ACCEPTANCE_CRITERIA.md` replaces `ACCEPTANCE_MATRIX.md`; the old filename is no longer supported. `update` does not migrate renamed files or links. For existing installations, manually rename the acceptance template and feature documents, update their references, and merge the current scaffold instructions while preserving customizations and verification evidence. Running `update` alone is not a complete upgrade across this change. It does report files that earlier releases installed and this one no longer ships, such as the old acceptance template, as `stale`, and says whether each is unmodified (safe to delete) or carries local changes to merge first; it never deletes them.
 
 There is intentionally no `implement` command: an agent should follow `AGENTS.md` and `docs/WORKFLOW.md` and wait for a separate implementation instruction. ADRs can be created from `.agent-specs/templates/adr/ADR.md` once architectural decisions are adopted.
+
+## Workflow reference structure
+
+`docs/WORKFLOW.md` keeps classification, the five-phase lifecycle, completion gates, and document ownership together. It directs agents to read supporting procedures when needed: `docs/workflow/ALLOCATION.md` before feature allocation, `CHANGE_HISTORY.md` before amendments or replacements, and `PROJECT_DOCS.md` when creating or reconciling shared documentation. These use ordinary Markdown links with explicit reading triggers, not tool-specific imports that load every procedure at startup. Former workflow section anchors remain as forwarding guidance for existing links.
+
+`update` installs the supporting documents and updates unmodified instructions. If your workflow is customized, merge its reading triggers and links manually; existing feature documents need no rewrite.
 
 ## Workflow classification
 
