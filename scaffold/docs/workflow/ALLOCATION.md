@@ -17,11 +17,11 @@ The CLI serializes its own runs with a short-lived `docs/features/.agent-specs-f
 
 ## Duplicate numbers
 
-Separate branches, clones, and worktrees choose numbers independently, so two features can end up with the same number. No coordination is needed in advance. Before committing a new feature, and before merging or rebasing a branch that adds features, check the combined `docs/features/` for duplicate numbers, even when the slugs differ. If you find one:
+Separate branches, clones, and worktrees choose numbers independently, so two features can end up with the same number. No coordination is needed in advance. Check the combined `docs/features/` for duplicate numbers, even when the slugs differ, before committing a new feature and after merging or rebasing a branch that adds features. If you find one:
 
 - Keep the number of the feature that is already committed on the target branch. Give the other feature the next free number: rename its directory and update its embedded feature ID and every reference to it, including feature index rows and supersession links. Record the old and new IDs in its plan's scope change log, and refresh its index row's "Last checked" cell.
 - Preserve its requirement, acceptance, and task IDs, and its approval and verification history.
-- Finish renumbering before the merge or rebase is committed, so the target branch never has a commit with duplicate numbers. For a merge, stop before committing it (for example with `git merge --no-commit`), renumber, then commit the merge.
+- If the merge or rebase stopped for conflicts, renumber before completing it. If it was already committed, renumber in an immediate follow-up commit; do not reset or rewrite history to avoid the intermediate commit. Never push, or report the merge as done, while a duplicate remains.
 - Never renumber a feature already on the target branch or rewrite published history. If it is unclear which feature is established, ask before integrating.
 
 Pushing, switching branches, and merging still need authorization; if you cannot perform the check yourself, report the possible duplicate instead.

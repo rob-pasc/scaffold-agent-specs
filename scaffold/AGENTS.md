@@ -52,7 +52,7 @@ Follow the user's explicit commit preference first, including requests to review
 - Run the relevant checks before committing. If you commit while something is failing or incomplete, say so in the message.
 - Don't commit secrets, credentials, local environment files, or build output that the repository doesn't already track.
 - Don't push, rewrite or amend existing history, or change branches without the user's request.
-- Before merging or rebasing a branch that adds `docs/features/feature-NNN-*` directories, check the combined result for duplicate feature numbers and resolve them as described in [Duplicate numbers](docs/workflow/ALLOCATION.md#duplicate-numbers) before completing the merge or rebase.
+- After merging or rebasing a branch that adds `docs/features/feature-NNN-*` directories, check the result for duplicate feature numbers and resolve them as described in [Duplicate numbers](docs/workflow/ALLOCATION.md#duplicate-numbers) before pushing or reporting the merge as done.
 
 Use **Conventional Commit-style** subjects with a meaningful scope:
 
