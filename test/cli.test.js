@@ -75,6 +75,82 @@ test('init --dry-run creates nothing', (t) => {
   assert.deepEqual(fs.readdirSync(dir), []);
 });
 
+test('init reports integration work for preserved entry points without changing them', (t) => {
+  const dir = setup(t);
+  const agents = '# Existing project rules\n';
+  const claude = '# Existing Claude instructions\n';
+  fs.writeFileSync(path.join(dir, 'AGENTS.md'), agents);
+  fs.writeFileSync(path.join(dir, 'CLAUDE.md'), claude);
+  for (const flags of [['--dry-run'], []]) {
+    const result = invoke(dir, 'init', ...flags);
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stdout, /review required for preserved instructions: AGENTS.md, CLAUDE.md/);
+    assert.match(result.stdout, /read and follow docs\/WORKFLOW.md/);
+    assert.match(result.stdout, /import @AGENTS.md/);
+    assert.equal(fs.readFileSync(path.join(dir, 'AGENTS.md'), 'utf8'), agents);
+    assert.equal(fs.readFileSync(path.join(dir, 'CLAUDE.md'), 'utf8'), claude);
+    if (flags.length) assert.deepEqual(fs.readdirSync(dir).sort(), ['AGENTS.md', 'CLAUDE.md']);
+  }
+});
+
+test('integration reporting accepts fresh and unchanged CRLF instructions without claiming agent activation', (t) => {
+  for (const profile of ['basic', 'opinionated']) {
+    const dir = setup(t);
+    for (const flags of [['--dry-run'], []]) {
+      const result = invoke(dir, 'init', '--profile', profile, ...flags);
+      assert.equal(result.status, 0, result.stderr);
+      assert.doesNotMatch(result.stdout, /review required/);
+      assert.match(result.stdout, /agent loading is not verified/);
+    }
+    for (const rel of ['AGENTS.md', 'CLAUDE.md', ...(profile === 'opinionated' ? ['docs/WORKFLOW.md'] : [])]) {
+      const file = path.join(dir, rel);
+      fs.writeFileSync(file, fs.readFileSync(file, 'utf8').replaceAll('\n', '\r\n'));
+    }
+    for (const command of ['init', 'update']) {
+      const result = invoke(dir, command, '--profile', profile);
+      assert.equal(result.status, 0, result.stderr);
+      assert.doesNotMatch(result.stdout, /review required/);
+    }
+  }
+});
+
+test('integration review includes preserved workflow documents and does not trust a link alone', (t) => {
+  const dir = setup(t);
+  fs.mkdirSync(path.join(dir, 'docs'));
+  fs.writeFileSync(path.join(dir, 'docs/WORKFLOW.md'), '# Unrelated workflow\n');
+  fs.writeFileSync(path.join(dir, 'AGENTS.md'), 'See docs/WORKFLOW.md, but implement without approval.\n');
+  const result = invoke(dir, 'init');
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /review required for preserved instructions: AGENTS.md, docs\/WORKFLOW.md/);
+  assert.match(result.stdout, /Compare docs\/WORKFLOW.md/);
+  assert.equal(fs.readFileSync(path.join(dir, 'docs/WORKFLOW.md'), 'utf8'), '# Unrelated workflow\n');
+});
+
+test('profile switches report preserved instructions in both directions and force resolves the review', (t) => {
+  for (const [from, to] of [['basic', 'opinionated'], ['opinionated', 'basic']]) {
+    const dir = setup(t);
+    assert.equal(invoke(dir, 'init', '--profile', from).status, 0);
+    const file = path.join(dir, 'AGENTS.md');
+    fs.appendFileSync(file, '\nLocal convention.\n');
+    const original = fs.readFileSync(file, 'utf8');
+    for (const flags of [['--dry-run'], []]) {
+      const result = invoke(dir, 'update', '--profile', to, ...flags);
+      assert.equal(result.status, 0, result.stderr);
+      assert.match(result.stdout, /review required for preserved instructions: AGENTS.md/);
+      assert.match(result.stdout, to === 'basic' ? /Remove or reconcile prior mandatory feature gates/ : /read and follow docs\/WORKFLOW.md/);
+      assert.equal(fs.readFileSync(file, 'utf8'), original);
+      assert.equal(JSON.parse(fs.readFileSync(path.join(dir, '.agent-specs/profile.json'))).profile, flags.length ? from : to);
+    }
+    const preview = invoke(dir, 'update', '--force', '--dry-run');
+    assert.equal(preview.status, 0, preview.stderr);
+    assert.doesNotMatch(preview.stdout, /review required/);
+    assert.equal(fs.readFileSync(file, 'utf8'), original);
+    const result = invoke(dir, 'update', '--force');
+    assert.equal(result.status, 0, result.stderr);
+    assert.doesNotMatch(result.stdout, /review required/);
+  }
+});
+
 test('feature requires approval and preserves clean state when refused', (t) => {
   const dir = setup(t);
   assert.equal(invoke(dir, 'init').status, 0);

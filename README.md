@@ -60,6 +60,14 @@ Use `update --profile opinionated` or `update --profile basic` to switch. Releas
 
 The `feature` command requires the opinionated templates. Basic users can install them with `update --profile opinionated`.
 
+### Integrating existing instructions
+
+`init` and `update` report instruction integration separately from file installation. If preserved `AGENTS.md`, `CLAUDE.md`, or (for opinionated installs) `docs/WORKFLOW.md` differs from the selected profile's bundled instructions, the command reports **review required** and gives file-specific merge guidance. This includes existing instruction files skipped by `init` and customized instructions retained during profile switches. The profile marker records installation intent; it does not establish which rules an agent actually follows.
+
+Preserve project-specific rules while merging the selected profile's instructions from the source paths printed by the CLI. For opinionated installs, ensure `AGENTS.md` directs agents to read and follow `docs/WORKFLOW.md`, and reconcile conflicting approval and commit rules. In `CLAUDE.md`, retain or add the shared `@AGENTS.md` import. When switching to basic, remove or reconcile old mandatory feature gates if you no longer want them. Review any preserved workflow document against the bundled procedure as well.
+
+The check is conservative: custom instructions require review even if they contain the expected links. Matching files (ignoring CRLF line endings) establish only that the bundled instructions are present, not that an agent loads or obeys them. Confirm loading through your agent's instruction entry point. `--dry-run` reports the expected integration outcome without changing files; review notices do not change the command's successful exit status or overwrite local instructions.
+
 ## Opinionated `init` installs
 
 ```text

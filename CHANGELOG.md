@@ -4,6 +4,12 @@ Notable changes to `scaffold-agent-specs`. Versions follow semantic versioning; 
 
 Changes to the installed Markdown reach an existing repository only when you run `npx scaffold-agent-specs@latest update` there.
 
+## Unreleased
+
+### Added
+
+- `init` and `update` report instruction integration separately from installation, with merge guidance for preserved agent entry points and workflow instructions that differ from the selected profile. Dry runs preview the same review needs; profile selection and matching files are not presented as proof of active agent behavior.
+
 ## 0.4.1 - 2026-11-17
 
 ### Added
