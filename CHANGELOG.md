@@ -4,7 +4,9 @@ Notable changes to `scaffold-agent-specs`. Versions follow semantic versioning; 
 
 Changes to the installed Markdown reach an existing repository only when you run `npx scaffold-agent-specs@latest update` there.
 
-## Unreleased
+## 0.4.3 - 2026-11-17
+
+0.4.2 was tagged but never published to npm. Its changes, listed under 0.4.2 below, first ship in this release.
 
 ### Changed
 
