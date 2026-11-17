@@ -2,6 +2,16 @@
 
 A deliberately small, dependency-free CLI for **spec-driven agentic coding**. It installs reusable Markdown instructions and templates into an existing repository, then creates numbered feature folders only after scope approval.
 
+The same CLI is also distributed as `scaffold-agent-workflow`, with matching versions and no additional dependencies:
+
+```sh
+npx scaffold-agent-workflow init
+```
+
+`scaffold-agent-workflow init` defaults to the opinionated profile; pass `--profile basic` to opt out. Existing installations retain their selected profile.
+
+Use either name; both manage the same files and existing installations. This README uses `scaffold-agent-specs` as the default.
+
 ## Requirements
 
 Node.js 22 or newer and npm (for installation or `npx`). The scaffolded repository itself can use **any** programming language or framework.
@@ -42,7 +52,7 @@ For a complete request-to-verification walkthrough with runnable code, see the [
 
 ## Install profiles
 
-Run `npx scaffold-agent-specs init` to choose interactively between **basic** (quality safeguards and existing project conventions) and **opinionated** (formal feature specs, approval gates, acceptance tracking, and milestone commits). Noninteractive installs default to basic. Select explicitly with `--profile basic` or `--profile opinionated`.
+Run `npx scaffold-agent-specs init` to choose interactively between **basic** (quality safeguards and existing project conventions) and **opinionated** (formal feature specs, approval gates, acceptance tracking, and milestone commits). `scaffold-agent-specs` noninteractive installs default to basic; `scaffold-agent-workflow init` defaults to opinionated in both interactive and noninteractive use. Select explicitly with `--profile basic` or `--profile opinionated`.
 
 Basic installs `AGENTS.md` and the thin `CLAUDE.md` adapter, which imports `AGENTS.md` with Claude Code's `@AGENTS.md` syntax so the shared instructions load automatically. Opinionated installs the full scaffold below. Both record the selection in `.agent-specs/profile.json`; commit this file so updates preserve the profile. Older installations without this file retain opinionated behavior when their `.agent-specs/templates/` directory or the scaffold's own `docs/WORKFLOW.md` exists; an unrelated `docs/WORKFLOW.md` is not treated as an installation.
 
@@ -128,7 +138,7 @@ npm test                # Built-in Node.js test runner
 npm run format          # Format scaffold Markdown with Prettier
 npm run fingerprints    # Record scaffold fingerprints for `update` (before each release)
 npm run pack:check      # Preview npm-published file manifest
-npm pack                # Produce local npm tarball for testing
+npm run release:pack    # Produce both local npm tarballs for testing
 ```
 
 For the release steps, see [`PUBLISHING.md`](PUBLISHING.md). Changes in each version, including migration steps for breaking ones, are listed in [`CHANGELOG.md`](CHANGELOG.md).

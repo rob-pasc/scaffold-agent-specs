@@ -4,6 +4,12 @@ Notable changes to `scaffold-agent-specs`. Versions follow semantic versioning; 
 
 Changes to the installed Markdown reach an existing repository only when you run `npx scaffold-agent-specs@latest update` there.
 
+## 0.4.1 - 2026-11-17
+
+### Added
+
+- Dual-package release scripts distribute the same dependency-free CLI as `scaffold-agent-specs` and `scaffold-agent-workflow`, with matching versions and package-specific command names and help. `scaffold-agent-workflow init` defaults to the opinionated profile, while explicit profiles and existing installations retain their selection.
+
 ## 0.4.0 - 2026-11-15
 
 ### Changed

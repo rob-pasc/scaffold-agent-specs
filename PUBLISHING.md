@@ -1,6 +1,6 @@
 # Release checklist
 
-`scaffold-agent-specs` is published on the public npm registry as an unscoped package. Nothing in this project publishes automatically; each release is run by hand.
+`scaffold-agent-specs` and `scaffold-agent-workflow` are published on the public npm registry as two unscoped packages from the same source and version. `scaffold-agent-specs` remains the documentation default. Nothing in this project publishes automatically; each release is run by hand.
 
 ## Before releasing
 
@@ -17,7 +17,7 @@
 4. Optionally try the exact files that would ship, without publishing:
 
    ```sh
-   npm pack                          # creates scaffold-agent-specs-<version>.tgz
+   npm run release:pack              # creates both <package-name>-<version>.tgz archives
    cd /path/to/some/test-repo
    npx --package /absolute/path/to/scaffold-agent-specs-<version>.tgz scaffold-agent-specs init
    ```
@@ -35,8 +35,17 @@ Before 1.0, a breaking change for existing installations takes a minor version b
 2. Confirm you are logged in (`npm whoami`; run `npm login` if not), then publish. npm requires 2FA or an authorized publishing mechanism.
 
    ```sh
-   npm publish
+   npm run release:publish -- --dry-run
+   npm run release:publish
    ```
+
+   The release script creates temporary manifests with the same version and a matching binary name for each package. It does not modify the working tree. Both names must be available to your npm account; check access before the first dual release. Publishing is sequential, not atomic. If only one succeeds, fix the failure and retry the unpublished package:
+
+   ```sh
+   npm run release:publish -- scaffold-agent-workflow
+   ```
+
+   Either package name can be supplied to `release:publish` or `release:pack`. Do not bump the version just to retry an unpublished package, and do not rerun both after a partial success.
 
 3. Push the release commit and tag, so GitHub matches the registry:
 
@@ -58,8 +67,12 @@ Before 1.0, a breaking change for existing installations takes a minor version b
    npx scaffold-agent-specs@latest update
    ```
 
+   Repeat both smoke tests in fresh directories using `scaffold-agent-workflow@latest`.
+
    Confirm basic installs `AGENTS.md`, `CLAUDE.md`, and `.agent-specs/profile.json`
    without creating `docs/` or templates, and that update retains the basic profile.
+
+Apply any deprecation notices to both package names for affected published versions.
 
 npm never allows republishing a version number, even after unpublishing. If a publish fails after `npm version`, fix the problem and publish the same version; if the version was published but is broken, release a new patch and run `npm deprecate scaffold-agent-specs@<version> "<reason>"` on the bad one.
 
