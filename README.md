@@ -46,7 +46,7 @@ npx scaffold-agent-specs feature "Account dashboard" --approved --design --resea
 
 **Important:** The CLI copies and personalizes headings, IDs, titles, and dates. It **does not invent a feature spec**. Your coding agent must populate the remaining placeholders from the approved conversation, then **stop** until you separately authorize implementation. The `--approved` flag is an acknowledgment; the CLI cannot verify the conversation itself.
 
-The `feature` command is a convenience for people. Agents are told to create feature directories by copying the templates themselves, following the steps in `docs/WORKFLOW.md`, so they don't depend on the CLI being installed or reachable from a sandbox.
+Agents use the `feature` command when available. When it is unavailable, they copy local templates under the same exclusive allocation lock, following `docs/WORKFLOW.md`; no network install is required. The lock covers one checkout. Separate branches and worktrees coordinate through a designated allocation owner and check for duplicate numeric IDs before integration.
 
 For a complete request-to-verification walkthrough with runnable code, see the [worked example](examples/feature-workflow/README.md).
 
@@ -114,7 +114,7 @@ Agents review the final diff against scope, record findings and resolutions in `
 | `--dir PATH` | Work in a specified repository root instead of the current directory. |
 | `--help` / `--version` | Show help or the CLI version. |
 
-Feature directory slugs keep letters and digits from any script (`Статистика` becomes `статистика`); accents are removed from Latin letters only, and whitespace in a title, including line breaks, collapses to single spaces. Feature IDs are allocated above the **largest existing** feature ID, starting at `001`. Feature creation uses a shared lock so concurrent commands cannot allocate the same ID. If another command holds the lock, retry after it finishes. After a crash, remove `docs/features/.agent-specs-feature.lock/` only after confirming no feature command is running. Dry runs do not reserve IDs. Running `init` again adds newly missing files but never replaces existing ones. `init` refuses to write through symlinked paths under the chosen root.
+Feature directory slugs keep letters and digits from any script (`Статистика` becomes `статистика`); accents are removed from Latin letters only, and whitespace in a title, including line breaks, collapses to single spaces. Feature IDs are allocated above the **largest existing** feature ID, starting at `001`. Feature creation uses a shared lock so cooperating CLI and manual creators in the same checkout cannot allocate the same ID. Manual creators must acquire the lock before scanning IDs and release it after copying templates and filling identifiers. If another creator holds the lock, retry after it finishes. After a crash, remove `docs/features/.agent-specs-feature.lock/` only after confirming no CLI or manual creator still owns it. Dry runs do not reserve IDs. Running `init` again adds newly missing files but never replaces existing ones. `init` refuses to write through symlinked paths under the chosen root.
 
 ## Updating an existing repository
 

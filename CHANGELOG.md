@@ -8,6 +8,8 @@ Changes to the installed Markdown reach an existing repository only when you run
 
 ### Added
 
+- Agents use the CLI feature allocator when available or follow its exclusive lock protocol when copying templates manually. The workflow defines allocation ownership across worktrees and duplicate-ID reconciliation before integration.
+
 - Opinionated features define review and integration requirements and an explicit completion boundary. Final diff review, finding resolution, and required CI/merge evidence are tracked in existing feature documents; self-review is distinguished from independent approval.
 
 - `init` and `update` report instruction integration separately from installation, with merge guidance for preserved agent entry points and workflow instructions that differ from the selected profile. Dry runs preview the same review needs; profile selection and matching files are not presented as proof of active agent behavior.
