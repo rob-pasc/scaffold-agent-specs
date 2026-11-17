@@ -27,6 +27,14 @@ If a later feature supersedes this behavior, preserve these criteria, results, a
 
 For amendments, preserve existing rows and evidence and append dated verification runs below with criterion IDs, results, and evidence. Record new criteria in new rows. Recheck relevant existing behavior and explain any reliance on earlier evidence. Historical passes do not override later failures or missing required verification. See the amendment procedure in `docs/WORKFLOW.md`.
 
+## Review and integration evidence
+
+[Record the agreed completion boundary and link the plan's review contract. Include required review/integration outcomes as acceptance rows above. Until performed, leave results Not run or Blocked.]
+
+[For each review, record date, reviewer, reviewed commit or identifiable uncommitted diff, findings, resolution, and evidence link. Distinguish self-review from independent review. Record blocking findings and any explicitly approved exceptions; never invent approval. After changes, record affected rechecks and whether renewed review is required.]
+
+[Record required CI results and the actual merge revision when merge is in scope. If review, merge, or release is outside the completion boundary, identify deferred work and its owner/prerequisites in the plan and handoff without claiming it happened.]
+
 ## Verification notes
 
 [Commands, test environment, observations, limitations, and links to test reports. Leave as 'Not yet verified' during initial specification.]

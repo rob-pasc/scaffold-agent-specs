@@ -91,6 +91,12 @@ The workflow's [optional project document catalog](scaffold/docs/WORKFLOW.md#opt
 
 For applicable features, release and recovery considerations live in `PLAN.md`, required checks and evidence in `ACCEPTANCE_CRITERIA.md`, and release tasks in `TASKS.md`. Optional `docs/DEPLOYMENT.md` holds reusable rollout, migration, post-release verification, and recovery procedures when an existing publishing guide or runbook does not suffice. Implementation completion does not imply publication or deployment; required live checks must have evidence before the feature is marked complete.
 
+## Review and completion
+
+Opinionated features record their completion boundary and required review/integration checks in `PLAN.md`. Existing repository policy and user instructions determine whether completion means a locally verified handoff, reviewed change, merged change, or released behavior. The default is locally verified handoff with self-review; the workflow does not automatically require a PR or another reviewer.
+
+Agents review the final diff against scope, record findings and resolutions in `ACCEPTANCE_CRITERIA.md`, and keep required review and integration tasks open until evidenced. Blocking findings or unavailable required reviewers prevent completion unless an allowed exception is explicitly accepted. Changes after review require affected checks and review to be reassessed. Local test results do not establish merge or release success, and a completion checklist does not authorize pushing or merging.
+
 ## Commands and safety
 
 | Command | Behavior |

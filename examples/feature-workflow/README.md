@@ -45,3 +45,16 @@ After the checks recorded in the acceptance criteria document, the agent can rep
 > Implemented `listOpenTasks(tasks)`. It returns open tasks in source order and leaves the original array and records unchanged. All three acceptance tests passed. The plan, acceptance criteria document, and tasks are reconciled, and the feature is complete. The function expects the existing validated task model; UI, sorting, persistence, and external-input validation remain outside the agreed scope. Changes are ready for review and left uncommitted as requested.
 
 Completion is supported by test evidence, not merely by the existence of code. If a check had failed or could not run, the corresponding acceptance result would stay `Fail`, `Blocked`, or `Not run`, and the feature would not be marked complete.
+
+## Review and integration boundaries
+
+The example above records a local implementation handoff; its historical test evidence does not establish independent review, merge, or release. Under the current workflow, specify the completion boundary and required review in the plan before implementation, and record final diff review evidence alongside the tests.
+
+For example, if the agreed boundary is “reviewed and merged,” add acceptance outcomes and tasks for the required reviewer and CI on the merge result. Passing the three function tests is then insufficient for completion:
+
+- While the reviewer is unavailable, keep the review outcome `Blocked`, its task unchecked, and the feature `Implemented (verification pending)`.
+- If review finds an ordering regression, record the finding, fix it within scope, and rerun the ordering and affected regression checks. Obtain renewed review when required; retain the earlier evidence as history.
+- If merge conflict resolution changes the implementation, reassess the review and verify affected behavior on the actual merge result. Record the revision and required CI evidence.
+- Mark `Complete` only after the required outcomes pass or permitted exceptions are explicitly accepted. Merge execution still requires authorization.
+
+These are illustrative outcomes, not claims that review or merge occurred for this example. If the agreed boundary is instead a locally verified handoff with self-review, record that review and hand off later human review and merge explicitly, with their owner and prerequisites.

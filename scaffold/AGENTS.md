@@ -41,7 +41,8 @@ Classify requests using [Classifying a change](docs/WORKFLOW.md#classifying-a-ch
 - Add or update automated tests for every behavior change, inside or outside a feature, whenever the project has a test suite. If a behavior cannot reasonably be tested automatically, say why and verify it another way; manual verification alone is not a substitute for an achievable test.
 - Run relevant tests, linters, type checks, and builds before claiming completion, or explain precisely why checks were not run. Record concrete evidence; implementation alone is not a pass.
 - For applicable changes, document rollout, migrations, recovery limits, and post-release checks in the existing feature documents, linking to shared deployment/publishing guidance. Distinguish implemented and verified work from released behavior. Follow existing authorization for release execution; documentation alone does not grant it.
-- Mark a feature complete only when acceptance criteria pass or the user explicitly accepts exceptions. Report unresolved failures, missing verification, migrations, and follow-up work.
+- Review the final diff against approved scope and record findings and their resolution. Follow the plan and repository rules for required reviewers, CI, and the completion boundary; self-review is not independent approval. Recheck affected behavior after fixes or merge conflict resolution.
+- Mark a feature complete only when acceptance criteria and required review/integration checks pass or the user explicitly accepts exceptions permitted by repository policy. Report unresolved failures, missing verification, migrations, and follow-up work.
 
 ## Git commits
 

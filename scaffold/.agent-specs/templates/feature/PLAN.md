@@ -47,6 +47,12 @@
 
 - [Dependency, prerequisite, migration risk, or 'None identified']
 
+## Review and integration
+
+[State the completion boundary: locally verified handoff, reviewed change, merged change, or released behavior. Follow the user request and existing contributing/review policy; absent another requirement, use locally verified handoff with self-review.]
+
+[Identify required review, reviewer/owner (or unassigned), relevant risks, and required CI/merge checks. Link existing policy. Put required outcomes in acceptance criteria and execution/finding-resolution work in tasks. State deferred review, merge, or release work with its owner and prerequisites. Do not infer authorization to push, merge, or release.]
+
 ## Release and recovery (when applicable)
 
 [Omit this section when there are no feature-specific release considerations. Otherwise link to the existing deployment/publishing guide and record only this feature's rollout order, compatibility constraints, data migrations, and recovery considerations. Identify irreversible steps, rollback limits, and the supported recovery or forward-fix approach; do not assume reverting code restores data.]

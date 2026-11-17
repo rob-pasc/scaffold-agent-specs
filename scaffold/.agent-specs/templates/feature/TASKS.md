@@ -10,14 +10,14 @@ This is the **authoritative progress checklist**. Draft ordered, independently v
 - `Specified`: specs written; readiness not yet checked.
 - `Ready`: readiness checked before implementation; remaining blockers are listed below.
 - `In progress`: implementation underway.
-- `Implemented (verification pending)`: tasks done, but some acceptance criteria are not yet `Pass`.
-- `Complete`: every required current-scope acceptance criterion has passing applicable evidence, or the user has explicitly accepted the exceptions. For amendments, consult appended verification runs; historical passes do not override current failures or missing verification.
+- `Implemented (verification pending)`: implementation done, but required verification, review, finding resolution, or integration checks remain. Keep those tasks unchecked.
+- `Complete`: the agreed completion boundary is met, including every required current-scope acceptance criterion and review/integration check, or the user has explicitly accepted exceptions permitted by repository policy. For amendments, consult appended verification runs; historical passes do not override current failures or missing verification.
 
 ## Tasks
 
 - [ ] **T-001:** [First actionable implementation step] (supports `AC-001`)
 - [ ] **T-002:** [Next actionable implementation step] (supports `AC-001`, `AC-002`)
-- [ ] **T-003:** [Tests, verification, and relevant docs updates] (supports `AC-001`, `AC-002`)
+- [ ] **T-003:** [Tests, final diff review, required review/integration checks, and relevant docs updates] (supports `AC-001`, `AC-002`)
 
 ## Dependencies and blockers
 
