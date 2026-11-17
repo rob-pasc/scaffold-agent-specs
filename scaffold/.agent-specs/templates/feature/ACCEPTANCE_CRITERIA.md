@@ -31,7 +31,7 @@ For amendments, preserve existing rows and evidence and append dated verificatio
 
 [Record the agreed completion boundary and link the plan's review contract. Include required review/integration outcomes as acceptance rows above. Until performed, leave results Not run or Blocked.]
 
-[For each review, record date, reviewer, reviewed commit or identifiable uncommitted diff, findings, resolution, and evidence link. Distinguish self-review from independent review. Record blocking findings and any explicitly approved exceptions; never invent approval. After changes, record affected rechecks and whether renewed review is required.]
+[For each review, record date, reviewer, reviewed commit or identifiable uncommitted diff, findings, resolution, and evidence link. Distinguish self-review from independent review. Record blocking findings and any explicitly approved exceptions; never invent approval. If a review accepts a deviation from a requirement, update that requirement and its criterion (with approval when approved behavior changes) or fix the code; do not leave them contradicting the result. After changes, record affected rechecks and whether renewed review is required.]
 
 [Record required CI results and the actual merge revision when merge is in scope. If review, merge, or release is outside the completion boundary, identify deferred work and its owner/prerequisites in the plan and handoff without claiming it happened.]
 

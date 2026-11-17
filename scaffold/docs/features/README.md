@@ -40,10 +40,10 @@ A missing, incomplete, or stale index must not stop content search. Broken links
 
 Use one row per owning feature, splitting rows by outcome only when partial replacements need it:
 
-| Outcome / search terms | Owning plan and requirement IDs | Related amendments / replacements | Checked against source |
-| ---------------------- | ------------------------------- | --------------------------------- | ---------------------- |
+| Outcome / search terms | Owning plan and requirement IDs | Related amendments / replacements | Last checked (date @ revision) |
+| ---------------------- | ------------------------------- | --------------------------------- | ------------------------------ |
 
-Populate rows with actual feature links, concise domain terms and aliases, feature-qualified requirement IDs, and links to relevant scope-change or replacement sections. In the relationship column, distinguish **planned replacement** from **effective replacement**, identify affected IDs, and include version/environment qualifications when relevant. Link the source evidence rather than copying full requirements or test results. Record the date and source revision (or identifiable working change) actually inspected; state unknown details honestly.
+Populate rows with actual feature links, concise domain terms and aliases, feature-qualified requirement IDs, and links to relevant scope-change or replacement sections. In the relationship column, distinguish **planned replacement** from **effective replacement**, identify affected IDs, and include version/environment qualifications when relevant. Link the source evidence rather than copying full requirements or test results. In the last column, record only the date and the source revision actually inspected, for example `2026-11-17 @ 263c0e8`; for uncommitted documents, name the base revision, for example `2026-11-17 @ 263c0e8 + working tree`. Do not put lifecycle or verification states such as "specified" or "implemented" there; `TASKS.md` owns them. State unknown details honestly.
 
 The index owns navigation only. Plans own scope and replacement relationships, acceptance documents own evidence, and task files own lifecycle status. Do not add a second lifecycle status or use the index as approval, verification, or deployment evidence.
 

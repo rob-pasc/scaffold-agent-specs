@@ -4,6 +4,14 @@ Notable changes to `scaffold-agent-specs`. Versions follow semantic versioning; 
 
 Changes to the installed Markdown reach an existing repository only when you run `npx scaffold-agent-specs@latest update` there.
 
+## Unreleased
+
+### Changed
+
+- The feature index's last column is now "Last checked (date @ revision)", with an example such as `2026-11-17 @ 263c0e8`. Lifecycle and verification states don't belong there. Existing `INDEX.md` files are project-owned and are not changed by `update`; rename the column by hand if you want.
+- Agents must write the complete proposal in the conversation before asking to accept, revise or discard. A question dialog can collect open choices, but it can't stand in for the proposal.
+- When a review accepts a deviation from a written requirement, the agent either fixes the code or updates the requirement and its acceptance criterion. If the change alters approved behavior, the user must approve it and it gets a scope change log entry.
+
 ## 0.4.2 - 2026-11-17
 
 ### Changed
