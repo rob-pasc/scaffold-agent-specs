@@ -4,6 +4,12 @@ Notable changes to `scaffold-agent-specs`. Versions follow semantic versioning; 
 
 Changes to the installed Markdown reach an existing repository only when you run `npx scaffold-agent-specs@latest update` there.
 
+## Unreleased
+
+### Changed
+
+- Agents must fill every section of the copied `PLAN.md`, `ACCEPTANCE_CRITERIA.md` and `TASKS.md` templates, in template order, writing `None` or `Not applicable` with a reason instead of merging or dropping sections. Each requirement, criterion and task covers one observable outcome. This keeps specs detailed enough to resume without the original conversation, whatever the model or reasoning effort.
+
 ## 0.4.4 - 2026-11-17
 
 ### Changed
