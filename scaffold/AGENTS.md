@@ -35,6 +35,7 @@ Classify requests using [Classifying a change](docs/WORKFLOW.md#classifying-a-ch
 ## Documentation and completion
 
 - Update affected documentation in the same change as behavior, architecture, configuration, setup, or public-interface changes.
+- Create or update the root `README.md` when setup, usage, commands, or project status change, keeping its status line current. Summarize and link to feature plans rather than restating requirements.
 - For feature ownership and current behavior, follow [current-contract discovery](docs/features/README.md#finding-the-current-contract): use the index and content search, trace effective replacements, and resolve conflicting sources. Keep navigation entries current during authorized changes.
 - Respect document ownership: `PLAN.md` owns scope and approach; `ACCEPTANCE_CRITERIA.md` owns verification evidence; `TASKS.md` owns progress and the sole feature lifecycle status. Optional documents must not supersede them.
 - Use the [optional project document catalog](docs/workflow/PROJECT_DOCS.md) for creation triggers, ownership, and when to consult shared references. Reuse existing sources, proactively create concise references when the catalog triggers fit authorized work, and remove stale claims. Feature-level optional documents are covered by the workflow's Phase 3 table.

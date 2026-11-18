@@ -9,6 +9,7 @@ Changes to the installed Markdown reach an existing repository only when you run
 ### Changed
 
 - Agents must fill every section of the copied `PLAN.md`, `ACCEPTANCE_CRITERIA.md` and `TASKS.md` templates, in template order, writing `None` or `Not applicable` with a reason instead of merging or dropping sections. Each requirement, criterion and task covers one observable outcome. This keeps specs detailed enough to resume without the original conversation, whatever the model or reasoning effort.
+- Agents must create or update the root `README.md` when setup, usage, commands or project status change, and keep its status line current. The README summarizes and links to feature plans (or other detailed documentation in the basic profile) instead of restating requirements. This applies to both profiles.
 
 ## 0.4.4 - 2026-11-17
 
