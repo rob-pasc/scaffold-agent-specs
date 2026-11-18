@@ -1,7 +1,7 @@
 {
   "name": "scaffold-agent-specs",
   "version": "0.4.4",
-  "description": "A tiny, spec-driven workflow scaffold for AI coding agents",
+  "description": "Dependency-free CLI that installs agent instructions and an approval-gated, spec-driven feature workflow into any repository",
   "type": "module",
   "license": "MIT",
   "bin": {
@@ -31,7 +31,9 @@
     "spec-driven-development",
     "scaffolding",
     "claude-code",
-    "codex"
+    "codex",
+    "agents-md",
+    "workflow"
   ],
   "author": "rob-pasc",
   "repository": {

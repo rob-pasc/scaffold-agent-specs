@@ -1,6 +1,6 @@
 # scaffold-agent-specs
 
-A deliberately small, dependency-free CLI for **spec-driven agentic coding**. It installs reusable Markdown instructions and templates into an existing repository, then creates numbered feature folders only after scope approval.
+A deliberately small, dependency-free CLI that installs Markdown instructions and templates for AI coding agents into an existing repository. The **basic** profile adds shared quality safeguards. The **opinionated** profile adds a spec-driven feature workflow: approval gates, numbered feature folders with plans, acceptance criteria and tasks, and review and completion checks. `update` refreshes the installed files without overwriting your customizations.
 
 The same CLI is also distributed as `scaffold-agent-workflow`, with matching versions and no additional dependencies:
 
@@ -15,6 +15,12 @@ Use either name; both manage the same files and existing installations. This REA
 ## Requirements
 
 Node.js 22 or newer and npm (for installation or `npx`). The scaffolded repository itself can use **any** programming language or framework.
+
+## Tested agents and models
+
+The workflow has been tested on real projects with current models from OpenAI (GPT, through ChatGPT's Codex), Anthropic (Claude) and DeepSeek. The installed instructions are plain Markdown, so any coding agent that reads `AGENTS.md` or `CLAUDE.md` can follow them.
+
+A moderate reasoning effort (for example *medium*) works especially well. At low effort, agents follow the approval gates but tend to write thin plans, acceptance criteria and task lists.
 
 ## Usage
 
