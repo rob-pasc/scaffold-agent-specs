@@ -58,7 +58,7 @@ For a complete request-to-verification walkthrough with runnable code, see the [
 
 ## Install profiles
 
-Run `npx scaffold-agent-specs init` to choose interactively between **basic** (quality safeguards and existing project conventions) and **opinionated** (formal feature specs, approval gates, acceptance tracking, and milestone commits). `scaffold-agent-specs` noninteractive installs default to basic; `scaffold-agent-workflow init` defaults to opinionated in both interactive and noninteractive use. Select explicitly with `--profile basic` or `--profile opinionated`.
+Run `npx scaffold-agent-specs init` to choose with the arrow keys (or `j`/`k`, or the number) and Enter between **basic** (quality safeguards and existing project conventions) and **opinionated** (formal feature specs, approval gates, acceptance tracking, and milestone commits). `scaffold-agent-specs` noninteractive installs default to basic; `scaffold-agent-workflow init` defaults to opinionated in both interactive and noninteractive use. Select explicitly with `--profile basic` or `--profile opinionated`.
 
 Basic installs `AGENTS.md` and the thin `CLAUDE.md` adapter, which imports `AGENTS.md` with Claude Code's `@AGENTS.md` syntax so the shared instructions load automatically. Opinionated installs the full scaffold below. Both record the selection in `.agent-specs/profile.json`; commit this file so updates preserve the profile. Older installations without this file retain opinionated behavior when their `.agent-specs/templates/` directory or the scaffold's own `docs/WORKFLOW.md` exists; an unrelated `docs/WORKFLOW.md` is not treated as an installation.
 

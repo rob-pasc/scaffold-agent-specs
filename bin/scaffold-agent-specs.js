@@ -4,6 +4,11 @@ import { run } from '../lib/cli.js';
 try {
   await run(process.argv.slice(2));
 } catch (error) {
-  console.error(`Error: ${error.message}`);
-  process.exitCode = 1;
+  if (error.name === 'AbortError') {
+    console.error(error.message);
+    process.exitCode = 130;
+  } else {
+    console.error(`Error: ${error.message}`);
+    process.exitCode = 1;
+  }
 }
