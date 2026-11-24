@@ -4,6 +4,17 @@ Notable changes to `scaffold-agent-specs`. Versions follow semantic versioning; 
 
 Changes to the installed Markdown reach an existing repository only when you run `npx scaffold-agent-specs@latest update` there.
 
+## Unreleased
+
+### Added
+
+- A **minor revision** path in the opinionated classification. Removing or narrowing an approved requirement, or changing the wording or presentation it prescribes, is recorded in the owning feature (original text kept, scope change log entry, historical note on old results, new checks where needed) instead of becoming a new feature with supersession notes. It applies only when the user asked for or approved the change, one feature owns everything affected, no other feature depends on it, and no default, data retention, permission, security, recovery semantics or shared contract changes. Anything else stays a behavioral replacement. In the hackathon field trial, removing one paragraph produced a new feature touching 14 files, and agents improvised lighter, rule-breaking paths in other cases. The procedure is in `docs/workflow/CHANGE_HISTORY.md`.
+
+### Changed
+
+- An addition with its own page, screen, route, command or settings surface counts as a distinct user outcome, so it is a new feature rather than an amendment, even when it belongs to the same app or layer. Phase 2 also asks for features defined by user outcome rather than by layer or component. In the field trial, a feature named "web app" absorbed about 20 amendments, including an imprint and privacy pages.
+- Git, CI and release facts are recorded in the README and feature documents only as dated observations with their source, never as undated current state such as "the newest tag is v0.5.0" or "not pushed yet"; current versions and CI results are linked instead. The README status stays at one or two sentences and links to the feature index. This applies to both profiles. In the field trial, four tags shipped with a stale README and several plans kept "not pushed" notes after the push.
+
 ## 0.4.5 - 2026-11-18
 
 ### Changed

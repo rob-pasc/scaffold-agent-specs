@@ -150,7 +150,7 @@ The agent creates the index during approved specification work and updates affec
 
 ## Workflow classification
 
-The opinionated workflow uses an ordered [classification procedure](scaffold/docs/WORKFLOW.md#classifying-a-change) for fixes, implementation details, amendments, new features, and behavioral replacements. Amendments preserve earlier completion events and verification evidence while tracking the expanded scope honestly. Direct requests and sentence length do not bypass new-feature gates.
+The opinionated workflow uses an ordered [classification procedure](scaffold/docs/WORKFLOW.md#classifying-a-change) for fixes, implementation details, minor revisions, behavioral replacements, amendments, and new features. A minor revision removes, narrows, or rewords a requirement inside one feature, when the user asked for it and no default, data, permission, security, recovery, shared contract, or other feature is affected; it is recorded in that feature instead of becoming a new one. Additions with their own page, screen, route, command, or settings surface are new features, and features are defined by user outcome rather than by layer. Amendments preserve earlier completion events and verification evidence while tracking the expanded scope honestly. Direct requests and sentence length do not bypass new-feature gates.
 
 The [classification regression suite](examples/workflow-classification/README.md) defines controlled scenarios, approval boundaries, repeated cross-agent trials, and a completed-amendment walkthrough. It is an evaluation protocol; passing CLI tests does not establish cross-agent consistency.
 

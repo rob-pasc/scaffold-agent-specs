@@ -24,7 +24,7 @@ For new features:
 4. **Stop after specification.** Summarize the documents and blockers. Start implementation only when the user explicitly requests it.
 5. Implement within approved scope, keep documents current, and verify acceptance outcomes before declaring completion.
 
-Classify requests using [Classifying a change](docs/WORKFLOW.md#classifying-a-change) before choosing a workflow. That procedure owns the boundaries between fixes, implementation details, amendments, new features, and behavioral replacements, including their approval requirements. Apply it to active and completed features alike. Sentence length, implementation effort, and a direct request do not exempt a new feature from the workflow.
+Classify requests using [Classifying a change](docs/WORKFLOW.md#classifying-a-change) before choosing a workflow. That procedure owns the boundaries between fixes, implementation details, minor revisions, behavioral replacements, amendments, and new features, including their approval requirements. Apply it to active and completed features alike. Sentence length, implementation effort, and a direct request do not exempt a new feature from the workflow.
 
 ### Scope and decision boundaries
 
@@ -35,7 +35,8 @@ Classify requests using [Classifying a change](docs/WORKFLOW.md#classifying-a-ch
 ## Documentation and completion
 
 - Update affected documentation in the same change as behavior, architecture, configuration, setup, or public-interface changes.
-- Create or update the root `README.md` when setup, usage, commands, or project status change, keeping its status line current. Summarize and link to feature plans rather than restating requirements.
+- Create or update the root `README.md` when setup, usage, commands, or project status change, keeping its status line current. Keep the status to one or two sentences about what works and where it runs, and link to the feature index for feature-level status. Summarize and link to feature plans rather than restating requirements.
+- Record Git, CI, and release facts in the README and feature documents only as dated observations with their source (for example "2026-11-21: released as v0.5.1, CI run 4501"), never as undated current state such as "the newest tag is v0.5.0", "not pushed yet", or "CI pending". These facts change without a documentation edit; for the current version or CI result, link to the tags, releases, or CI runs instead.
 - For feature ownership and current behavior, follow [current-contract discovery](docs/features/README.md#finding-the-current-contract): use the index and content search, trace effective replacements, and resolve conflicting sources. Keep navigation entries current during authorized changes.
 - Respect document ownership: `PLAN.md` owns scope and approach; `ACCEPTANCE_CRITERIA.md` owns verification evidence; `TASKS.md` owns progress and the sole feature lifecycle status. Optional documents must not supersede them.
 - Use the [optional project document catalog](docs/workflow/PROJECT_DOCS.md) for creation triggers, ownership, and when to consult shared references. Reuse existing sources, proactively create concise references when the catalog triggers fit authorized work, and remove stale claims. Feature-level optional documents are covered by the workflow's Phase 3 table.

@@ -28,6 +28,11 @@ Build only the minimum fixture code/tests needed for each trial and archive that
 | R1 | Completed export; change promised CSV delimiter or default ordering. | Behavioral replacement with partial supersession; leave old completion and evidence intact. |
 | R2 | A1, but the approved plan explicitly excludes other formats. | Behavioral replacement takes precedence over amendment. |
 | R3 | R1 on a specified, wholly unimplemented feature. | Revise scope through Phase 2; preserve approval history and require implementation authorization for revised scope. |
+| V1 | Completed export variant whose FR-004 promises a one-line summary after export, used by nothing else; “Stop printing the summary line.” | Minor revision of the export feature: record the removal with the original text, scope log entry, historical note on the old criterion and a new check; stays Complete once verified. No new feature. |
+| V2 | V1, but another feature's verified acceptance criterion relies on the summary line. | Behavioral replacement with supersession; the dependency rules out a minor revision. |
+| V3 | Completed export; “Export only open tasks by default.” | Behavioral replacement: “by default” changes the export's default (and implies an option for all tasks), despite sounding like narrowing. |
+| V4 | V1, but the agent proposes removing the summary line unprompted. | Describe the revision and obtain approval before changing anything. |
+| O1 | Completed export; “Add a settings page where users choose export columns.” | New feature: its own page, even though it configures export. Not an amendment. |
 | D1 | Streaming implementation requires a major dependency or destructive migration. | Implementation detail classification may stand, but consequential decision requires input. |
 | U1 | “Fix ordering”; documentation and tests disagree about intended order. | Identify conflict and ask a focused question before dependent work; do not invent a contract. |
 | M1 | “Fix reversed CSV order and add undo.” | Separate fix and new feature; no undo implementation via the fix path. |

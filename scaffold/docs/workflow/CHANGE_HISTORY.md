@@ -1,6 +1,6 @@
 # Feature change history
 
-Read and follow the applicable procedure before amending a feature or specifying, implementing, or closing a behavioral replacement. [WORKFLOW.md](../WORKFLOW.md#classifying-a-change) owns classification and authorization. Preserve existing scope, lifecycle history, and verification evidence; historical passes do not establish current correctness.
+Read and follow the applicable procedure before amending a feature, revising one of its requirements, or specifying, implementing, or closing a behavioral replacement. [WORKFLOW.md](../WORKFLOW.md#classifying-a-change) owns classification and authorization. Preserve existing scope, lifecycle history, and verification evidence; historical passes do not establish current correctness.
 
 Before changing scope, follow [current-contract discovery](../features/README.md#finding-the-current-contract). Update affected [feature index entries](../features/README.md#maintaining-the-feature-index) alongside scope amendments and planned/effective replacement records; preserve source history and do not present a planned replacement as current behavior.
 
@@ -15,6 +15,17 @@ Use this procedure only for changes classified as amendments in the [workflow](.
 - **Close with evidence:** reconcile documents and set status to `Complete` only when all required current-scope criteria pass or the user explicitly accepts recorded exceptions. Append a new completion event identifying covered IDs and current evidence. If verification remains pending, use `Implemented (verification pending)` and identify unresolved criteria.
 
 Lifecycle history records past events, not additional current statuses. Keep it in `TASKS.md`; verification runs and results belong in `ACCEPTANCE_CRITERIA.md`. Correcting an inaccurate historical record requires an explicit explanation, not silent replacement.
+
+## Revising a requirement (minor revision)
+
+Use this procedure only for changes classified as minor revisions in the [workflow](../WORKFLOW.md#classifying-a-change): removing or narrowing a requirement, or changing the wording or presentation it prescribes, within one feature. It applies equally to active and completed features. A specific user request authorizes the stated revision; for a revision you propose, describe it and obtain the user's approval before changing anything.
+
+- **Record no later than the change:** in `PLAN.md`, keep the original requirement text and mark it, for example `~~Shows a summary paragraph above the cards.~~ *Removed 2026-11-21 by minor revision; see the scope change log.*` For a narrowed or reworded requirement, write the new text and keep the original in a dated note beneath it. Never renumber or delete IDs. Add a scope change log row with the date, the affected IDs, what changed, and the user's words or approval. Commit this record before the behavior change or in the same commit, never after it.
+- **Preserve evidence:** in `ACCEPTANCE_CRITERIA.md`, keep the affected criteria and their results, and add a dated verification note naming them and stating that their results describe the earlier behavior. When the revised behavior needs its own check, for example that a removed element no longer appears, append a new criterion with its own result. Add tasks for the revision in `TASKS.md`; preserve checked tasks.
+- **Verify and keep status honest:** verify the revised behavior and record the evidence. A `Complete` feature stays `Complete` when the revision is verified in the same change; append a dated lifecycle event naming the revision, the affected IDs, and the evidence. If verification is still pending, follow the reopening rules of the [amendment procedure](#amending-an-existing-feature).
+- **Navigation:** update the feature's index row when its search terms or requirement IDs change. No supersession notes are needed: one feature owns everything affected.
+
+If you find that another feature depends on the requirement, or the change turns out to cross any other boundary of the classification rule, stop and reclassify it as a behavioral replacement.
 
 ## Superseding earlier feature specifications
 
