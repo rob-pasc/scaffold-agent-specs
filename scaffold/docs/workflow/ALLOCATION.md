@@ -17,7 +17,7 @@ The CLI serializes its own runs with a short-lived `docs/features/.agent-specs-f
 
 ## Duplicate numbers
 
-Separate branches, clones, and worktrees choose numbers independently, so two features can end up with the same number. No coordination is needed in advance. Check the combined `docs/features/` for duplicate numbers, even when the slugs differ, before committing a new feature and after merging or rebasing a branch that adds features. If you find one:
+Separate branches, clones, and worktrees choose numbers independently, so two features can end up with the same number. No coordination is needed in advance, but when several people will build features in parallel, specifying and numbering them on the shared branch before branching avoids collisions entirely. Check the combined `docs/features/` for duplicate numbers, even when the slugs differ, before committing a new feature and after merging or rebasing a branch that adds features. If you find one:
 
 - Keep the number of the feature that is already committed on the target branch. Give the other feature the next free number: rename its directory and update its embedded feature ID and every reference to it, including feature index rows and supersession links. Record the old and new IDs in its plan's scope change log, and refresh its index row's "Last checked" cell.
 - Preserve its requirement, acceptance, and task IDs, and its approval and verification history.
@@ -25,5 +25,27 @@ Separate branches, clones, and worktrees choose numbers independently, so two fe
 - Never renumber a feature already on the target branch or rewrite published history. If it is unclear which feature is established, ask before integrating.
 
 Pushing, switching branches, and merging still need authorization; if you cannot perform the check yourself, report the possible duplicate instead.
+
+## Checks after merging
+
+Feature numbers are not the only thing branches can collide on. After merging or rebasing a branch that changed anything under `docs/features/`, and before pushing or reporting the merge as done, also check:
+
+1. **Duplicate requirement, criterion, and task IDs within a feature.** Two branches that amended the same feature may have appended the same next IDs. Keep the IDs already committed on the target branch and give the incoming ones the next free IDs: update every reference to them (tasks, criteria, index rows, other features' links, tests that name them) and record the old and new IDs in the plan's scope change log. Preserve all approval and verification history.
+2. **The feature index.** Every feature directory needs a row in `INDEX.md`, and rows are duplicated only where [the index rules](../features/README.md#maintaining-the-feature-index) allow split rows. Read the merge's diff of `INDEX.md` as well: a row that lost search terms or requirement IDs, or that reverted to older content, was probably overwritten from a stale copy. Restore it from the plans.
+
+This command, run from the repository root, lists duplicate IDs and features without an index row. The patterns match the template formats (`- **FR-001:**`, `| AC-001 |`, `- [ ] **T-001:**`); requirements are read only from the "Functional requirements" section, so references to other features' IDs are not counted. It cannot detect reverted rows; only reading the diff catches those.
+
+```sh
+for d in docs/features/feature-*/; do
+  f=$(basename "$d")
+  { awk '/^## Functional requirements/{s=1;next} /^## /{s=0} s' "$d/PLAN.md"
+    cat "$d/ACCEPTANCE_CRITERIA.md" "$d/TASKS.md"
+  } 2>/dev/null | grep -oE '^(- \*\*FR-[0-9]{3}|\| AC-[0-9]{3} |- \[.\] \*\*T-[0-9]{3})' |
+    grep -oE '[A-Z]+-[0-9]{3}' | sort | uniq -d | sed "s|^|$f: duplicate |"
+  grep -q "($f/PLAN.md" docs/features/INDEX.md 2>/dev/null || echo "$f: no row in INDEX.md"
+done
+```
+
+No output means neither problem was found. Resolve findings in the merge (when it stopped for conflicts) or in an immediate follow-up commit, as for duplicate feature numbers.
 
 If the user re-scopes or splits a feature before any of it is implemented, restructure its documents in a new commit; it may keep its number and take a new slug. Create any additional features with the same procedure.

@@ -19,7 +19,7 @@ Read [`docs/WORKFLOW.md`](docs/WORKFLOW.md) when discussing, specifying, impleme
 For new features:
 
 1. Discuss the problem and inspect the repository before proposing scope. Do not implement or create feature artifacts during discovery.
-2. Present scope, acceptance expectations, exclusions, and consequential open questions. Offer **accept / revise / discard**; obtain clear affirmative approval, including renewed approval after revisions.
+2. Present scope, acceptance expectations, exclusions, and consequential open questions, ending with a short list of the decisions an acceptance commits to. Offer **accept / revise / discard**; obtain clear affirmative approval, including renewed approval after revisions.
 3. After approval, populate `PLAN.md`, `ACCEPTANCE_CRITERIA.md`, and `TASKS.md` from the feature templates. Record approved scope faithfully and distinguish proposed technical choices from adopted decisions.
 4. **Stop after specification.** Summarize the documents and blockers. Start implementation only when the user explicitly requests it.
 5. Implement within approved scope, keep documents current, and verify acceptance outcomes before declaring completion.
@@ -49,12 +49,12 @@ Classify requests using [Classifying a change](docs/WORKFLOW.md#classifying-a-ch
 
 ## Git commits
 
-Follow the user's explicit commit preference first, including requests to review diffs before commits or to leave work uncommitted. Otherwise, commit your work as you go, without waiting to be asked. Commit approved feature specs on their own. During implementation, commit at **milestones**: points you would want to return to. A milestone passes the relevant checks and has one theme you can describe in a sentence, such as the domain logic for a feature with its tests, or the UI built on top of it. A feature typically takes a few commits; neither one per task nor one per feature. When a feature has both substantial domain logic and an interface layer (UI, CLI, or API), commit the domain logic with its tests before building on it. Also commit before risky steps (large refactors, migrations, dependency changes) and before ending a session. Split a commit that would mix unrelated concerns.
+Follow the user's explicit commit preference first, including requests to review diffs before commits or to leave work uncommitted, and any branching, review, merge, or release rules in `docs/conventions/`. When the user states such a preference for future work, record it there as the [project document catalog](docs/workflow/PROJECT_DOCS.md) describes. Otherwise, commit your work as you go, without waiting to be asked. Commit approved feature specs on their own. During implementation, commit at **milestones**: points you would want to return to. A milestone passes the relevant checks and has one theme you can describe in a sentence, such as the domain logic for a feature with its tests, or the UI built on top of it. A feature typically takes a few commits; neither one per task nor one per feature. When a feature has both substantial domain logic and an interface layer (UI, CLI, or API), commit the domain logic with its tests before building on it. Also commit before risky steps (large refactors, migrations, dependency changes) and before ending a session. Split a commit that would mix unrelated concerns.
 
 - Run the relevant checks before committing. If you commit while something is failing or incomplete, say so in the message.
 - Don't commit secrets, credentials, local environment files, or build output that the repository doesn't already track.
 - Don't push, rewrite or amend existing history, or change branches without the user's request.
-- After merging or rebasing a branch that adds `docs/features/feature-NNN-*` directories, check the result for duplicate feature numbers and resolve them as described in [Duplicate numbers](docs/workflow/ALLOCATION.md#duplicate-numbers) before pushing or reporting the merge as done.
+- After merging or rebasing a branch that adds `docs/features/feature-NNN-*` directories, check the result for duplicate feature numbers and resolve them as described in [Duplicate numbers](docs/workflow/ALLOCATION.md#duplicate-numbers) before pushing or reporting the merge as done. When the branch changed anything under `docs/features/`, also run the [checks after merging](docs/workflow/ALLOCATION.md#checks-after-merging) for duplicate IDs and the feature index.
 
 Use **Conventional Commit-style** subjects with a meaningful scope:
 

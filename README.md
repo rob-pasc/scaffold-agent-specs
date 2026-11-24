@@ -52,7 +52,7 @@ npx scaffold-agent-specs feature "Account dashboard" --approved --design --resea
 
 **Important:** The CLI copies and personalizes headings, IDs, titles, and dates. It **does not invent a feature spec**. Your coding agent must populate the remaining placeholders from the approved conversation, then **stop** until you separately authorize implementation. The `--approved` flag is an acknowledgment; the CLI cannot verify the conversation itself.
 
-Agents use the `feature` command when available. When it is unavailable, they copy the local templates by hand, following `docs/workflow/ALLOCATION.md`; no network install is required. Separate branches and worktrees choose numbers independently, and agents check for duplicate numbers before committing and before integration; the incoming feature takes the next free number.
+Agents use the `feature` command when available. When it is unavailable, they copy the local templates by hand, following `docs/workflow/ALLOCATION.md`; no network install is required. Separate branches and worktrees choose numbers independently, and agents check for duplicate numbers before committing and before integration; the incoming feature takes the next free number. After a merge they also check for duplicate requirement, criterion and task IDs and for lost or reverted feature index rows.
 
 For a complete request-to-verification walkthrough with runnable code, see the [worked example](examples/feature-workflow/README.md).
 
